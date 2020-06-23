@@ -1,0 +1,34 @@
+{
+  "name": "ucsc-e-procurement-server",
+  "version": "1.0.0",
+  "description": "Server side develompemt repo for UCSC eProcurement ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ucsc-e-procurement/server.git"
+  },
+  "author": "2020@G31",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ucsc-e-procurement/server/issues"
+  },
+  "homepage": "https://github.com/ucsc-e-procurement/server#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.27.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "mysql": "^2.18.1",
+    "path": "^0.12.7",
+    "winston": "^3.2.1"
+  }
+}

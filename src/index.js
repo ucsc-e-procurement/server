@@ -1,11 +1,35 @@
+require('dotenv').config({ path: '../.env' })
+const config  = require('./config');
 const express = require("express");
+
+const loader = require("./loaders");
+
+// Initialize Express App
 const app = express();
 const port = 5000;
 
 
-// Server Testing End Point
-app.get("/", (req, res) => res.send("Ayubowan! UCSC E-Procurement I'm Working"));
+async function startServer () {
+  
+  await loader(app);
 
-app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
+  app.listen(config.port, (err) => {
+    if (err) {
+      process.exit(1);
+    }
+    console.log(`
+      =====================================================================================
+                          Server Has Started listening on PORT: ${config.port}
+      =====================================================================================
+
+    `);
+  }
+  
 );
+
+
+}
+
+startServer();
+
+
