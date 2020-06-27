@@ -1,4 +1,5 @@
 require('dotenv').config({ path: '../.env' })
+
 const config  = require('./config');
 const express = require("express");
 

@@ -1,3 +1,4 @@
 module.exports = {
-    message: "I'm a Middleware"
-}
+  message: "I'm a Middleware",
+
+};

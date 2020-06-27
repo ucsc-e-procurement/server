@@ -14,3 +14,9 @@ src
 └───services        # All the business logic is here
 └───subscribers     # Event handlers for async task
 └───types           # Type declaration files (d.ts) for Typescript
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+                                                      Useful Links
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+Linting in VS Code -> https://www.digitalocean.com/community/tutorials/workflow-auto-eslinting
