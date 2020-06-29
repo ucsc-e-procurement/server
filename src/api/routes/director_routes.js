@@ -52,11 +52,11 @@ module.exports = (app) => {
   })
 
   // Get Product Requisition
-  router.post("/requisitions/:id", (req, res) => {
+  router.get("/requisitions/:id", (req, res) => {
 
-    // res.send("Getting Requisition" + req.params.id).status(200).end();
+    // res.send("Getting Requisition" + req.query.id).status(200).end();
 
-    directorModel.getRequisition(req.body.id).then((result) => {
+    directorModel.getRequisition(req.query.reqId).then((result) => {
       // eslint-disable-next-line no-console
       console.log(result);
       res.json(result).status(200).end();
@@ -68,11 +68,11 @@ module.exports = (app) => {
   })
 
   // Get Procurement
-  router.post("/procurements/:id", (req, res) => {
+  router.get("/procurements/:id", (req, res) => {
 
-    // res.send("Getting procurement" + req.params.id).status(200).end();
-
-    directorModel.getProcurement(req.body.id).then((result) => {
+    // res.send("Getting procurement" + req.query.procId).status(200).end();
+ 
+    directorModel.getProcurement(req.query.procId).then((result) => {
       // eslint-disable-next-line no-console
       console.log(result);
       res.json(result).status(200).end();
