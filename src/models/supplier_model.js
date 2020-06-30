@@ -1,5 +1,23 @@
 const db = require("./mysql").pool;
 
+const getSupplierData = (supplier_id) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM supplier WHERE supplier_id='${supplier_id}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      //console.log(results)
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 const getNewRequests = (supplier_id) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
@@ -40,7 +58,7 @@ const getOngoingProcurements = (supplier_id) => new Promise((resolve, reject) =>
         INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
         INNER JOIN bid_product ON bid.bid_id = bid_product.bid_id
         INNER JOIN product ON bid_product.product_id = product.product_id
-        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='on-going'
+        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='on-going' AND bid.supplier_id='${supplier_id}'
         GROUP BY bid.bid_id`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
@@ -67,7 +85,7 @@ const getCompletedProcurements = (supplier_id) => new Promise((resolve, reject) 
         INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
         INNER JOIN bid_product ON bid.bid_id = bid_product.bid_id
         INNER JOIN product ON bid_product.product_id = product.product_id
-        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='completed'
+        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='completed' AND bid.supplier_id='${supplier_id}'
         GROUP BY bid.bid_id`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
@@ -79,6 +97,7 @@ const getCompletedProcurements = (supplier_id) => new Promise((resolve, reject) 
 });
 
 module.exports = {
+    getSupplierData,
     getNewRequests,
     getOngoingProcurements,
     getCompletedProcurements

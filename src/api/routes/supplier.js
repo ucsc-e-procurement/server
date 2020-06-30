@@ -47,15 +47,27 @@ module.exports = (app) => {
     res.json({ hashed_password: hash });
   });
 
-  //
+  
+  
+  //supplier routes
 
+  router.get("/get_supplier/", (req, res) => {
+    var supplier_id = req.query.id
+    console.log(supplier_id)
+    supplierModel.getSupplierData(supplier_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+    //res.send("get rfgs")
+  });
 
   router.get("/get_new_requests/", (req, res) => {
     var supplier_id = req.query.id
     console.log(supplier_id)
     supplierModel.getNewRequests(supplier_id).then((result) => {
         console.log('server', result)
-        //console.log(JSON.parse(result[0]['products']))
         res.json(result);
     }).catch((err) => {
         res.json(err);
@@ -68,7 +80,6 @@ module.exports = (app) => {
     console.log(supplier_id)
     supplierModel.getOngoingProcurements(supplier_id).then((result) => {
         console.log('server', result)
-        //console.log(JSON.parse(result[0]['products']))
         res.json(result);
     }).catch((err) => {
         res.json(err);
@@ -80,7 +91,6 @@ module.exports = (app) => {
     console.log(supplier_id)
     supplierModel.getCompletedProcurements(supplier_id).then((result) => {
         console.log('server', result)
-        //console.log(JSON.parse(result[0]['products']))
         res.json(result);
     }).catch((err) => {
         res.json(err);
