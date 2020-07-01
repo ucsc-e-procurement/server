@@ -99,8 +99,40 @@ module.exports = (app) => {
     });
   })
 
+  // Get Employees
+  router.get("/getemployees", (req, res) => {
+
+    // res.send("Getting procurement" + req.query.procId).status(200).end();
+ 
+    directorModel.getEmployees().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
+  // Get tech team
+  router.get("/get_tec_team", (req, res) => {
+
+    // res.send("Getting procurement" + req.query.procId).status(200).end();
+ 
+    directorModel.getTechTeam(req.query.techTeamId).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
   // Appoint tech team
-  router.post("/procurements/:id/appointTechTeam", (req, res) => {
+  router.post("/procurements/appointTechTeam", (req, res) => {
 
     // res.send("Appointing tech team for procurement " + req.params.id + ": " + req.body).status(200).end();
 
@@ -116,12 +148,43 @@ module.exports = (app) => {
 
   })
 
+  router.get("/get_bid_opening_team", (req, res) => {
+
+    // res.send("Getting procurement" + req.query.procId).status(200).end();
+ 
+    directorModel.getBidOpeningTeam(req.query.bidOpeningTeamId).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
+  // Get employees not in tec team
+  router.get("/get_employees_not_in_tec_team", (req, res) => {
+
+    // res.send("Getting procurement" + req.query.procId).status(200).end();
+ 
+    directorModel.getEmployeesNotInTecTeam(req.query.tecTeamId).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
   // Appoint bid opening team
-  router.post("/procurements/:id/appointBidOpeningTeam", (req, res) => {
+  router.post("/procurements/appointBidOpeningTeam", (req, res) => {
 
     // res.send("Appointing bid opening team for procurement " + req.params.id + ": " + req.body).status(200).end();
 
-    directorModel.appointBidOpeningTeam(req.body.bidOpeningTeamId, req.body.directorId, req.body.member1, req.body.member2).then((result) => {
+    directorModel.appointBidOpeningTeam(req.body.bidOpeningTeamId, req.body.procurementId, req.body.directorId, req.body.member_1, req.body.member_2).then((result) => {
       // eslint-disable-next-line no-console
       console.log(result);
       res.json(result).status(200).end();
