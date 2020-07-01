@@ -2,21 +2,30 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 
 const router = express.Router();
+const passport = require("passport");
 const middlewares = require("../middlewares");
 
 // Database Models
 const testModel = require("../../models/test_model");
 const userModel = require("../../models/user_model");
 
+require("../../config/passport_config");
+
 module.exports = (app) => {
   app.use("/test", router);
+
+  // Handle errors
+  app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.json({ error: err });
+  });
 
   // ----------------------------------------------------------------------------------------
   //                               Route Endpoints
   // ----------------------------------------------------------------------------------------
 
   // Health Check Route for Testing
-  router.get("", (req, res) => {
+  router.get("", (req, res, next) => {
     res.send("Ayubowan! from Test Routes, I'm Working").status(200).end();
   });
 
