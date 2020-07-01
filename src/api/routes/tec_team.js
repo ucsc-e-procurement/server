@@ -62,4 +62,25 @@ module.exports = (app) => {
     })
   });
 
+  router.get("/get_requisition/", (req, res) => {
+    var requisition_id = req.query.id
+    console.log(requisition_id)
+    tecTeamModel.getRequisition(requisition_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.get("/get_tec_team/", (req, res) => {
+    var tec_team_id = req.query.id
+    tecTeamModel.getTecTeam(tec_team_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
 };

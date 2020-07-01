@@ -47,8 +47,9 @@ const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) =>
       }
   
       // SQL Query
+      // do not select bid.procurement_id in this query as it returns proc_id = null for procs with no bids
       const sqlQueryString = `SELECT DISTINCT
-        procurement.*, procurement.status AS procurement_status, product_requisition.*, product_requisition.status AS requisition_status, bid.*, bid.status AS bid_status,
+        procurement.*, procurement.status AS procurement_status, product_requisition.*, product_requisition.status AS requisition_status, bid.status AS bid_status,
         CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","price":"',bid_product.price, ' ", "amount":"', bid.quotation,'"}')), ']') AS bids
         FROM procurement 
         INNER JOIN product_requisition ON procurement.requisition_id = product_requisition.requisition_id
@@ -67,10 +68,60 @@ const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) =>
     });
   });
 
+  const getRequisition = (requisition_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT DISTINCT
+        product_requisition.*,
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', product.product_id,'", "product_name":"', product.product_name,'","qty":"',requisition_product.quantity,'"}')), ']') AS products
+        FROM product_requisition
+        INNER JOIN requisition_product ON product_requisition.requisition_id = requisition_product.requisition_id 
+        INNER JOIN product ON requisition_product.product_id = product.product_id
+        WHERE product_requisition.requisition_id = '${requisition_id}'
+        GROUP BY product_requisition.requisition_id`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getTecTeam = (tec_team_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT DISTINCT
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"employee_id":"', employee.employee_id,'", "employee_name":"', employee.name,'","capacity":"', tec_emp.capacity,'"}')), ']') AS team
+        FROM tec_emp
+        INNER JOIN employee ON tec_emp.employee_id = employee.employee_id 
+        WHERE tec_emp.tec_team_id = '${tec_team_id}'
+        GROUP BY tec_emp.tec_team_id`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
 module.exports = {
     // getSupplierData,
     // getNewRequests,
     getOngoingProcurements,
-    getCompletedProcurements
+    getCompletedProcurements,
+    getRequisition,
+    getTecTeam
 };
   
