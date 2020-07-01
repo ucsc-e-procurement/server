@@ -53,7 +53,7 @@ const approveRequisition = (requisitionId,selectedFundType) => new Promise((reso
     }
 
     // SQL Query
-    const sqlQueryString = `UPDATE product_requisition SET deputy_bursar_recommendation = 'approved', deputy_bursar_remarks = NULL, fund_type = '${selectedFundType}' WHERE requisition_id = '${requisitionId}'`;
+    const sqlQueryString = `UPDATE product_requisition SET deputy_bursar_recommendation = 'approved', deputy_bursar_remarks = 'none', fund_type = '${selectedFundType}' WHERE requisition_id = '${requisitionId}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       console.log(sqlQueryString, results, fields);
@@ -72,7 +72,7 @@ const denyRequisition = (requisitionId,remarks) => new Promise((resolve, reject)
     }
 
     // SQL Query
-    const sqlQueryString = `UPDATE product_requisition SET deputy_bursar_recommendation = 'denied', deputy_bursar_remarks = '${remarks}' WHERE requisition_id = '${requisitionId}'`;
+    const sqlQueryString = `UPDATE product_requisition SET deputy_bursar_recommendation = 'denied', fund_type = 'none', deputy_bursar_remarks = '${remarks}' WHERE requisition_id = '${requisitionId}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       console.log(sqlQueryString, results, fields);

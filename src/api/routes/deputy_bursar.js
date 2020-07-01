@@ -46,13 +46,13 @@ module.exports = (app) => {
     });   
   });
 
-    // Deny requisition
-    router.post("/product_requisition/deny", (req, res) => {
-      DeputyBursarModel.denyRequisition(req.query.requisitionId, req.query.remarks).then((result) => {
-        console.log("Result: ", result );
-        res.json(result);
-      }).catch(err => {
-        res.send(err)
-      });   
-    });
+  // Deny requisition
+  router.post("/product_requisition/deny", (req, res) => {
+    DeputyBursarModel.denyRequisition(req.query.requisitionId, req.query.remarks).then((result) => {
+      console.log("Result: ", result );
+      res.json(result);
+    }).catch(err => {
+      res.send(err)
+    });   
+  });
 };
