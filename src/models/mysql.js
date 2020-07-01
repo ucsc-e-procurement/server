@@ -5,7 +5,7 @@ const config = require("../config");
 const connection = mysql.createConnection({
   host: config.database.host,
   user: config.database.user,
-  password: "",
+  password: config.database.password,
   database: config.database.name,
 });
 
@@ -14,7 +14,7 @@ const pool = mysql.createPool({
   connectionLimit: config.database.connection_limit,
   host: config.database.host,
   user: config.database.user,
-  password: "",
+  password: config.database.password,
   database: config.database.name,
 });
 
