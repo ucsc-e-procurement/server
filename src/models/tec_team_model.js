@@ -50,7 +50,7 @@ const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) =>
       // do not select bid.procurement_id in this query as it returns proc_id = null for procs with no bids
       const sqlQueryString = `SELECT DISTINCT
         procurement.*, procurement.status AS procurement_status, product_requisition.*, product_requisition.status AS requisition_status, bid.status AS bid_status,
-        CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","price":"',bid_product.price, ' ", "amount":"', bid.quotation,'"}')), ']') AS bids
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","price":"',bid_product.price, ' ", "amount":"', bid.quotation,'"}')), ']') AS bids
         FROM procurement 
         INNER JOIN product_requisition ON procurement.requisition_id = product_requisition.requisition_id
         LEFT JOIN bid ON procurement.procurement_id = bid.procurement_id
