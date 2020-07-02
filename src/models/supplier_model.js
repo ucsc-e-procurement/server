@@ -69,22 +69,36 @@ const saveSupplierInfo = (data, userId, supplierId) => new Promise(async (resolv
 })
 
 // Save price schedule data
-const enterSupplierBid = (username, password, status = true) => new Promise((resolve, reject) => {
+const enterSupplierBid = (data) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
         if (err) {
             reject(err);
             return;
         }
-  
-        // SQL Query
-        const sqlQueryString = `SELECT * FROM user WHERE username='${username}' AND password='${password}'`;
+        const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', '${data.subtotal}', '${data.total_with_vat}', 'processing', '${data.supplier_id}', '${data.procurement_id}', '${data.vat_no}', '${data.authorized}')`;
         db.query(sqlQueryString, (error, results, fields) => {
-            // Release SQL Connection Back to the Connection Pool
             connection.release();
             resolve(results);
         });
     });
 });
+
+// Save bid products of a single bid
+const saveBidProducts = (items) => new Promise((resolve, reject) => {
+    console.log(items)
+    db.getConnection((err, connection) => {
+        if (err) {
+            reject(err);
+            return;
+        }
+        for (const index in items) {
+            let sqlQueryString = `INSERT INTO bid_product VALUES ('bid0001', '${items[index].prod_id}', '${items[index].qty}', '${items[index].figures}', '${items[index].vat}', '${items[index].make}', '${items[index].date}', '${items[index].validity}', '${items[index].credit}')`;
+            db.query(sqlQueryString);
+        }
+        connection.release();
+        resolve();
+    });
+})
 
 module.exports = {
     checkExistingSupplier,
@@ -92,4 +106,5 @@ module.exports = {
     registerSupplier,
     saveSupplierInfo,
     enterSupplierBid,
+    saveBidProducts
 };

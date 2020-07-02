@@ -44,16 +44,33 @@ module.exports = (app) => {
 
             supplierModel.registerSupplier(req.body, user_id)
                 .then(() => { 
-                    supplierModel.saveSupplierInfo(req, user_id, supplier_id).then(() => {
-                        res.statusMessage = "Successfully added";
-                        res.send("Successful").status(200).end();   
-                    });
+                    supplierModel.saveSupplierInfo(req, user_id, supplier_id)
+                        .then(() => {
+                            res.statusMessage = "Successfully added";
+                            res.send("Successful").status(200).end();   
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                })
+                .catch(err => {
+                    console.log(err)
                 });
         }
     });
 
     router.post("/price_schedule", (req, res) => {
-        console.log(req.body); 
-        res.send("Successful").status(200).end();   
+        supplierModel.enterSupplierBid(req.body).then(() => {
+            supplierModel.saveBidProducts(req.body.items)
+                .then(() => {
+                    res.send("Successful").status(200).end();   
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        })
+        .catch(err => {
+            console.log(err);
+        })
     });
 };
