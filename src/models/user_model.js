@@ -18,6 +18,7 @@ const findUserByEmailAndPassword = (username, password, status = true) => new Pr
 
     // SQL Query
     const sqlQueryString = `SELECT * FROM user WHERE username='${username}' AND password='${password}'`;
+
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();

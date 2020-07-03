@@ -4,6 +4,8 @@ const express = require("express");
 const test = require("./routes/test_routes");
 const auth = require("./routes/auth");
 const deputyBursar = require("./routes/deputy_bursar")
+const hod = require("./routes/hod");
+
 
 module.exports = () => {
   const app = express.Router();
@@ -14,6 +16,9 @@ module.exports = () => {
 
   // Authentication
   auth(app);
+
+  // Head of department
+  hod(app);
 
   return app;
 };
