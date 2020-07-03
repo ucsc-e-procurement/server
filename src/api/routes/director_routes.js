@@ -35,8 +35,8 @@ module.exports = (app) => {
     });
   })
 
-  // Get Requests
-  router.get("/requests", (req, res) => {
+  // Get Requisition Requests
+  router.get("/get_requisition_requests", (req, res) => {
     
     // res.send("Getting Requests").status(200).end();
 
@@ -50,6 +50,9 @@ module.exports = (app) => {
       res.send(err).status(200).end();
     });
   })
+
+  // Get PO Approval Requests
+  
 
   // Get Product Requisition
   router.get("/requisitions/:id", (req, res) => {
@@ -194,6 +197,22 @@ module.exports = (app) => {
       res.send(err).status(200).end();
     });
 
+  })
+
+  // Get Approved Requisitions 
+  router.get("/get_approved_requisitions", (req, res) => {
+
+    // res.send("Getting procurement" + req.query.procId).status(200).end();
+ 
+    directorModel.getApprovedRequisitions().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
   })
 
   // Approve PO generation

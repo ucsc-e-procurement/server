@@ -28,7 +28,10 @@ const getRequisitionRequests = () => new Promise((resolve, reject) => {
       }
   
       // SQL Query
-      const sqlQueryString = `SELECT * FROM product_requisition WHERE director_id IS NULL AND deputy_bursar_id IS NOT NULL`;
+      const sqlQueryString = `SELECT product_requisition.*, employee.* FROM product_requisition
+                              INNER JOIN employee ON
+                              product_requisition.head_of_division_id = employee.employee_id
+                              WHERE product_requisition.director_id IS NULL AND product_requisition.deputy_bursar_id IS NOT NULL`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
@@ -263,6 +266,36 @@ const appointBidOpeningTeam = (bidOpeningTeamId, procurementId, directorId, memb
   });
 });
 
+// Get Approved Requisitions
+const getApprovedRequisitions = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT product_requisition.*, employee.*,
+                            CONCAT('[',GROUP_CONCAT(CONCAT('{"prod_id":"',product.product_id,'","product_name":"',product.product_name,'","prod_desc":"',product.description,'"}')),']') AS products
+                            FROM product_requisition
+                            INNER JOIN employee ON
+                            product_requisition.head_of_division_id = employee.employee_id
+                            INNER JOIN requisition_product
+                            ON product_requisition.requisition_id = requisition_product.requisition_id
+                            INNER JOIN product 
+                            ON requisition_product.product_id = product.product_id
+                            WHERE product_requisition.director_id IS NOT NULL AND
+                            product_requisition.requisition_id NOT IN 
+                            (SELECT requisition_id FROM procurement)`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
     getProcurements,
     getRequisitionRequests,
@@ -274,5 +307,6 @@ module.exports = {
     appointBidOpeningTeam,
     getTechTeam,
     getBidOpeningTeam,
-    getEmployeesNotInTecTeam
+    getEmployeesNotInTecTeam,
+    getApprovedRequisitions
 };
