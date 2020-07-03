@@ -23,7 +23,8 @@
         // we want to avoid useless spaces
         "no-multi-spaces": ["error"],
         // Line break Style Based on OS
-        "linebreak-style": ["error", "windows"] // "linebreak-style": ["error", "unix"]
-        
+        "linebreak-style": ["error", "windows"], // "linebreak-style": ["error", "unix"]
+        // 
+        "max-len": ["error", { "code": 200 }]
     }
 }
