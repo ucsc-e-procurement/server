@@ -8,7 +8,7 @@ const auth = require("./routes/auth");
 const tec_team = require("./routes/tec_team");
 
 // TODO Merge
-const supplier = require("./routes/supplier_routes");
+// const supplier = require("./routes/supplier_routes");
 const supplier = require("./routes/supplier");
 
 const director = require("./routes/director_routes")
