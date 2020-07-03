@@ -88,10 +88,58 @@ const get_terminated = (hod_id) =>
     });
   });
 
+const create_request = (data) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((errDB, connection) => {
+      if (errDB) {
+        reject(errDB);
+        return;
+      }
+      let query_format =
+        "INSERT INTO HOD_REQUEST(procurement_name, reorder, description, division, procurement_type, head_of_division_id) VALUES (?,?,?,?,?,?)";
+      let query = db.format(query_format, [
+        procurement_name,
+        reorder,
+        description,
+        division,
+        procurement_type,
+        head_of_division_id,
+      ]);
+      //'${procurement_name}', '${reorder}', '${description}', '${division}', '${procurement_type}', '${head_of_division_id}'
+      db.query(query, (errQuery, results) => {
+        if (errQuery) reject(errQuery);
+        connection.release();
+        resolve(results.insertId);
+      });
+    });
+  });
+
+const test_create_request = (data) =>
+  new Promise((resolve, reject) => {
+    console.log(data.division);
+    console.log(data.description);
+    console.log(data.procurement_name);
+    db.getConnection((errDB, connection) => {
+      if (errDB) {
+        reject(errDB);
+        return;
+      }
+      let query =
+        "INSERT INTO HOD_REQUEST(procurement_name, reorder, description, division, procurement_type, head_of_division_id) VALUES ('Canon DM-345X toner', true, 'Canon DM-345X toner', 'ENG', 'G', 'emp00004')";
+      db.query(query, (errQuery, results) => {
+        if (errQuery) reject(errQuery);
+        connection.release();
+        resolve(results.insertId);
+      });
+    });
+  });
+
 module.exports = {
   get_init_all,
   get_init,
   get_approved,
   get_completed,
   get_terminated,
+  create_request,
+  test_create_request,
 };
