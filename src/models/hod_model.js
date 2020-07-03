@@ -24,7 +24,7 @@ const get_init = (hod_id) =>
         return;
       }
       db.query(
-        `SELECT * FROM PRODUCT_REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'I'`,
+        `SELECT * FROM PRODUCT_REQUISITION WHERE head_of_division_id = '${hod_id}' AND (status = 'I' OR status = 'D')`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -93,39 +93,41 @@ const create_request = (data) =>
     db.getConnection((errDB, connection) => {
       if (errDB) {
         reject(errDB);
+        console.log(errDB);
         return;
       }
-      let query_format =
-        "INSERT INTO HOD_REQUEST(procurement_name, reorder, description, division, procurement_type, head_of_division_id) VALUES (?,?,?,?,?,?)";
-      let query = db.format(query_format, [
-        procurement_name,
-        reorder,
-        description,
-        division,
-        procurement_type,
-        head_of_division_id,
-      ]);
-      //'${procurement_name}', '${reorder}', '${description}', '${division}', '${procurement_type}', '${head_of_division_id}'
+      let query =
+        "INSERT INTO HOD_REQUEST(procurement_name, reorder, description, division, procurement_type, head_of_division_id) VALUES('" +
+        data.procurement_name +
+        "', " +
+        data.reorder +
+        ", '" +
+        data.description +
+        "', '" +
+        data.division +
+        "', '" +
+        data.head_of_division_id +
+        "') ?";
       db.query(query, (errQuery, results) => {
         if (errQuery) reject(errQuery);
         connection.release();
-        resolve(results.insertId);
+        resolve(results);
       });
     });
   });
 
 const test_create_request = (data) =>
   new Promise((resolve, reject) => {
-    console.log(data.division);
-    console.log(data.description);
     console.log(data.procurement_name);
+    console.log(data.head_of_division_id);
+    console.log(data.description);
     db.getConnection((errDB, connection) => {
       if (errDB) {
         reject(errDB);
         return;
       }
       let query =
-        "INSERT INTO HOD_REQUEST(procurement_name, reorder, description, division, procurement_type, head_of_division_id) VALUES ('Canon DM-345X toner', true, 'Canon DM-345X toner', 'ENG', 'G', 'emp00004')";
+        "INSERT INTO HOD_REQUEST(procurement_name, reorder, description, division, procurement_type, head_of_division_id) VALUES ('Hitachi K-3000 toner', true, 'Hitachi K-3000 toner', 'NOC', 'G', 'emp00005')";
       db.query(query, (errQuery, results) => {
         if (errQuery) reject(errQuery);
         connection.release();
