@@ -10,7 +10,6 @@ if (envFound.error) {
 }
 
 module.exports = {
-
   // Database Configuration
   database: {
     host: process.env.DATABASE_HOST,
