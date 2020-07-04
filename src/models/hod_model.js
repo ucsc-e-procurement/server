@@ -24,7 +24,7 @@ const get_init = (hod_id) =>
         return;
       }
       db.query(
-        `SELECT * FROM PRODUCT_REQUISITION WHERE head_of_division_id = '${hod_id}' AND (status = 'I' OR status = 'D')`,
+        `SELECT * FROM REQUISITION WHERE head_of_division_id = '${hod_id}' AND (status = 'I' OR status = 'D')`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -42,7 +42,7 @@ const get_approved = (hod_id) =>
         return;
       }
       db.query(
-        `SELECT * FROM PRODUCT_REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'A'`,
+        `SELECT * FROM REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'A'`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -60,7 +60,7 @@ const get_completed = (hod_id) =>
         return;
       }
       db.query(
-        `SELECT * FROM PRODUCT_REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'C'`,
+        `SELECT * FROM REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'C'`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -78,7 +78,7 @@ const get_terminated = (hod_id) =>
         return;
       }
       db.query(
-        `SELECT * FROM PRODUCT_REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'T'`,
+        `SELECT * FROM REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'T'`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -96,18 +96,23 @@ const create_request = (data) =>
         console.log(errDB);
         return;
       }
+      //description, status, head_of_division_id, director_id, deputy_bursar_id, division, reorder
       let query =
-        "INSERT INTO HOD_REQUEST(procurement_name, reorder, description, division, procurement_type, head_of_division_id) VALUES('" +
-        data.procurement_name +
-        "', " +
-        data.reorder +
-        ", '" +
+        "INSERT INTO REQUISITION(description, procurement_type, head_of_division_id, director_id, deputy_bursar_id, division, reorder) VALUES('" +
         data.description +
         "', '" +
-        data.division +
+        data.procurement_type +
         "', '" +
         data.head_of_division_id +
-        "') ?";
+        "', '" +
+        data.director_id +
+        "', '" +
+        data.deputy_bursar_id +
+        "', '" +
+        data.division +
+        "', " +
+        data.reorder +
+        ")";
       db.query(query, (errQuery, results) => {
         if (errQuery) reject(errQuery);
         connection.release();

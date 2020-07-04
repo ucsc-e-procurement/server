@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-//const config = require("../config");
+const config = require("../config");
 
 // Query-wise Connection Method
 // const connection = mysql.createConnection({
@@ -16,7 +16,7 @@ const connection = mysql.createConnection({
   database: "UCSC_E_PROC",
 });
 
-//If Connection Pooling is needed, use this approach instead
+// If Connection Pooling is needed, use this approach instead
 const pool = mysql.createPool({
   connectionLimit: 5,
   host: "localhost",
@@ -25,7 +25,7 @@ const pool = mysql.createPool({
   database: "UCSC_E_PROC",
 });
 
-connection.connect(function (err) {
+connection.connect((err) => {
   if (err) throw err;
   console.log("Connected!");
 });
