@@ -10,27 +10,39 @@ const bcrypt = require("bcrypt");
 
 // User Model - Databases Interaction Handling
 const UserModel = require("../models/user_model");
+const EmployeeModel = require("../models/employee_model");
 
 // Using Local Strategy
-passport.use("login", new LocalStrategy({ usernameField: "username", passwordField: "password" },
-  async (username, password, done) => {
+passport.use("login", new LocalStrategy({ usernameField: "email", passwordField: "password" },
+  async (email, password, done) => {
+    let userData;
     // Database Call to find the User
     try {
       // Find the user associated with the email provided by the user
-      const user = await UserModel.findUserByEmail(username, password);
+      const user = await UserModel.findUserByEmail(email, password);
+
       if (!user) {
         // If the in the database, return a message
         return done(null, false, { message: "User not found" });
       }
+
       // Validate password and make sure it matches with the corresponding hash stored in the database
       // If the passwords match, it returns a value of true.
       const compare = await bcrypt.compare(password, user[0].password);
       if (!compare) {
         return done(null, false, { message: "Wrong Password" });
       }
-      console.log("UUUUUUUUUUUUUUUUUSSSSSSSSSSS: ", user);
+
+      if (user[0].user_role !== "supplier") {
+        const employee = await EmployeeModel.getEmplyeeByUserId(user[0].user_id);
+        userData = { ...employee };
+      } else {
+        //
+      }
+
+      userData = { ...userData, user_id: user[0].user_id, user_role: user[0].user_role };
       // Send the user information to the next middleware
-      return done(null, user, { message: "Logged in Successfully" });
+      return done(null, userData, { message: "Logged in Successfully" });
     } catch (error) {
       return done(error);
     }
