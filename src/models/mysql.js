@@ -12,7 +12,7 @@ const config = require("../config");
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "ucsc@123",
+  password: "",
   database: "UCSC_E_PROC",
 });
 
@@ -21,7 +21,7 @@ const pool = mysql.createPool({
   connectionLimit: 5,
   host: "localhost",
   user: "root",
-  password: "ucsc@123",
+  password: "",
   database: "UCSC_E_PROC",
 });
 
