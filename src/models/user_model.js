@@ -17,7 +17,7 @@ const findUserByEmailAndPassword = (username, password, status = true) => new Pr
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT * FROM user WHERE username='${username}' AND password='${password}'`;
+    const sqlQueryString = `SELECT * FROM user WHERE user_id='${username}' AND password='${password}'`;
 
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
@@ -35,7 +35,7 @@ const findUserByEmail = (username, status = true) => new Promise((resolve, rejec
       return;
     }
     // SQL Query
-    const sqlQueryString = `SELECT * FROM user WHERE username='${username}'`;
+    const sqlQueryString = `SELECT * FROM user WHERE user_id='${username}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();

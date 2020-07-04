@@ -91,7 +91,7 @@ module.exports = (app) => {
 
     // res.send("Approve Requisition " + req.params.id + " :" + req.body)
 
-    directorModel.approveRequisition(req.body.id, req.body.remarks, req.body.directorId).then((result) => {
+    directorModel.approveRequisition(req.body.id, req.body.remarks, req.body.directorRecommendation).then((result) => {
       // eslint-disable-next-line no-console
       console.log(result);
       res.json(result).status(200).end();
