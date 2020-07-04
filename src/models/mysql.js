@@ -31,12 +31,12 @@ const pool = mysql.createPool({
   host: config.database.host,
   user: config.database.user,
   password: config.database.password,
-  database: config.database.name,
+  //database: config.database.name,
   // connectionLimit: 5,
   // host: "localhost",
   // user: "root",
   // password: "ucsc@123",
-  // database: "UCSC_E_PROC",
+   database: "UCSC_E_PROC",
 });
 
 connection.connect((err) => {
