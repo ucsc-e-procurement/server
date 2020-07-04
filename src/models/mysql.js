@@ -11,16 +11,11 @@ const config = require("../config");
 
 const connection = mysql.createConnection({
 
+
   host: config.database.host,
   user: config.database.user,
   password: config.database.password,
   database: config.database.name,
-
-  // host: "localhost",
-  // user: "root",
-  // password: "ucsc@123",
-  // database: "procurement_system"
-  // database: "UCSC_E_PROC",
 
 });
 
@@ -37,6 +32,7 @@ const pool = mysql.createPool({
   // user: "root",
   // password: "ucsc@123",
    database: "UCSC_E_PROC",
+
 });
 
 connection.connect((err) => {

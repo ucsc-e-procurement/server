@@ -11,6 +11,7 @@ const bcrypt = require("bcrypt");
 // User Model - Databases Interaction Handling
 const UserModel = require("../models/user_model");
 const EmployeeModel = require("../models/employee_model");
+const SupplierModel = require("../models/supplier_model");
 
 // Using Local Strategy
 passport.use("login", new LocalStrategy({ usernameField: "email", passwordField: "password" },
@@ -37,7 +38,8 @@ passport.use("login", new LocalStrategy({ usernameField: "email", passwordField:
         const employee = await EmployeeModel.getEmplyeeByUserId(user[0].user_id);
         userData = { ...employee };
       } else {
-        //
+        const supplier = await SupplierModel.getSupplierByUserId(user[0].user_id);
+        userData = { ...supplier };
       }
 
       userData = { ...userData, user_id: user[0].user_id, user_role: user[0].user_role };
