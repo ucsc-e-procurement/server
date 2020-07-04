@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-//const config = require("../config");
+const config = require("../config");
 
 // Query-wise Connection Method
 // const connection = mysql.createConnection({
@@ -16,10 +16,11 @@ const connection = mysql.createConnection({
   password: config.database.password,
   database: config.database.name,
 
-  host: "localhost",
-  user: "root",
-  password: "ucsc@123",
-  database: "UCSC_E_PROC",
+  // host: "localhost",
+  // user: "root",
+  // password: "ucsc@123",
+  // database: "procurement_system"
+  // database: "UCSC_E_PROC",
 
 });
 
@@ -32,11 +33,11 @@ const pool = mysql.createPool({
   password: config.database.password,
   database: config.database.name,
   
-  connectionLimit: 5,
-  host: "localhost",
-  user: "root",
-  password: "ucsc@123",
-  database: "UCSC_E_PROC",
+  // connectionLimit: 5,
+  // host: "localhost",
+  // user: "root",
+  // password: "ucsc@123",
+  // database: "UCSC_E_PROC",
 });
 
 connection.connect(function (err) {
