@@ -23,7 +23,7 @@ const connection = mysql.createConnection({
 
 });
 
-//If Connection Pooling is needed, use this approach instead
+// If Connection Pooling is needed, use this approach instead
 const pool = mysql.createPool({
 
   connectionLimit: config.database.connection_limit,
@@ -39,7 +39,7 @@ const pool = mysql.createPool({
   // database: "UCSC_E_PROC",
 });
 
-connection.connect(function (err) {
+connection.connect((err) => {
   if (err) throw err;
   console.log("Connected!");
 });
