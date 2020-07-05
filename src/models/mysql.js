@@ -16,14 +16,9 @@ const connection = mysql.createConnection({
   password: config.database.password,
   database: config.database.name,
 
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "UCSC_E_PROC",
-
 });
 
-//If Connection Pooling is needed, use this approach instead
+// If Connection Pooling is needed, use this approach instead
 const pool = mysql.createPool({
 
   connectionLimit: config.database.connection_limit,
@@ -31,15 +26,16 @@ const pool = mysql.createPool({
   user: config.database.user,
   password: config.database.password,
   database: config.database.name,
-  
-  connectionLimit: 5,
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "UCSC_E_PROC",
+
+  // connectionLimit: 5,
+  // host: "localhost",
+  // user: "root",
+  // password: "ucsc@123",
+  // database: "UCSC_E_PROC",
+
 });
 
-connection.connect(function (err) {
+connection.connect((err) => {
   if (err) throw err;
   console.log("Connected!");
 });

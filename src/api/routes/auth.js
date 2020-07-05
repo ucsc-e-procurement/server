@@ -24,8 +24,8 @@ module.exports = (app) => {
 
   // Login
   router.post("/login", (req, res, next) => {
-    console.log(req.body);
-    if (req.body.username === "" || req.body.password === "") {
+    console.log("Req Body: ", req.body);
+    if (req.body.email === "" || req.body.password === "") {
       res.json({
         status: 400,
         error: "",
@@ -36,6 +36,8 @@ module.exports = (app) => {
     }
     try {
       passport.authenticate("login", async (err, user, info) => {
+        console.log(">>>>>>>>>>>>>> ", user, err, info);
+
         try {
           if (err || !user) {
             res.json({
@@ -43,17 +45,13 @@ module.exports = (app) => {
               error_message: "Authentication Failed",
               error_code: "1002",
             });
-            return next(err);
+            return err;
           }
           req.login(user, { session: false }, async (error) => {
-            if (error) return next(error);
+            if (error) return error;
 
-            // We don't want to store the sensitive information such as the
-            // user password in the token so we pick only the email and id
             const body = {
-              user_id: user[0].user_id,
-              username: user[0].username,
-              user_role: user[0].user_role,
+              ...user,
             };
 
             // Sign the JWT token and populate the payload with the user email and id
@@ -72,7 +70,7 @@ module.exports = (app) => {
             error_message: "Authentication Failed",
             error_code: "1003",
           });
-          return next(error);
+          return error;
         }
       })(req, res, next);
     } catch (error) {
@@ -82,9 +80,5 @@ module.exports = (app) => {
         error_code: "1004",
       });
     }
-  });
-
-  router.post("/test_route", (req, res) => {
-    const result = UserModel.findUserByEmail();
   });
 };

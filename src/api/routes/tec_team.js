@@ -64,7 +64,7 @@ module.exports = (app) => {
 
   router.get("/get_requisition/", (req, res) => {
     var requisition_id = req.query.id
-    console.log(requisition_id)
+    console.log('requisition_id',requisition_id)
     tecTeamModel.getRequisition(requisition_id).then((result) => {
         console.log('server', result)
         res.json(result);
