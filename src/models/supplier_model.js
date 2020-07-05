@@ -223,5 +223,5 @@ module.exports = {
   getNewRequests,
   getOngoingProcurements,
   getCompletedProcurements,
-  getSupplierBuUserId,
+  getSupplierByUserId,
 };

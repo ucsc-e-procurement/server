@@ -86,7 +86,7 @@ module.exports = (app) => {
     });
   })
 
-  // Approve requisition
+  // Approve requisition*
   router.post("/requisitions/:id/approve", (req, res) => {
 
     // res.send("Approve Requisition " + req.params.id + " :" + req.body)
@@ -134,12 +134,28 @@ module.exports = (app) => {
     });
   })
 
+  // Max tec team id
+  router.get("/get_max_tec_id", (req, res) => {
+
+    // res.send("Getting procurement" + req.query.procId).status(200).end();
+ 
+    directorModel.getMaxTecTeamId().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
   // Appoint tech team
-  router.post("/procurements/appointTechTeam", (req, res) => {
+  router.post("/procurements/appoint_tech_team", (req, res) => {
 
     // res.send("Appointing tech team for procurement " + req.params.id + ": " + req.body).status(200).end();
 
-    directorModel.appointTechTeam(req.body.techTeamId, req.body.procurementId, req.body.directorId, req.body.employees).then((result) => {
+    directorModel.appointTechTeam(req.body.procurementId, req.body.directorId, req.body.employees, req.body.chairman).then((result) => {
       // eslint-disable-next-line no-console
       console.log(result);
       res.json(result).status(200).end();
@@ -182,12 +198,28 @@ module.exports = (app) => {
     });
   })
 
+  // Get max bid opening team id 
+  router.get("/get_max_bid_opening_team_id", (req, res) => {
+
+    // res.send("Getting procurement" + req.query.procId).status(200).end();
+ 
+    directorModel.getMaxBidTeamId().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
   // Appoint bid opening team
   router.post("/procurements/appointBidOpeningTeam", (req, res) => {
 
     // res.send("Appointing bid opening team for procurement " + req.params.id + ": " + req.body).status(200).end();
 
-    directorModel.appointBidOpeningTeam(req.body.bidOpeningTeamId, req.body.procurementId, req.body.directorId, req.body.member_1, req.body.member_2).then((result) => {
+    directorModel.appointBidOpeningTeam(req.body.procurementId, req.body.directorId, req.body.member_1, req.body.member_2, req.body.maxId).then((result) => {
       // eslint-disable-next-line no-console
       console.log(result);
       res.json(result).status(200).end();
