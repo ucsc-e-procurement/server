@@ -45,8 +45,28 @@ const findUserByEmail = (userId, status = true) => new Promise((resolve, reject)
   });
 });
 
+// Find A User By Email
+const getUsers = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = "SELECT user_id, user_role, status FROM user";
+    db.query(sqlQueryString, (error, results, fields) => {
+      if (error) reject(error);
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
   testUserModel,
   findUserByEmailAndPassword,
   findUserByEmail,
+  getUsers,
 };

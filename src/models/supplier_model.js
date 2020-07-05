@@ -21,14 +21,14 @@ const getSupplierData = (supplier_id) => new Promise((resolve, reject) => {
 });
 
 const getNewRequests = (supplier_id) => new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-  
-      // SQL Query
-      const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.catagory, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', rfq_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', rfq_product.quantity,'"}')), ']') AS products 
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.catagory, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', rfq_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', rfq_product.quantity,'"}')), ']') AS products 
         FROM rfq 
         INNER JOIN procurement ON rfq.procurement_id = procurement.procurement_id 
         INNER JOIN rfq_product ON rfq.rfq_id = rfq_product.rfq_id 
@@ -203,7 +203,6 @@ const getSupplierByUserId = (userId) => new Promise((resolve, reject) => {
 
     // SQL Query
     const sqlQueryString = `SELECT supplier_id, name, address, email, contact_number, category FROM supplier  WHERE user_id='${userId}'`;
-    console.log("Query: ", sqlQueryString);
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
