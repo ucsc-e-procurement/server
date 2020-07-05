@@ -14,7 +14,6 @@ const connection = mysql.createConnection({
   user: "root",
   password: "ucsc@123",
   database: "UCSC_E_PROC",
-  connectionLimit: 5,
 });
 
 // If Connection Pooling is needed, use this approach instead
@@ -23,7 +22,7 @@ const pool = mysql.createPool({
   user: "root",
   password: "ucsc@123",
   database: "UCSC_E_PROC",
-  connectionLimit: 5,
+  connectionLimit: 15,
 });
 
 connection.connect((err) => {
