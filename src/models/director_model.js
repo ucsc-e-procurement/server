@@ -30,9 +30,15 @@ const getRequisitionRequests = () => new Promise((resolve, reject) => {
       }
   
       // SQL Query
-      const sqlQueryString = `SELECT requisition.*, employee.* FROM requisition
+      const sqlQueryString = `SELECT requisition.*, employee.*,
+                              CONCAT('[',CONCAT(CONCAT('{"prod_id":"',product.product_id,'","product_name":"',product.product_name,'","prod_desc":"',product.description,'","prod_qty":"',requisition_product.quantity,'"}')),']') AS products 
+                              FROM requisition
                               INNER JOIN employee ON
                               requisition.head_of_division_id = employee.employee_id
+                              INNER JOIN requisition_product ON
+                              requisition.requisition_id = requisition_product.requisition_id
+                              INNER JOIN product ON
+                              product.product_id = requisition_product.product_id
                               WHERE requisition.director_recommendation IS NULL AND requisition.deputy_bursar_recommendation = 'Recommended'`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
@@ -93,7 +99,7 @@ const getProcurement = (reqId, status = true) => new Promise((resolve, reject) =
 });
 
 // Approve Product Requisition
-const approveRequisition = (reqId, remarks, directorRecommendation, status = true) => new Promise((resolve, reject) => {
+const approveRequisition = (reqId, directorRemarks, directorRecommendation, status = true) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -101,7 +107,7 @@ const approveRequisition = (reqId, remarks, directorRecommendation, status = tru
       }
   
       // SQL Query
-      const sqlQueryString = `UPDATE requisition SET director_remarks = '${remarks}', director_recommendation = '${directorRecommendation}' WHERE requisition_id = '${reqId}'`;
+      const sqlQueryString = `UPDATE requisition SET director_remarks = '${directorRemarks}', director_recommendation = '${directorRecommendation}' WHERE requisition_id = '${reqId}'`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
@@ -324,7 +330,7 @@ const getApprovedRequisitions = () => new Promise((resolve, reject) => {
 
     // SQL Query
     const sqlQueryString = `SELECT requisition.*, employee.*,
-                            CONCAT('[',GROUP_CONCAT(CONCAT('{"prod_id":"',product.product_id,'","product_name":"',product.product_name,'","prod_desc":"',product.description,'", "prod_qty":"',requisition_product.quantity,'"}')),']') AS products
+                            CONCAT('[',CONCAT(CONCAT('{"prod_id":"',product.product_id,'","product_name":"',product.product_name,'","prod_desc":"',product.description,'", "prod_qty":"',requisition_product.quantity,'"}')),']') AS products
                             FROM requisition
                             INNER JOIN employee ON
                             requisition.head_of_division_id = employee.employee_id

@@ -87,11 +87,11 @@ module.exports = (app) => {
   })
 
   // Approve requisition*
-  router.post("/requisitions/:id/approve", (req, res) => {
+  router.post("/requisitions/approve", (req, res) => {
 
     // res.send("Approve Requisition " + req.params.id + " :" + req.body)
 
-    directorModel.approveRequisition(req.body.id, req.body.remarks, req.body.directorRecommendation).then((result) => {
+    directorModel.approveRequisition(req.body.requisitionId, req.body.directorRemarks, req.body.directorRecommendation).then((result) => {
       // eslint-disable-next-line no-console
       console.log(result);
       res.json(result).status(200).end();
