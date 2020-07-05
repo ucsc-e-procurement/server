@@ -37,22 +37,32 @@ module.exports = (app) => {
       if (users.length > 0) {
         const tempArray = [];
 
-        users.forEach(async (user) => {
-          let tempUser = {};
+        // eslint-disable-next-line no-restricted-syntax
+        for (const user of users) {
           if (user.user_role !== "SUP") {
             // Internal Staff
             const employee = await EmployeeModel.getEmplyeeByUserId(user.user_id);
-            tempUser = { ...user, ...employee };
-            tempArray.push(tempUser);
+            tempArray.push({ ...user, ...employee });
           } else {
             // External User - Supplier
             const supplier = await SupplierModel.getSupplierByUserId(user.user_id);
-            tempUser = { ...user, ...supplier };
             tempArray.push({ ...user, ...supplier });
           }
-        //   console.log("TempUser: ", tempUser);
-        });
-        console.log("TempUser Array: ", tempArray);
+        }
+
+        // for (let index = 0; index < users.length; index++) {
+        //   const user = users[index];
+        //   if (user.user_role !== "SUP") {
+        //     // Internal Staff
+        //     const employee = await EmployeeModel.getEmplyeeByUserId(user.user_id);
+        //     tempArray.push({ ...user, ...employee });
+        //   } else {
+        //     // External User - Supplier
+        //     const supplier = await SupplierModel.getSupplierByUserId(user.user_id);
+        //     tempArray.push({ ...user, ...supplier });
+        //   }
+        // }
+        res.json(tempArray);
       } else {
 
       }

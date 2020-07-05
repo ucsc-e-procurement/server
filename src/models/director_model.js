@@ -2,35 +2,36 @@ const db = require("./mysql").pool;
 
 // Get procurements
 const getProcurements = () => new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-  
-      // SQL Query
-      const sqlQueryString = `SELECT procurement.*, 
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT procurement.*, 
                               requisition.description, requisition.date, requisition.procurement_type, requisition.fund_type, requisition.division
                               FROM procurement INNER JOIN requisition ON requisition.requisition_id = procurement.requisition_id`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        console.log(sqlQueryString, results, fields);
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      console.log("################################# ", results);
+      resolve(JSON.parse(JSON.stringify(results)));
     });
+  });
 });
 
 // Get Product Requisition Requests
 const getRequisitionRequests = () => new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-  
-      // SQL Query
-      const sqlQueryString = `SELECT requisition.*, employee.*,
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT requisition.*, employee.*,
                               CONCAT('[',CONCAT(CONCAT('{"prod_id":"',product.product_id,'","product_name":"',product.product_name,'","prod_desc":"',product.description,'","prod_qty":"',requisition_product.quantity,'"}')),']') AS products 
                               FROM requisition
                               INNER JOIN employee ON
@@ -40,44 +41,44 @@ const getRequisitionRequests = () => new Promise((resolve, reject) => {
                               INNER JOIN product ON
                               product.product_id = requisition_product.product_id
                               WHERE requisition.director_recommendation IS NULL AND requisition.deputy_bursar_recommendation = 'Recommended'`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        console.log(sqlQueryString, results, fields);
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results);
+      resolve(JSON.parse(JSON.stringify(results)));
     });
+  });
 });
 
 // Get Product Requisition
 const getRequisition = (reqId, status = true) => new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-  
-      // SQL Query
-      const sqlQueryString = `SELECT * FROM requisition WHERE requisition_id = '${reqId}'`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        console.log(sqlQueryString, results, fields);
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM requisition WHERE requisition_id = '${reqId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
     });
+  });
 });
 
 // Get Procurement*
 const getProcurement = (reqId, status = true) => new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-  
-      // SQL Query
-      const sqlQueryString = `SELECT procurement.*, requisition.*, employee.*, 
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT procurement.*, requisition.*, employee.*, 
         CONCAT('[',GROUP_CONCAT(CONCAT('{"prod_id":"',product.product_id,'","product_name":"',product.product_name,'","prod_desc":"',product.description,'","prod_qty":"',requisition_product.quantity,'"}')),']') AS products 
         FROM procurement 
         INNER JOIN requisition 
@@ -89,32 +90,32 @@ const getProcurement = (reqId, status = true) => new Promise((resolve, reject) =
         INNER JOIN employee 
         ON employee.employee_id = requisition.head_of_division_id
         WHERE procurement.procurement_id = '${reqId}'`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        console.log(sqlQueryString, results, fields);
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
     });
+  });
 });
 
 // Approve Product Requisition
 const approveRequisition = (reqId, directorRemarks, directorRecommendation, status = true) => new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-  
-      // SQL Query
-      const sqlQueryString = `UPDATE requisition SET director_remarks = '${directorRemarks}', director_recommendation = '${directorRecommendation}' WHERE requisition_id = '${reqId}'`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        console.log(sqlQueryString, results, fields);
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `UPDATE requisition SET director_remarks = '${directorRemarks}', director_recommendation = '${directorRecommendation}' WHERE requisition_id = '${reqId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
     });
+  });
 });
 
 // Get Employees*
@@ -126,7 +127,7 @@ const getEmployees = () => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT * FROM employee`;
+    const sqlQueryString = "SELECT * FROM employee";
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -168,7 +169,7 @@ const getMaxTecTeamId = () => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT MAX(tec_team_id) AS maxTecId FROM tec_team`;
+    const sqlQueryString = "SELECT MAX(tec_team_id) AS maxTecId FROM tec_team";
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -180,50 +181,47 @@ const getMaxTecTeamId = () => new Promise((resolve, reject) => {
 
 // Appoint Tech Team*
 const appointTechTeam = (procurementId, directorId, employees, chairman, status = true) => new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
 
-      var date = new Date()
-  
-      // SQL Query
-      const sqlQueryString = `INSERT INTO tec_team(appointed_date, appointed_by, chairman) VALUES ('${date}', '${directorId}', '${chairman}')`;
-      
-      const sqlQueryString3 = "INSERT INTO tec_emp VALUES ?";
+    const date = new Date();
 
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        console.log(sqlQueryString, results, fields);
-        // resolve(JSON.parse(JSON.stringify(results)));
-        if(error){
+    // SQL Query
+    const sqlQueryString = `INSERT INTO tec_team(appointed_date, appointed_by, chairman) VALUES ('${date}', '${directorId}', '${chairman}')`;
 
-          connection.release();
-          console.log(JSON.stringify(error));
-          
-        }else{
-          var techId = results.insertId;
+    const sqlQueryString3 = "INSERT INTO tec_emp VALUES ?";
 
-          const sqlQueryString2 = `UPDATE procurement SET tec_team_id = '${results.insertId}', step = 4 WHERE procurement_id = '${procurementId}' `;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      console.log(sqlQueryString, results, fields);
+      // resolve(JSON.parse(JSON.stringify(results)));
+      if (error) {
+        connection.release();
+        console.log(JSON.stringify(error));
+      } else {
+        const techId = results.insertId;
 
-          db.query(sqlQueryString2, (error, results, fields) => {
-            console.log(sqlQueryString2, results, fields);
-            if(error){
+        const sqlQueryString2 = `UPDATE procurement SET tec_team_id = '${results.insertId}', step = 4 WHERE procurement_id = '${procurementId}' `;
+
+        db.query(sqlQueryString2, (error, results, fields) => {
+          console.log(sqlQueryString2, results, fields);
+          if (error) {
+            connection.release();
+            console.log(JSON.stringify(error));
+          } else {
+            db.query(sqlQueryString3, [employees], (error, results, fields) => {
               connection.release();
-              console.log(JSON.stringify(error));
-            }else{
-
-              db.query(sqlQueryString3, [employees], (error, results, fields) => {
-                connection.release();
-                console.log(sqlQueryString3, results, fields);
-                resolve(JSON.parse(JSON.stringify(results)));
-              });
-            }
-          });
-        }
-      });
+              console.log(sqlQueryString3, results, fields);
+              resolve(JSON.parse(JSON.stringify(results)));
+            });
+          }
+        });
+      }
     });
+  });
 });
 
 // Max Bid Opening Team Id
@@ -235,7 +233,7 @@ const getMaxBidTeamId = () => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT MAX(bid_opening_team_id) AS maxBidTeamId FROM bid_opening_team`;
+    const sqlQueryString = "SELECT MAX(bid_opening_team_id) AS maxBidTeamId FROM bid_opening_team";
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -296,20 +294,20 @@ const appointBidOpeningTeam = (procurementId, directorId, member1, member2, bidT
       return;
     }
 
-    var date = new Date()
+    const date = new Date();
 
     // SQL Query
     const sqlQueryString = `INSERT INTO bid_opening_team VALUES('${bidTeamId}', '2020-02-20', '${member1}', '${member2}', '${directorId}');`;
     const sqlQueryString2 = `UPDATE procurement SET bid_opening_team_id = '${bidTeamId}', step = 5 WHERE procurement_id = '${procurementId}'`;
-    
+
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       console.log(sqlQueryString, results, fields);
 
-      if(error){
+      if (error) {
         connection.release();
         console.log(JSON.stringify(error));
-      }else{
+      } else {
         db.query(sqlQueryString2, (error, results, fields) => {
           connection.release();
           console.log(sqlQueryString, results, fields);
@@ -351,18 +349,18 @@ const getApprovedRequisitions = () => new Promise((resolve, reject) => {
 });
 
 module.exports = {
-    getProcurements,
-    getRequisitionRequests,
-    getRequisition,
-    getProcurement,
-    approveRequisition,
-    getEmployees,
-    appointTechTeam,
-    appointBidOpeningTeam,
-    getTechTeam,
-    getBidOpeningTeam,
-    getEmployeesNotInTecTeam,
-    getApprovedRequisitions,
-    getMaxTecTeamId,
-    getMaxBidTeamId
+  getProcurements,
+  getRequisitionRequests,
+  getRequisition,
+  getProcurement,
+  approveRequisition,
+  getEmployees,
+  appointTechTeam,
+  appointBidOpeningTeam,
+  getTechTeam,
+  getBidOpeningTeam,
+  getEmployeesNotInTecTeam,
+  getApprovedRequisitions,
+  getMaxTecTeamId,
+  getMaxBidTeamId,
 };
