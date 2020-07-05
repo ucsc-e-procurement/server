@@ -27,6 +27,12 @@ const pool = mysql.createPool({
   password: config.database.password,
   database: config.database.name,
 
+  // connectionLimit: 5,
+  // host: "localhost",
+  // user: "root",
+  // password: "ucsc@123",
+  // database: "UCSC_E_PROC",
+
 });
 
 connection.connect((err) => {
