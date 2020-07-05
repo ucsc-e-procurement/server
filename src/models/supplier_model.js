@@ -21,14 +21,14 @@ const getSupplierData = (supplier_id) => new Promise((resolve, reject) => {
 });
 
 const getNewRequests = (supplier_id) => new Promise((resolve, reject) => {
-  db.getConnection((err, connection) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-
-    // SQL Query
-    const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.category, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', rfq_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', rfq_product.quantity,'"}')), ']') AS products 
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.category, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', rfq_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', rfq_product.quantity,'"}')), ']') AS products 
         FROM rfq 
         INNER JOIN procurement ON rfq.procurement_id = procurement.procurement_id 
         INNER JOIN rfq_product ON rfq.rfq_id = rfq_product.rfq_id 
@@ -53,8 +53,8 @@ const getOngoingProcurements = (supplier_id) => new Promise((resolve, reject) =>
 
     // SQL Query
     const sqlQueryString = `SELECT DISTINCT
-        rfq.*, procurement.procurement_id, procurement.category, procurement.status AS procurement_status, procurement.bid_opening_date, bid.quotation, bid.status AS bid_status,
-        CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', bid_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', bid_product.quantity, '", "price":"', bid_product.price,'"}')), ']') AS bids
+        rfq.*, procurement.procurement_id, procurement.category, procurement.status AS procurement_status, procurement.bid_opening_date, bid.total_with_vat, bid.status AS bid_status,
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', bid_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', bid_product.quantity, '", "unit_price":"', bid_product.unit_price,'"}')), ']') AS bids
         FROM rfq 
         INNER JOIN procurement ON rfq.procurement_id = procurement.procurement_id 
         INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
@@ -80,8 +80,8 @@ const getCompletedProcurements = (supplier_id) => new Promise((resolve, reject) 
 
     // SQL Query
     const sqlQueryString = `SELECT DISTINCT
-        rfq.*, procurement.procurement_id, procurement.category, procurement.status AS procurement_status, procurement.bid_opening_date, procurement.completed_date, bid.quotation, bid.status AS bid_status,
-        CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', bid_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', bid_product.quantity, '", "price":"', bid_product.price,'"}')), ']') AS bids
+        rfq.*, procurement.procurement_id, procurement.category, procurement.status AS procurement_status, procurement.bid_opening_date, procurement.completed_date, bid.total_with_vat, bid.status AS bid_status,
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', bid_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', bid_product.quantity, '", "unit_price":"', bid_product.unit_price,'"}')), ']') AS bids
         FROM rfq 
         INNER JOIN procurement ON rfq.procurement_id = procurement.procurement_id 
         INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
