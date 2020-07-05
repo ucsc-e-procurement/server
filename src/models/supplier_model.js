@@ -98,47 +98,30 @@ const getCompletedProcurements = (supplier_id) => new Promise((resolve, reject) 
   });
 });
 
-// Check if supllier exists before registering
+// Check if supplier exists before registering
 const checkExistingSupplier = (username) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
       return;
     }
-    const sqlQueryString = `SELECT * FROM user WHERE username='${username}'`;
+    const sqlQueryString = `SELECT YEAR(registration_date) AS reg_year FROM registration WHERE supplier_id='${username}'`;
     db.query(sqlQueryString, (error, results, fields) => {
-      // Release SQL Connection Back to the Connection Pool
       connection.release();
-      resolve(JSON.parse(JSON.stringify(results)));
-    });
-  });
-});
-
-// Get last user_id from database
-const getLastID = () => new Promise((resolve, reject) => {
-  db.getConnection((err, connection) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-    const sqlQueryString = "SELECT MAX(user_id) AS lastID FROM user";
-    db.query(sqlQueryString, (error, results, fields) => {
-      // Release SQL Connection Back to the Connection Pool
-      connection.release();
-      resolve(results);
+      resolve((results));
     });
   });
 });
 
 // Save user
-const registerSupplier = (data, userId) => new Promise(async (resolve, reject) => {
-  const hash = await bcrypt.hash(data.password, 10);
+const registerSupplier = (email, password) => new Promise(async (resolve, reject) => {
+  const hash = await bcrypt.hash(password, 10);
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
       return;
     }
-    const sqlQueryString = `INSERT INTO user VALUES ('${userId}', '${data.email}', '${hash}', 'supplier')`;
+    const sqlQueryString = `INSERT INTO user VALUES ('${email}', '${hash}', 'supplier')`;
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(results);
@@ -147,13 +130,33 @@ const registerSupplier = (data, userId) => new Promise(async (resolve, reject) =
 });
 
 // Save supplier information
-const saveSupplierInfo = (data, userId, supplierId) => new Promise(async (resolve, reject) => {
+const saveSupplierInfo = (fields, files) => new Promise(async (resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
       return;
     }
-    const sqlQueryString = `INSERT INTO supplier VALUES ('${supplierId}', '${data.body.name}', '${data.body.address}', '${data.body.contact}', '${data.body.categories}', '${data.body.email}', 'processing', '${userId}', '${data.files.image}')`;
+    const sqlQueryString = `INSERT INTO supplier VALUES ('${fields.email}', '${fields.contact_name}', '${fields.business_address}', 
+                          '${fields.contact}', '${fields.cat_selection}', '${fields.official_email}', '${fields.legal}', '${fields.fax}', 
+                          '${fields.web}', '${fields.business_reg_no}', '${files.cert_copy}', '${fields.vat_reg_no}', '${fields.ictad_reg_no}',
+                          '${fields.bank}', '${fields.branch}', '${fields.business_nature}', '${fields.business_type}', '${fields.credit_offered}',
+                          '${fields.maximum_credit}', '${fields.credit_period}', '${fields.experience}', '${fields.email}')`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(results);
+    });
+  });
+});
+
+// Save supplier registration
+const saveSupplierRegistration = (fields, files) => new Promise(async (resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    const sqlQueryString = `INSERT INTO registration VALUES ('YEAR(${fields.date})/${fields.email}', '${fields.date}', '${fields.payment_bank}', 
+                          '${fields.shroff}', '${fields.amount}', '${files.payment}', '${fields.payment_type}', '${fields.email}')`;
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(results);
@@ -214,14 +217,14 @@ const getSupplierByUserId = (userId) => new Promise((resolve, reject) => {
 
 module.exports = {
   checkExistingSupplier,
-  getLastID,
   registerSupplier,
   saveSupplierInfo,
+  saveSupplierRegistration,
   enterSupplierBid,
   saveBidProducts,
   getSupplierData,
   getNewRequests,
   getOngoingProcurements,
   getCompletedProcurements,
-  getSupplierBuUserId,
+  getSupplierByUserId,
 };
