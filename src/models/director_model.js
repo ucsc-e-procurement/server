@@ -1,8 +1,7 @@
 const db = require("./mysql").pool;
 
 // Get procurements
-const getProcurements = () =>
-  new Promise((resolve, reject) => {
+const getProcurements = () => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -23,8 +22,7 @@ const getProcurements = () =>
   });
 
 // Get Product Requisition Requests
-const getRequisitionRequests = () =>
-  new Promise((resolve, reject) => {
+const getRequisitionRequests = () => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -52,8 +50,7 @@ const getRequisitionRequests = () =>
   });
 
 // Get Product Requisition
-const getRequisition = (reqId, status = true) =>
-  new Promise((resolve, reject) => {
+const getRequisition = (reqId, status = true) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -72,8 +69,7 @@ const getRequisition = (reqId, status = true) =>
   });
 
 // Get Procurement*
-const getProcurement = (reqId, status = true) =>
-  new Promise((resolve, reject) => {
+const getProcurement = (reqId, status = true) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -122,8 +118,7 @@ const approveRequisition = (reqId, directorRemarks, directorRecommendation, stat
   });
 
 // Get Employees*
-const getEmployees = () =>
-  new Promise((resolve, reject) => {
+const getEmployees = () => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -143,8 +138,7 @@ const getEmployees = () =>
 
 // Get Tech Team*
 
-const getTechTeam = (techTeamId, status = true) =>
-  new Promise((resolve, reject) => {
+const getTechTeam = (techTeamId, status = true) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -252,8 +246,7 @@ const getMaxBidTeamId = () => new Promise((resolve, reject) => {
 });
 
 // Get Bid Opening Team
-const getBidOpeningTeam = (bidOpeningTeamId, status = true) =>
-  new Promise((resolve, reject) => {
+const getBidOpeningTeam = (bidOpeningTeamId, status = true) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -309,10 +302,6 @@ const appointBidOpeningTeam = (procurementId, directorId, member1, member2, bidT
     // SQL Query
     const sqlQueryString = `INSERT INTO bid_opening_team VALUES('${bidTeamId}', '2020-02-20', '${member1}', '${member2}', '${directorId}');`;
     const sqlQueryString2 = `UPDATE procurement SET bid_opening_team_id = '${bidTeamId}', step = 5 WHERE procurement_id = '${procurementId}'`;
-    
-    db.query(sqlQueryString, (error, results, fields) => {
-      // Release SQL Connection Back to the Connection Pool
-      console.log(sqlQueryString, results, fields);
 
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
@@ -333,8 +322,7 @@ const appointBidOpeningTeam = (procurementId, directorId, member1, member2, bidT
   });
 
 // Get Approved Requisitions
-const getApprovedRequisitions = () =>
-  new Promise((resolve, reject) => {
+const getApprovedRequisitions = () => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -377,5 +365,6 @@ module.exports = {
     getEmployeesNotInTecTeam,
     getApprovedRequisitions,
     getMaxTecTeamId,
-    getMaxBidTeamId
+    getMaxBidTeamId,
+
 };
