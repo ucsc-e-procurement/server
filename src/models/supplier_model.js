@@ -138,7 +138,7 @@ const registerSupplier = (data, userId) => new Promise(async (resolve, reject) =
       reject(err);
       return;
     }
-    const sqlQueryString = `INSERT INTO user VALUES ('${userId}', '${data.email}', '${hash}', 'supplier')`;
+    const sqlQueryString = `INSERT INTO user VALUES ('${userId}', '${data.email}', '${hash}', 'SUP')`;
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(results);

@@ -16,7 +16,6 @@ const getProcurements = () => new Promise((resolve, reject) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
       console.log(sqlQueryString, results, fields);
-      console.log("################################# ", results);
       resolve(JSON.parse(JSON.stringify(results)));
     });
   });
@@ -44,7 +43,7 @@ const getRequisitionRequests = () => new Promise((resolve, reject) => {
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
-      console.log(sqlQueryString, results);
+      console.log(sqlQueryString, results, fields);
       resolve(JSON.parse(JSON.stringify(results)));
     });
   });
