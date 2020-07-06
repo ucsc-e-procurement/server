@@ -8,6 +8,24 @@ const testUserModel = () => new Promise((resolve, reject) => {
   });
 });
 
+// Get procurements
+const getProcurements = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM procurement INNER JOIN product_requisition ON product_requisition.requisition_id = procurement.requisition_id`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 // Get product requisition list
 const getProductRequisitionList = () => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -16,7 +34,7 @@ const getProductRequisitionList = () => new Promise((resolve, reject) => {
       return;
     }
     // SQL Query
-    const sqlQueryString = `SELECT requisition_id,procurement_name, date_format(date,'%D %M %Y') as date FROM requisition WHERE status='pending'`  ;
+    const sqlQueryString = `SELECT requisition_id, date_format(date,'%D %M %Y') as date, division FROM requisition WHERE status='I'`;
     db.query(sqlQueryString, (error, results, fields) => {
       console.log(error, results);
     // Release SQL Connection Back to the Connection Pool
@@ -34,9 +52,9 @@ const getProductRequisition = (requisitionId) => new Promise((resolve, reject) =
       return;
     }
     // SQL Query
-    const sqlQueryString = `SELECT procurement_name,description,date_format(date,'%D %M %Y') as date,procurement_type FROM requisition WHERE requisition_id = '${requisitionId}'`;     
+    const sqlQueryString = `SELECT division,description,date_format(date,'%D %M %Y') as date,procurementt_type FROM requisition WHERE requisition_id = '${requisitionId}'`;     
     db.query(sqlQueryString, (error, results, fields) => {
-        console.log(error, results);
+      console.log(error, results);
       // Release SQL Connection Back to the Connection Pool
       connection.release();
       resolve(JSON.parse(JSON.stringify(results)));
@@ -53,7 +71,7 @@ const approveRequisition = (requisitionId,selectedFundType) => new Promise((reso
     }
 
     // SQL Query
-    const sqlQueryString = `UPDATE requisition SET deputy_bursar_recommendation = 'DBA', deputy_bursar_remarks = 'none', fund_type = '${selectedFundType}' WHERE requisition_id = '${requisitionId}'`;
+    const sqlQueryString = `UPDATE requisition SET deputy_bursar_recommendation = 'DBA', deputy_bursar_remarks = 'none', fund_type = '${selectedFundType}', status = 'D' WHERE requisition_id = '${requisitionId}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       console.log(sqlQueryString, results, fields);
@@ -72,7 +90,7 @@ const denyRequisition = (requisitionId,remarks) => new Promise((resolve, reject)
     }
 
     // SQL Query
-    const sqlQueryString = `UPDATE requisition SET deputy_bursar_recommendation = 'DBD', fund_type = 'none', deputy_bursar_remarks = '${remarks}' WHERE requisition_id = '${requisitionId}'`;
+    const sqlQueryString = `UPDATE requisition SET deputy_bursar_recommendation = 'DBD', fund_type = 'none', deputy_bursar_remarks = '${remarks}', status = 'D' WHERE requisition_id = '${requisitionId}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       console.log(sqlQueryString, results, fields);
@@ -84,6 +102,7 @@ const denyRequisition = (requisitionId,remarks) => new Promise((resolve, reject)
 
 
 module.exports = {
+    getProcurements,
     getProductRequisitionList,
     getProductRequisition,
     approveRequisition,

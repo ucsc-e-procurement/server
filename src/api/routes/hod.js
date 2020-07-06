@@ -77,6 +77,55 @@ module.exports = (app) => {
       });
   });
 
+  // Get current DIR
+  router.get("/dir_empid", (req, res) => {
+    hodModal
+      .get_dir_empid(req.params.empid)
+      .then((result) => {
+        res.json(result).status(200).end();
+      })
+      .catch((err) => {
+        res.send(err).status(400).end();
+      });
+  });
+
+  // Get current DIR
+  router.get("/dir_empid", (req, res) => {
+    hodModal
+      .get_dir_empid()
+      .then((result) => {
+        res.json(result).status(200).end();
+      })
+      .catch((err) => {
+        res.send(err).status(400).end();
+        ç;
+      });
+  });
+
+  // Get current DB
+  router.get("/db_empid", (req, res) => {
+    hodModal
+      .get_db_empid()
+      .then((result) => {
+        res.json(result).status(200).end();
+      })
+      .catch((err) => {
+        res.send(err).status(400).end();
+      });
+  });
+
+  // Get products
+  router.get("/products", (req, res) => {
+    hodModal
+      .get_products()
+      .then((result) => {
+        res.json(result).status(200).end();
+      })
+      .catch((err) => {
+        res.send(err).status(400).end();
+      });
+  });
+
   //test create
   // router.post("/test_create_req", (req, res) => {
   //   hodModal
