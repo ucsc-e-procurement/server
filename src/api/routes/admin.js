@@ -70,4 +70,11 @@ module.exports = (app) => {
 
     }
   });
+
+  router.put("/change_user_status", async (req, res, next) => {
+    console.log("change_user_status: ", req.body);
+    const updatedResult = await UserModel.updateUserStatus(req.body.user_id, req.body.status);
+    console.log("change_user_status: 1234", updatedResult);
+    res.json({ message: updatedResult.affectedRows === 1 ? "SUCCESS" : "FAILED" });
+  });
 };

@@ -64,9 +64,29 @@ const getUsers = () => new Promise((resolve, reject) => {
   });
 });
 
+// Update User Status
+const updateUserStatus = (userId, status) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `UPDATE user SET status=${status} WHERE user_id='${userId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      if (error) reject(error);
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
   testUserModel,
   findUserByEmailAndPassword,
   findUserByEmail,
   getUsers,
+  updateUserStatus,
 };
