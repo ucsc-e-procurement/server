@@ -22,7 +22,7 @@ const pool = mysql.createPool({
   user: "root",
   password: "ucsc@123",
   database: "UCSC_E_PROC",
-  connectionLimit: 15,
+  connectionLimit: 100,
 });
 
 connection.connect((err) => {

@@ -88,6 +88,7 @@ const get_terminated = (hod_id) =>
     });
   });
 
+//create new rquisition
 const create_request = (data) =>
   new Promise((resolve, reject) => {
     db.getConnection((errDB, connection) => {
@@ -121,25 +122,88 @@ const create_request = (data) =>
     });
   });
 
-const test_create_request = (data) =>
+const get_dir_empid = () =>
   new Promise((resolve, reject) => {
-    console.log(data.procurement_name);
-    console.log(data.head_of_division_id);
-    console.log(data.description);
     db.getConnection((errDB, connection) => {
       if (errDB) {
         reject(errDB);
         return;
       }
-      let query =
-        "INSERT INTO HOD_REQUEST(procurement_name, reorder, description, division, procurement_type, head_of_division_id) VALUES ('Hitachi K-3000 toner', true, 'Hitachi K-3000 toner', 'NOC', 'G', 'emp00005')";
-      db.query(query, (errQuery, results) => {
-        if (errQuery) reject(errQuery);
-        connection.release();
-        resolve(results.insertId);
-      });
+      db.query(
+        `select employee.employee_id
+        from employee
+        inner join user
+        on user.user_id = employee.user_id
+        where user.user_role = 'DIR' and user.status = false; `,
+        (errQuery, results) => {
+          if (errQuery) reject(errQuery);
+          connection.release();
+          resolve(JSON.parse(JSON.stringify(results)));
+        }
+      );
     });
   });
+
+const get_db_empid = () =>
+  new Promise((resolve, reject) => {
+    db.getConnection((errDB, connection) => {
+      if (errDB) {
+        reject(errDB);
+        return;
+      }
+      db.query(
+        `select employee.employee_id
+        from employee
+        inner join user
+        on user.user_id = employee.user_id
+        where user.user_role = 'DB' and user.status = false;`,
+        (errQuery, results) => {
+          if (errQuery) reject(errQuery);
+          connection.release();
+          resolve(JSON.parse(JSON.stringify(results)));
+        }
+      );
+    });
+  });
+
+const get_products = () =>
+  new Promise((resolve, reject) => {
+    db.getConnection((errDB, connection) => {
+      if (errDB) {
+        reject(errDB);
+        return;
+      }
+      db.query(
+        `SELECT product_name
+        FROM product;`,
+        (errQuery, results) => {
+          if (errQuery) reject(errQuery);
+          connection.release();
+          resolve(JSON.parse(JSON.stringify(results)));
+        }
+      );
+    });
+  });
+
+// const test_create_request = (data) =>
+//   new Promise((resolve, reject) => {
+//     console.log(data.procurement_name);
+//     console.log(data.head_of_division_id);
+//     console.log(data.description);
+//     db.getConnection((errDB, connection) => {
+//       if (errDB) {
+//         reject(errDB);
+//         return;
+//       }
+//       let query =
+//         "INSERT INTO HOD_REQUEST(procurement_name, reorder, description, division, procurement_type, head_of_division_id) VALUES ('Hitachi K-3000 toner', true, 'Hitachi K-3000 toner', 'NOC', 'G', 'emp00005')";
+//       db.query(query, (errQuery, results) => {
+//         if (errQuery) reject(errQuery);
+//         connection.release();
+//         resolve(results.insertId);
+//       });
+//     });
+//   });
 
 module.exports = {
   get_init_all,
@@ -147,6 +211,8 @@ module.exports = {
   get_approved,
   get_completed,
   get_terminated,
+  get_dir_empid,
+  get_db_empid,
+  get_products,
   create_request,
-  test_create_request,
 };

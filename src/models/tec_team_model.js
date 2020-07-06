@@ -74,7 +74,7 @@ const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) =>
         reject(err);
         return;
       }
-  
+      console.log('reqid', requisition_id)
       // SQL Query
       const sqlQueryString = `SELECT DISTINCT
         requisition.*,
