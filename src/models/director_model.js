@@ -103,12 +103,7 @@ const getProcurement = (reqId, status = true) =>
   });
 
 // Approve Product Requisition
-<<<<<<< HEAD
-const approveRequisition = (reqId, remarks, directorId, status = true) =>
-  new Promise((resolve, reject) => {
-=======
 const approveRequisition = (reqId, directorRemarks, directorRecommendation, status = true) => new Promise((resolve, reject) => {
->>>>>>> 6e7553fae2da98d52673610c5c38efccaa03a77b
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -156,14 +151,9 @@ const getTechTeam = (techTeamId, status = true) =>
         return;
       }
 
-<<<<<<< HEAD
-      // SQL Query
-      const sqlQueryString = `SELECT * FROM employee INNER JOIN tec_emp
-=======
     // SQL Query
     const sqlQueryString = `SELECT CONCAT('[',GROUP_CONCAT(CONCAT('{"employee_id":"',employee.employee_id,'","employee_name":"',employee.name,'","capacity":"',tec_emp.capacity,'"}')),']') AS team
                             FROM employee INNER JOIN tec_emp
->>>>>>> 6e7553fae2da98d52673610c5c38efccaa03a77b
                             ON tec_emp.employee_id = employee.employee_id
                             WHERE tec_emp.tec_team_id = '${techTeamId}';`;
       db.query(sqlQueryString, (error, results, fields) => {
@@ -195,18 +185,7 @@ const getMaxTecTeamId = () => new Promise((resolve, reject) => {
 });
 
 // Appoint Tech Team*
-<<<<<<< HEAD
-const appointTechTeam = (
-  techTeamId,
-  procurementId,
-  directorId,
-  employees,
-  status = true
-) =>
-  new Promise((resolve, reject) => {
-=======
 const appointTechTeam = (procurementId, directorId, employees, chairman, status = true) => new Promise((resolve, reject) => {
->>>>>>> 6e7553fae2da98d52673610c5c38efccaa03a77b
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -224,12 +203,6 @@ const appointTechTeam = (procurementId, directorId, employees, chairman, status 
         // Release SQL Connection Back to the Connection Pool
         console.log(sqlQueryString, results, fields);
         // resolve(JSON.parse(JSON.stringify(results)));
-<<<<<<< HEAD
-        if (error) {
-          connection.release();
-          console.log(JSON.stringify(error));
-        } else {
-=======
         if(error){
 
           connection.release();
@@ -240,24 +213,11 @@ const appointTechTeam = (procurementId, directorId, employees, chairman, status 
 
           const sqlQueryString2 = `UPDATE procurement SET tec_team_id = '${results.insertId}', step = 4 WHERE procurement_id = '${procurementId}' `;
 
->>>>>>> 6e7553fae2da98d52673610c5c38efccaa03a77b
           db.query(sqlQueryString2, (error, results, fields) => {
             console.log(sqlQueryString2, results, fields);
             if (error) {
               connection.release();
               console.log(JSON.stringify(error));
-<<<<<<< HEAD
-            } else {
-              db.query(
-                sqlQueryString3,
-                [employees],
-                (error, results, fields) => {
-                  connection.release();
-                  console.log(sqlQueryString3, results, fields);
-                  resolve(JSON.parse(JSON.stringify(results)));
-                }
-              );
-=======
             }else{
 
               db.query(sqlQueryString3, [employees], (error, results, fields) => {
@@ -265,7 +225,6 @@ const appointTechTeam = (procurementId, directorId, employees, chairman, status 
                 console.log(sqlQueryString3, results, fields);
                 resolve(JSON.parse(JSON.stringify(results)));
               });
->>>>>>> 6e7553fae2da98d52673610c5c38efccaa03a77b
             }
           });
         }
@@ -338,37 +297,15 @@ const getEmployeesNotInTecTeam = (tecTeamId, status = true) =>
   });
 
 // Appoint Bid Opening Team*
-<<<<<<< HEAD
-const appointBidOpeningTeam = (
-  bidOpeningTeamId,
-  procurementId,
-  directorId,
-  member1,
-  member2,
-  status = true
-) =>
-  new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-=======
 const appointBidOpeningTeam = (procurementId, directorId, member1, member2, bidTeamId, status = true) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
       return;
     }
->>>>>>> 6e7553fae2da98d52673610c5c38efccaa03a77b
 
       var date = new Date();
 
-<<<<<<< HEAD
-      // SQL Query
-      const sqlQueryString = `INSERT INTO bid_opening_team VALUES('${bidOpeningTeamId}', '2020-02-20', '${member1}', '${member2}', '${directorId}');`;
-      const sqlQueryString2 = `UPDATE procurement SET bid_opening_team_id = '${bidOpeningTeamId}', stepper = 5 WHERE procurement_id = '${procurementId}'`;
-=======
     // SQL Query
     const sqlQueryString = `INSERT INTO bid_opening_team VALUES('${bidTeamId}', '2020-02-20', '${member1}', '${member2}', '${directorId}');`;
     const sqlQueryString2 = `UPDATE procurement SET bid_opening_team_id = '${bidTeamId}', step = 5 WHERE procurement_id = '${procurementId}'`;
@@ -376,7 +313,6 @@ const appointBidOpeningTeam = (procurementId, directorId, member1, member2, bidT
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       console.log(sqlQueryString, results, fields);
->>>>>>> 6e7553fae2da98d52673610c5c38efccaa03a77b
 
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
@@ -405,17 +341,10 @@ const getApprovedRequisitions = () =>
         return;
       }
 
-<<<<<<< HEAD
-      // SQL Query
-      const sqlQueryString = `SELECT product_requisition.*, employee.*,
-                            CONCAT('[',GROUP_CONCAT(CONCAT('{"prod_id":"',product.product_id,'","product_name":"',product.product_name,'","prod_desc":"',product.description,'"}')),']') AS products
-                            FROM product_requisition
-=======
     // SQL Query
     const sqlQueryString = `SELECT requisition.*, employee.*,
                             CONCAT('[',CONCAT(CONCAT('{"prod_id":"',product.product_id,'","product_name":"',product.product_name,'","prod_desc":"',product.description,'", "prod_qty":"',requisition_product.quantity,'"}')),']') AS products
                             FROM requisition
->>>>>>> 6e7553fae2da98d52673610c5c38efccaa03a77b
                             INNER JOIN employee ON
                             requisition.head_of_division_id = employee.employee_id
                             INNER JOIN requisition_product
@@ -435,20 +364,6 @@ const getApprovedRequisitions = () =>
   });
 
 module.exports = {
-<<<<<<< HEAD
-  getProcurements,
-  getRequisitionRequests,
-  getRequisition,
-  getProcurement,
-  approveRequisition,
-  getEmployees,
-  appointTechTeam,
-  appointBidOpeningTeam,
-  getTechTeam,
-  getBidOpeningTeam,
-  getEmployeesNotInTecTeam,
-  getApprovedRequisitions,
-=======
     getProcurements,
     getRequisitionRequests,
     getRequisition,
@@ -463,5 +378,4 @@ module.exports = {
     getApprovedRequisitions,
     getMaxTecTeamId,
     getMaxBidTeamId
->>>>>>> 6e7553fae2da98d52673610c5c38efccaa03a77b
 };
