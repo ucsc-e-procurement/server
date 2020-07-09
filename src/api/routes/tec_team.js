@@ -40,7 +40,18 @@ module.exports = (app) => {
 //     //res.send("get rfgs")
 //   });
 
-  router.get("/get_ongoing_procurements/", (req, res) => {
+router.get("/get_new_procurements/", (req, res) => {
+  var employee_id = req.query.id
+  console.log(employee_id)
+  tecTeamModel.getNewProcurements(employee_id).then((result) => {
+      console.log('server', result)
+      res.json(result);
+  }).catch((err) => {
+      res.json(err);
+  })
+});
+
+router.get("/get_ongoing_procurements/", (req, res) => {
     var employee_id = req.query.id
     console.log(employee_id)
     tecTeamModel.getOngoingProcurements(employee_id).then((result) => {
