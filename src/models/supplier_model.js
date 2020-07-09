@@ -125,7 +125,7 @@ const registerSupplier = (email, password) => new Promise(async (resolve, reject
       reject(err);
       return;
     }
-    const sqlQueryString = `INSERT INTO user VALUES ('${email}', '${hash}', 'supplier')`;
+    const sqlQueryString = `INSERT INTO user VALUES ('${email}', '${hash}', 'SUP', '0')`;
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(results);
@@ -159,8 +159,9 @@ const saveSupplierRegistration = (fields, files) => new Promise(async (resolve, 
       reject(err);
       return;
     }
-    const sqlQueryString = `INSERT INTO registration VALUES ('YEAR(${fields.date})/${fields.email}', '${fields.date}', '${fields.payment_bank}', 
-                          '${fields.shroff}', '${fields.amount}', '${files.payment}', '${fields.payment_type}', '${fields.email}')`;
+    let date = new Date(fields.date).getFullYear();
+    const sqlQueryString = `INSERT INTO registration VALUES ('${date}-${fields.email}', '${fields.date}', '${fields.email}', 
+                            'no', '${fields.payment_bank}', '${fields.shroff}', '${fields.amount}', '${files.payment}', '${fields.payment_type}')`;
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(results);
@@ -176,7 +177,7 @@ const enterSupplierBid = (data) =>
         reject(err);
         return;
       }
-      const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', '${data.subtotal}', '${data.total_with_vat}', 'processing', '${data.supplier_id}', '${data.procurement_id}', '${data.vat_no}', '${data.authorized}')`;
+      const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', 'pending', '${data.supplier_id}', '${data.procurement_id}', '${data.subtotal}', '${data.total_with_vat}', '${data.vat_no}', '${data.authorized}')`;
       db.query(sqlQueryString, (error, results, fields) => {
         connection.release();
         resolve(results);
@@ -194,7 +195,7 @@ const saveBidProducts = (items) =>
         return;
       }
       for (const index in items) {
-        const sqlQueryString = `INSERT INTO bid_product VALUES ('bid0001', '${items[index].prod_id}', '${items[index].qty}', '${items[index].figures}', '${items[index].vat}', '${items[index].make}', '${items[index].date}', '${items[index].validity}', '${items[index].credit}')`;
+        const sqlQueryString = `INSERT INTO bid_product VALUES ('bid0001', '${items[index].prod_id}', '${items[index].figures}', '${items[index].qty}', '${items[index].vat}', '${items[index].make}', '${items[index].date}', '${items[index].validity}', '${items[index].credit}')`;
         db.query(sqlQueryString);
       }
       connection.release();

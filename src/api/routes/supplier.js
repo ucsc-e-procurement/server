@@ -1,7 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const formidable = require('formidable');
-const { sprintf } = require("sprintf-js");
 
 const router = express.Router();
 
@@ -56,7 +55,7 @@ module.exports = (app) => {
     });
   });
 
-  router.post("/price_schedule", (req, res) => {
+  router.post("/price_schedule/:procurement", (req, res) => {
     supplierModel.enterSupplierBid(req.body).then(() => {
       supplierModel.saveBidProducts(req.body.items)
         .then(() => {
