@@ -362,4 +362,5 @@ module.exports = {
   getApprovedRequisitions,
   getMaxTecTeamId,
   getMaxBidTeamId,
+
 };
