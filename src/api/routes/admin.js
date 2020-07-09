@@ -8,6 +8,8 @@ const passport = require("passport");
 const UserModel = require("../../models/user_model");
 const EmployeeModel = require("../../models/employee_model");
 const SupplierModel = require("../../models/supplier_model");
+const ProductModel = require("../../models/products_model");
+const RequisitionModel = require("../../models/requisition_model");
 
 require("../../config/passport_config");
 
@@ -76,5 +78,44 @@ module.exports = (app) => {
     const updatedResult = await UserModel.updateUserStatus(req.body.user_id, req.body.status);
     console.log("change_user_status: 1234", updatedResult);
     res.json({ message: updatedResult.affectedRows === 1 ? "SUCCESS" : "FAILED" });
+  });
+
+  router.get("/get_all_products", async (req, res, next) => {
+    console.log("get_all_products: ");
+    const result = await ProductModel.getProducts();
+    console.log("get_all_products: 1234", result);
+    res.json(result);
+  });
+
+  router.get("/get_all_requisitions", async (req, res, next) => {
+    console.log("get_all_requisitions: ");
+    const result = await RequisitionModel.getRequisitions();
+    console.log("get_all_requisitions: 1234", result);
+    res.json(result);
+  });
+
+  router.get("/get_product_requisition", async (req, res, next) => {
+    console.log("get_all_requisitions: ", req.query);
+
+    // Get the Requisition Data
+    const requisition = await RequisitionModel.getRequisitionById(req.query.requisitionId);
+
+    // Getting Names of Employees Involved
+    const headOfDivision = await EmployeeModel.getEmployeeByEmployeeId(requisition.head_of_division_id);
+    const director = await EmployeeModel.getEmployeeByEmployeeId(requisition.director_id);
+    const deputyBursar = await EmployeeModel.getEmployeeByEmployeeId(requisition.deputy_bursar_id);
+
+    // Getting Products
+    const productsList = await RequisitionModel.getProductsByRequisitionId(req.query.requisitionId);
+    // console.log("get_all_requisitions: 1234", requisition, headOfDivision, director, deputyBursar, productsList);
+
+    const requisitionData = {
+      ...requisition,
+      hod: headOfDivision,
+      director,
+      deputy_burasr: deputyBursar,
+      products: productsList,
+    };
+    res.json(requisitionData);
   });
 };

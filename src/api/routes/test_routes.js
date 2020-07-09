@@ -29,6 +29,15 @@ module.exports = (app) => {
     res.send("Ayubowan! from Test Routes, I'm Working").status(200).end();
   });
 
+  router.get("/ayubowan", (req, res) => {
+    const statusCode = 400;
+    res.status(statusCode).json({
+      code: 10001,
+      message: "Ayubowan!",
+    });
+    // res.type("json").status(statusCode).send({ message: "Ayubowan!" });
+  });
+
   router.get("/db", (req, res) => {
     testModel.test().then((result) => {
       // eslint-disable-next-line no-console
