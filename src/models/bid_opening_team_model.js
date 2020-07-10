@@ -67,10 +67,9 @@ const getCompletedProcurements = (employee_id) => new Promise((resolve, reject) 
       //SQL Query
       //include bid openeing date in the query
       const sqlQueryString = `SELECT DISTINCT
-          procurement.*, procurement.status AS procurement_status, bid.*, bid.status AS bid_status,
+          procurement.*, procurement.status AS procurement_status
           FROM procurement 
-          WHERE procurement.bid_opening_team_id IN (SELECT bid_opening_team_id FROM bid_opening_team WHERE member_1='${employee_id}' OR member_2='${employee_id}') AND procurement.status='on-going' AND procurement.step = 7
-          GROUP BY bid.procurement_id`;
+          WHERE procurement.bid_opening_team_id IN (SELECT bid_opening_team_id FROM bid_opening_team WHERE member_1='${employee_id}' OR member_2='${employee_id}') AND procurement.status='on-going' AND procurement.step = 7`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
@@ -89,10 +88,30 @@ const getCompletedProcurements = (employee_id) => new Promise((resolve, reject) 
   
       //SQL Query
       const sqlQueryString = `SELECT DISTINCT
-          procurement.*, procurement.status AS procurement_status, bid.*, bid.status AS bid_status,
+          procurement.*, procurement.status AS procurement_status
           FROM procurement 
-          WHERE procurement.bid_opening_team_id IN (SELECT bid_opening_team_id FROM bid_opening_team WHERE member_1='${employee_id}' OR member_2='${employee_id}') AND procurement.status='on-going' AND procurement.step < 7
-          GROUP BY bid.procurement_id`;
+          WHERE procurement.bid_opening_team_id IN (SELECT bid_opening_team_id FROM bid_opening_team WHERE member_1='${employee_id}' OR member_2='${employee_id}') AND procurement.status='on-going' AND procurement.step < 7`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getBidOpeningTeam = (tec_team_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT employee.*
+        FROM bid_opening_team
+        INNER JOIN employee ON bid_opening_team.member_1 = employee.employee_id OR bid_opening_team.member_2 = employee.employee_id
+        WHERE bid_opening_team.bid_opening_team_id = '${tec_team_id}'`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
@@ -107,5 +126,6 @@ const getCompletedProcurements = (employee_id) => new Promise((resolve, reject) 
     getCompletedProcurements,
     getUnlockedProcurements,
     getPendingProcurements,
-    getLockedProcurements
+    getLockedProcurements,
+    getBidOpeningTeam
 };

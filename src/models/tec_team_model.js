@@ -39,7 +39,7 @@ const getCompletedProcurements = (employee_id) => new Promise((resolve, reject) 
   });
 });
 
-const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) => {
+const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -79,7 +79,7 @@ const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) =>
     });
   });
 
-  const getNewProcurements = (employee_id) => new Promise((resolve, reject) => {
+  const getLockedProcurements = (employee_id) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -152,8 +152,8 @@ const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) =>
 module.exports = {
     // getSupplierData,
     // getNewRequests,
-    getNewProcurements,
-    getOngoingProcurements,
+    getLockedProcurements,
+    getUnlockedProcurements,
     getCompletedProcurements,
     getRequisition,
     getTecTeam
