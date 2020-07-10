@@ -247,22 +247,24 @@ module.exports = (app) => {
     });
   })
 
-  // Approve PO generation
+  // Approve PO generation*
   router.post("/procurements/:id", (req, res) => {
     res.send("Approve PO generation for procurement " + req.params.id + ": " + req.body).status(200).end();
   })
 
-//   router.get("/db", (req, res) => {
-//     testModel.test().then((result) => {
-//       // eslint-disable-next-line no-console
-//       console.log(result);
-//       res.json(result).status(200).end();
-//     }).catch((err) => {
-//       // eslint-disable-next-line no-console
-//       console.log(err);
-//       res.send(err).status(200).end();
-//     });
-//   });
+  // Get RFQ details
+  router.get("/get_rfq_details", (req, res) => {
+ 
+    directorModel.getRfqDetails(req.query.procId).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
 
-  //
+  
 };
