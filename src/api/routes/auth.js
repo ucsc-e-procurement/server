@@ -24,7 +24,6 @@ module.exports = (app) => {
 
   // Login
   router.post("/login", (req, res, next) => {
-    console.log("Req Body: ", req.body);
     if (req.body.email === "" || req.body.password === "") {
       res.status(400).json({
         error: {
@@ -37,8 +36,6 @@ module.exports = (app) => {
     }
     try {
       passport.authenticate("login", async (err, user, info) => {
-        console.log(">>>>>>>>>>>>>> ", user, err, info);
-
         try {
           if (err || !user) {
             res.status(400).json({

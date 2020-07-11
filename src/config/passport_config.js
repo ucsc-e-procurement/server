@@ -20,7 +20,7 @@ passport.use("login", new LocalStrategy({ usernameField: "email", passwordField:
     // Database Call to find the User
     try {
       // Find the user associated with the email provided by the user
-      const user = await UserModel.findUserByEmail(email, password);
+      const user = await UserModel.findUserByEmail(email);
 
       if (!user) {
         // If the in the database, return a message
@@ -29,20 +29,20 @@ passport.use("login", new LocalStrategy({ usernameField: "email", passwordField:
 
       // Validate password and make sure it matches with the corresponding hash stored in the database
       // If the passwords match, it returns a value of true.
-      const compare = await bcrypt.compare(password, user[0].password);
+      const compare = await bcrypt.compare(password, user.password);
       if (!compare) {
         return done(null, false, { message: "Wrong Password" });
       }
 
-      if (user[0].user_role !== "supplier") {
-        const employee = await EmployeeModel.getEmplyeeByUserId(user[0].user_id);
+      if (user.user_role !== "supplier") {
+        const employee = await EmployeeModel.getEmplyeeByUserId(user.user_id);
         userData = { ...employee };
       } else {
-        const supplier = await SupplierModel.getSupplierByUserId(user[0].user_id);
+        const supplier = await SupplierModel.getSupplierByUserId(user.user_id);
         userData = { ...supplier };
       }
 
-      userData = { ...userData, user_id: user[0].user_id, user_role: user[0].user_role };
+      userData = { ...userData, user_id: user.user_id, user_role: user.user_role };
       // Send the user information to the next middleware
       return done(null, userData, { message: "Logged in Successfully" });
     } catch (error) {

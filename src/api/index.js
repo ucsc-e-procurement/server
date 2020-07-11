@@ -9,6 +9,7 @@ const director = require("./routes/director_routes");
 const deputyBursar = require("./routes/deputy_bursar");
 const hod = require("./routes/hod");
 const admin = require("./routes/admin");
+const signature = require("./routes/signature");
 
 module.exports = () => {
   const app = express.Router();
@@ -34,6 +35,9 @@ module.exports = () => {
 
   // Administrator
   admin(app);
+
+  // Signature
+  signature(app);
 
   return app;
 };

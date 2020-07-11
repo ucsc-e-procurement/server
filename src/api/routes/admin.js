@@ -31,8 +31,8 @@ module.exports = (app) => {
     res.send("Ayubowan! from Admin Routes, I'm Working").status(200).end();
   });
 
-  // Get All Users
-  router.get("/get_all_users", async (req, res) => {
+  // ################################### Get All Users #######################################
+  router.get("/users", async (req, res) => {
     try {
       const users = await UserModel.getUsers();
 

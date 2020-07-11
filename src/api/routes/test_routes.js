@@ -9,6 +9,9 @@ const middlewares = require("../middlewares");
 const testModel = require("../../models/test_model");
 const userModel = require("../../models/user_model");
 
+// Services
+// const UploaderService = require("../../services/file_upload");
+
 require("../../config/passport_config");
 
 module.exports = (app) => {
@@ -65,6 +68,4 @@ module.exports = (app) => {
     const hash = await bcrypt.hash(req.body.password, 10);
     res.json({ hashed_password: hash });
   });
-
-  //
 };
