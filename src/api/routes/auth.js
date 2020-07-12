@@ -24,31 +24,40 @@ module.exports = (app) => {
 
   // Login
   router.post("/login", (req, res, next) => {
-    console.log("Req Body: ", req.body);
     if (req.body.email === "" || req.body.password === "") {
-      res.json({
-        status: 400,
-        error: "",
-        error_message: "Invalid Arguments",
-        error_code: "1001",
+      res.status(400).json({
+        error: {
+          code: 1001,
+          message: "Empty Email or Password Found",
+          description: "",
+        },
       });
       return;
     }
     try {
       passport.authenticate("login", async (err, user, info) => {
-        console.log(">>>>>>>>>>>>>> ", user, err, info);
-
         try {
           if (err || !user) {
-            res.json({
-              status: 400,
-              error_message: "Authentication Failed",
-              error_code: "1002",
+            res.status(400).json({
+              error: {
+                code: 1002,
+                message: "Invalid User",
+                description: `There is no user matching for the user_id: ${req.body.email} or Incorrect Password`,
+              },
             });
-            return err;
+            return;
           }
           req.login(user, { session: false }, async (error) => {
-            if (error) return error;
+            if (error) {
+              res.status(400).json({
+                error: {
+                  code: 1002,
+                  message: "Authentication Failled",
+                  description: error,
+                },
+              });
+              return;
+            }
 
             const body = {
               ...user,
@@ -58,26 +67,27 @@ module.exports = (app) => {
             const token = jwt.sign({ user: body }, "top_secret_key_here");
 
             // Send back the token to the user(Client Side)
-            return res.json({
-              status: 200,
-              message: "Login Success",
+            res.status(200).json({
               token,
             });
           });
         } catch (error) {
-          res.json({
-            status: 400,
-            error_message: "Authentication Failed",
-            error_code: "1003",
+          res.status(400).json({
+            error: {
+              code: 1003,
+              message: "Authentication Failled",
+              description: error,
+            },
           });
-          return error;
         }
       })(req, res, next);
     } catch (error) {
-      res.json({
-        status: 400,
-        error_message: "Authentication Failed",
-        error_code: "1004",
+      res.status(400).json({
+        error: {
+          code: 1004,
+          message: "Authentication Failled",
+          description: error,
+        },
       });
     }
   });

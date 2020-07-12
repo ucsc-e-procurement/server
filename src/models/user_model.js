@@ -28,7 +28,7 @@ const findUserByEmailAndPassword = (username, password, status = true) => new Pr
 });
 
 // Find A User By Email
-const findUserByEmail = (userId, status = true) => new Promise((resolve, reject) => {
+const findUserByEmail = (userId, status = 0) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
@@ -36,8 +36,47 @@ const findUserByEmail = (userId, status = true) => new Promise((resolve, reject)
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT * FROM user WHERE user_id='${userId}'`;
+    const sqlQueryString = `SELECT * FROM user WHERE user_id='${userId}' AND status=${status}`;
+    db.query(sqlQueryString, (error, results) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+
+      resolve(JSON.parse(JSON.stringify(results[0])));
+    });
+  });
+});
+
+// Get All Users
+const getUsers = (status = 0) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT user_id, user_role, status FROM user WHERE status=${status}`;
     db.query(sqlQueryString, (error, results, fields) => {
+      if (error) reject(error);
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
+// Update User Status
+const updateUserStatus = (userId, status) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `UPDATE user SET status=${status} WHERE user_id='${userId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      if (error) reject(error);
       // Release SQL Connection Back to the Connection Pool
       connection.release();
       resolve(JSON.parse(JSON.stringify(results)));
@@ -49,4 +88,6 @@ module.exports = {
   testUserModel,
   findUserByEmailAndPassword,
   findUserByEmail,
+  getUsers,
+  updateUserStatus,
 };
