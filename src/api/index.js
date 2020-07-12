@@ -11,6 +11,7 @@ const supplier = require("./routes/supplier");
 const director = require("./routes/director_routes");
 const deputyBursar = require("./routes/deputy_bursar");
 const hod = require("./routes/hod");
+const purchase_order = require("./routes/purchase_order");
 
 module.exports = () => {
   const app = express.Router();
@@ -33,6 +34,9 @@ module.exports = () => {
 
   // Head of department
   hod(app);
+
+  // Purchase Order
+  purchase_order(app);
 
   return app;
 };
