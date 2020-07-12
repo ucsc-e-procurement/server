@@ -9,6 +9,9 @@ const middlewares = require("../middlewares");
 const testModel = require("../../models/test_model");
 const userModel = require("../../models/user_model");
 
+// Services
+// const UploaderService = require("../../services/file_upload");
+
 require("../../config/passport_config");
 
 module.exports = (app) => {
@@ -27,6 +30,15 @@ module.exports = (app) => {
   // Health Check Route for Testing
   router.get("", (req, res, next) => {
     res.send("Ayubowan! from Test Routes, I'm Working").status(200).end();
+  });
+
+  router.get("/ayubowan", (req, res) => {
+    const statusCode = 400;
+    res.status(statusCode).json({
+      code: 10001,
+      message: "Ayubowan!",
+    });
+    // res.type("json").status(statusCode).send({ message: "Ayubowan!" });
   });
 
   router.get("/db", (req, res) => {
@@ -56,6 +68,4 @@ module.exports = (app) => {
     const hash = await bcrypt.hash(req.body.password, 10);
     res.json({ hashed_password: hash });
   });
-
-  //
 };

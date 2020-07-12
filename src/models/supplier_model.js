@@ -2,60 +2,57 @@ const db = require("./mysql").pool;
 const bcrypt = require("bcrypt");
 const { resolve } = require("path");
 
-const getSupplierData = (supplier_id) =>
-  new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+const getSupplierData = (supplier_id) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
 
-      // SQL Query
-      const sqlQueryString = `SELECT * FROM supplier WHERE supplier_id='${supplier_id}'`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        // console.log(results)
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM supplier WHERE supplier_id='${supplier_id}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      // console.log(results)
+      resolve(JSON.parse(JSON.stringify(results)));
     });
   });
+});
 
-const getNewRequests = (supplier_id) =>
-  new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+const getNewRequests = (supplier_id) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
 
-      // SQL Query
-      const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.category, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', rfq_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', rfq_product.quantity,'"}')), ']') AS products 
+    // SQL Query
+    const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.category, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', rfq_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', rfq_product.quantity,'"}')), ']') AS products 
         FROM rfq 
         INNER JOIN procurement ON rfq.procurement_id = procurement.procurement_id 
         INNER JOIN rfq_product ON rfq.rfq_id = rfq_product.rfq_id 
         INNER JOIN product ON rfq_product.product_id = product.product_id 
         WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='sent'
         GROUP BY rfq.rfq_id`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        // console.log(results)
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      // console.log(results)
+      resolve(JSON.parse(JSON.stringify(results)));
     });
   });
+});
 
-const getOngoingProcurements = (supplier_id) =>
-  new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+const getOngoingProcurements = (supplier_id) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
 
-      // SQL Query
-      const sqlQueryString = `SELECT DISTINCT
+    // SQL Query
+    const sqlQueryString = `SELECT DISTINCT
         rfq.*, procurement.procurement_id, procurement.category, procurement.status AS procurement_status, procurement.bid_opening_date, bid.total_with_vat, bid.status AS bid_status,
         CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', bid_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', bid_product.quantity, '", "unit_price":"', bid_product.unit_price,'"}')), ']') AS bids
         FROM rfq 
@@ -65,25 +62,24 @@ const getOngoingProcurements = (supplier_id) =>
         INNER JOIN product ON bid_product.product_id = product.product_id
         WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='on-going' AND bid.supplier_id='${supplier_id}'
         GROUP BY bid.bid_id`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        // console.log(results)
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      // console.log(results)
+      resolve(JSON.parse(JSON.stringify(results)));
     });
   });
+});
 
-const getCompletedProcurements = (supplier_id) =>
-  new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+const getCompletedProcurements = (supplier_id) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
 
-      // SQL Query
-      const sqlQueryString = `SELECT DISTINCT
+    // SQL Query
+    const sqlQueryString = `SELECT DISTINCT
         rfq.*, procurement.procurement_id, procurement.category, procurement.status AS procurement_status, procurement.bid_opening_date, procurement.completed_date, bid.total_with_vat, bid.status AS bid_status,
         CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', bid_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', bid_product.quantity, '", "unit_price":"', bid_product.unit_price,'"}')), ']') AS bids
         FROM rfq 
@@ -93,16 +89,16 @@ const getCompletedProcurements = (supplier_id) =>
         INNER JOIN product ON bid_product.product_id = product.product_id
         WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='completed' AND bid.supplier_id='${supplier_id}'
         GROUP BY bid.bid_id`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        // console.log(results)
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      // console.log(results)
+      resolve(JSON.parse(JSON.stringify(results)));
     });
   });
+});
 
-// Check if supplier exists before registering
+// Check if supllier exists before registering
 const checkExistingSupplier = (username) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
@@ -235,24 +231,22 @@ const saveBidProducts = (items) =>
   });
 
 // Get Employee Details By UserID
-const getSupplierByUserId = (userId) =>
-  new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
+const getSupplierByUserId = (userId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
 
-      // SQL Query
-      const sqlQueryString = `SELECT supplier_id, name, address, email, contact_number, category FROM supplier  WHERE user_id='${userId}'`;
-      console.log("Query: ", sqlQueryString);
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        resolve(results[0]);
-      });
+    // SQL Query
+    const sqlQueryString = `SELECT supplier_id, name, address, email, contact_number, category FROM supplier  WHERE user_id='${userId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      resolve(results[0]);
     });
   });
+});
 
 module.exports = {
   checkExistingSupplier,

@@ -1,7 +1,7 @@
 const db = require("./mysql").pool;
 
 // Get Employee Details By UserID
-const getEmplyeeByUserId = (userId) => new Promise((resolve, reject) => {
+const getEmployeeByUserId = (userId) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
@@ -9,8 +9,7 @@ const getEmplyeeByUserId = (userId) => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT employee.employee_id, employee.name, employee.department, employee.email FROM employee INNER JOIN emp_role ON employee.employee_id = emp_role.employee_id  WHERE employee.user_id='${userId}'`;
-    console.log("Query: ", sqlQueryString);
+    const sqlQueryString = `SELECT employee.employee_id, employee.name, employee.department, employee.email FROM employee  WHERE employee.user_id='${userId}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -19,8 +18,27 @@ const getEmplyeeByUserId = (userId) => new Promise((resolve, reject) => {
   });
 });
 
+// Get Employee Details By Employee ID
+const getEmployeeByEmployeeId = (employeeId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT employee.employee_id, employee.name, employee.department, employee.email FROM employee  WHERE employee.employee_id='${employeeId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      resolve(JSON.parse(JSON.stringify(results[0])));
+    });
+  });
+});
+
 module.exports = {
 
-  getEmplyeeByUserId,
+  getEmplyeeByUserId: getEmployeeByUserId,
+  getEmployeeByEmployeeId,
 
 };
