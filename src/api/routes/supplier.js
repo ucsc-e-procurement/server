@@ -23,8 +23,18 @@ module.exports = (app) => {
 
   // -----------------------------------------------------------------------------------------------------
 
-  router.get("/registration", (req, res) => {
+  router.get("/registration/check_supplier", (req, res) => {
     supplierModel.checkExistingSupplier(req.query.email)
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  })
+
+  router.get("/registration/get_current_info", (req, res) => {
+    supplierModel.getSupplierInfo(req.query.email)
       .then(result => {
         res.json(result);
       })
@@ -39,15 +49,15 @@ module.exports = (app) => {
         console.error('Error', err)
         throw err
       }
-      supplierModel.registerSupplier(fields.email, fields.password)
-        .then(async () => {
-          if(fields.user_state == 'new') {
-            const result = await supplierModel.saveSupplierInfo(fields, files);
-          }
-          supplierModel.saveSupplierRegistration(fields, files)
+      supplierModel.registerSupplier(fields.email, fields.password, fields.user_state)
+        .then(() => {
+          supplierModel.saveSupplierInfo(fields, files)
             .then(() => {
-              res.send("Successful").end();
-            });   
+              supplierModel.saveSupplierRegistration(fields, files)
+                .then(() => {
+                  res.send("Successful").end();
+                })
+            })
         })
         .catch(err => {
           console.log(err);
