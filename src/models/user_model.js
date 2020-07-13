@@ -36,12 +36,12 @@ const findUserByEmail = (userId, status = 0) => new Promise((resolve, reject) =>
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT * FROM user WHERE user_id='${userId}' WHERE status=${status}`;
-
+    const sqlQueryString = `SELECT * FROM user WHERE user_id='${userId}' AND status=${status}`;
     db.query(sqlQueryString, (error, results) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
-      resolve(JSON.parse(JSON.stringify(results)));
+
+      resolve(JSON.parse(JSON.stringify(results[0])));
     });
   });
 });
