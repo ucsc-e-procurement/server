@@ -196,6 +196,21 @@ const saveSupplierRegistration = (fields, files) => new Promise(async (resolve, 
   });
 });
 
+// Fetch manufacturer's auth doc
+const getAuthFile = () => new Promise(async (resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    const sqlQueryString = `SELECT document FROM manufacture_auth`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 // Save price schedule data
 const enterSupplierBid = (data) =>
   new Promise((resolve, reject) => {
@@ -254,6 +269,7 @@ module.exports = {
   registerSupplier,
   saveSupplierInfo,
   saveSupplierRegistration,
+  getAuthFile,
   enterSupplierBid,
   saveBidProducts,
   getSupplierData,

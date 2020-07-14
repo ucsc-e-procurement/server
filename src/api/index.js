@@ -37,7 +37,7 @@ module.exports = () => {
   admin(app);
 
   // Signature
-  signature(app);
+  // signature(app);
 
   return app;
 };
