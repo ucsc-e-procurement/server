@@ -48,7 +48,7 @@ module.exports = (app) => {
       if (err) {
         console.error('Error', err)
         throw err
-      }
+      }      
       supplierModel.registerSupplier(fields.email, fields.password, fields.user_state)
         .then(() => {
           supplierModel.saveSupplierInfo(fields, files)
