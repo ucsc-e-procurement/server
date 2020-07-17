@@ -11,7 +11,7 @@ const deputyBursar = require("./routes/deputy_bursar");
 const hod = require("./routes/hod");
 const purchase_order = require("./routes/purchase_order");
 const admin = require("./routes/admin");
-const signature = require("./routes/signature");
+// const signature = require("./routes/signature");
 
 module.exports = () => {
   const app = express.Router();
@@ -46,7 +46,7 @@ module.exports = () => {
   admin(app);
 
   // Signature
-  signature(app);
+  // signature(app);
 
   return app;
 };

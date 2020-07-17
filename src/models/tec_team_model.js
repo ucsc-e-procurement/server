@@ -60,16 +60,21 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
       //   WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going'
       //   GROUP BY bid.procurement_id`;
 
+        // const sqlQueryString = `SELECT DISTINCT
+        // procurement.*, procurement.status AS procurement_status, bid.status AS bid_status,
+        // CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","unit_price":"',bid_product.unit_price, ' ", "total_with_vat":"', bid.total_with_vat,'"}')), ']') AS bids
+        // FROM procurement 
+        // INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
+        // INNER JOIN bid_product ON bid.bid_id = bid_product.bid_id
+        // INNER JOIN product ON product.product_id = bid_product.product_id
+        // INNER JOIN supplier ON bid.supplier_id = supplier.supplier_id
+        // WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going' AND procurement.step >= 7
+        // GROUP BY bid.procurement_id`;
+
         const sqlQueryString = `SELECT DISTINCT
-        procurement.*, procurement.status AS procurement_status, bid.status AS bid_status,
-        CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","unit_price":"',bid_product.unit_price, ' ", "total_with_vat":"', bid.total_with_vat,'"}')), ']') AS bids
+        procurement.*, procurement.status AS procurement_status
         FROM procurement 
-        INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
-        INNER JOIN bid_product ON bid.bid_id = bid_product.bid_id
-        INNER JOIN product ON product.product_id = bid_product.product_id
-        INNER JOIN supplier ON bid.supplier_id = supplier.supplier_id
-        WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going' AND procurement.step >= 7
-        GROUP BY bid.procurement_id`;
+        WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going' AND procurement.step >= 7`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
@@ -92,6 +97,58 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
         procurement.*, procurement.status AS procurement_status
         FROM procurement 
         WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going' AND procurement.step < 7`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getItemWiseBids = (procurement_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+
+        const sqlQueryString = `SELECT product.*,
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","qty":"',bid_product.quantity,'","unit_price":"',bid_product.unit_price, ' ", "total_with_vat":"', bid.total_with_vat,'"}')), ']') AS bids
+        FROM bid
+        INNER JOIN supplier ON bid.supplier_id=supplier.supplier_id
+        INNER JOIN bid_product ON bid.bid_id=bid_product.bid_id
+        INNER JOIN product ON bid_product.product_id=product.product_id
+        where bid.procurement_id='${procurement_id}'
+        GROUP BY product.product_id`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getPackagedBids = (procurement_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+
+        const sqlQueryString = `SELECT bid.*, supplier.*,
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', product.product_id, '", "product_name":"', product.product_name, '","qty":"', bid_product.quantity,'","unit_price":"',bid_product.unit_price,'"}')), ']') AS bids
+        FROM bid
+        INNER JOIN supplier ON bid.supplier_id=supplier.supplier_id
+        INNER JOIN bid_product ON bid.bid_id=bid_product.bid_id
+        INNER JOIN product ON bid_product.product_id=product.product_id
+        where bid.procurement_id='${procurement_id}'
+        GROUP BY bid.bid_id`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
@@ -155,6 +212,8 @@ module.exports = {
     getLockedProcurements,
     getUnlockedProcurements,
     getCompletedProcurements,
+    getItemWiseBids,
+    getPackagedBids,
     getRequisition,
     getTecTeam
 };
