@@ -21,7 +21,7 @@ const pool = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "",
-  database: "eprocnew",
+  database: "ucsc_e_proc",
   connectionLimit: 100,
 });
 

@@ -347,42 +347,64 @@ const getApprovedRequisitions = () => new Promise((resolve, reject) => {
   });
 });
 
-  // Get RFQ Details
-  const getRfqDetails = (procurementId) => new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-  
-      // SQL Query
-      const sqlQueryString = `SELECT * FROM rfq INNER JOIN supplier
-                              ON rfq.supplier_id = supplier.supplier_id
-                              WHERE rfq.procurement_id = '${procurementId}'`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        console.log(sqlQueryString, results, fields);
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+// Get RFQ Details
+const getRfqDetails = (procurementId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM rfq INNER JOIN supplier
+                            ON rfq.supplier_id = supplier.supplier_id
+                            WHERE rfq.procurement_id = '${procurementId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
     });
   });
+});
+
+// Get Recent Products 
+const getRecentProducts = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM product INNER JOIN bid_product
+                            ON product.product_id = bid_product.product_id INNER JOIN bid
+                            ON bid.bid_id = bid_product.bid_id WHERE
+                            bid.status = 'approved' ORDER BY bid.bid_id DESC`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
 
 module.exports = {
-    getProcurements,
-    getRequisitionRequests,
-    getRequisition,
-    getProcurement,
-    approveRequisition,
-    getEmployees,
-    appointTechTeam,
-    appointBidOpeningTeam,
-    getTechTeam,
-    getBidOpeningTeam,
-    getEmployeesNotInTecTeam,
-    getApprovedRequisitions,
-    getMaxTecTeamId,
-    getMaxBidTeamId,
-    getRfqDetails
-
+  getProcurements,
+  getRequisitionRequests,
+  getRequisition,
+  getProcurement,
+  approveRequisition,
+  getEmployees,
+  appointTechTeam,
+  appointBidOpeningTeam,
+  getTechTeam,
+  getBidOpeningTeam,
+  getEmployeesNotInTecTeam,
+  getApprovedRequisitions,
+  getMaxTecTeamId,
+  getMaxBidTeamId,
+  getRfqDetails,
+  getRecentProducts
 };
