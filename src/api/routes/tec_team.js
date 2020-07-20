@@ -116,4 +116,25 @@ router.get("/get_unlocked_procurements/", (req, res) => {
     })
   });
 
+  router.post("/save_tec_report", (req, res) => {
+
+    console.log('server tec report submit', req.body)
+    tecTeamModel.saveTecReport(req.body).then((result) => {
+      console.log('server', result)
+      res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.get("/get_tec_report/", (req, res) => {
+    var procurement_id = req.query.id
+    tecTeamModel.getTecReport(procurement_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
 };

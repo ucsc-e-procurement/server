@@ -206,6 +206,57 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
     });
   });
 
+  const saveTecReport = (tec_report_data) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      console.log('save tec report model', tec_report_data)
+  
+      // SQL Query
+      const sqlQueryString = `UPDATE bid SET bid.status='rejected' WHERE bid.bid_id IN (?)`;
+      const sqlQueryString1 = `UPDATE bid SET bid.status='approved' WHERE bid.bid_id IN (?)`;
+      //set date
+      const sqlQueryString2 = `INSERT INTO tec_report(report_id, status, tec_team_id, procurement_id, rejected_bids, recommended_bids, tec_recommendation) 
+      VALUES ('${tec_report_data.procurementId}', 'saved', '${tec_report_data.tecTeamId}', '${tec_report_data.procurementId}', '${tec_report_data.reasonsForRejecting}', '${tec_report_data.reasonForRecommending}', '${tec_report_data.tecRecommendation}')`;
+      db.query(sqlQueryString, [tec_report_data.rejectedbids],(error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        db.query(sqlQueryString1, [tec_report_data.recommendedbids],(error, results, fields) => {
+          db.query(sqlQueryString2, [tec_report_data.recommendedbids],(error, results, fields) => {
+            connection.release();
+            //console.log(results)
+            if(error){
+              console.log('err', error)
+            }
+            else{
+              console.log('result', results)
+              resolve(JSON.parse(JSON.stringify(results)));
+            }
+          })
+        })
+      });
+    });
+  });
+
+  const getTecReport = (procurement_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM tec_report WHERE tec_report.procurement_id='${procurement_id}'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
 module.exports = {
     // getSupplierData,
     // getNewRequests,
@@ -215,6 +266,8 @@ module.exports = {
     getItemWiseBids,
     getPackagedBids,
     getRequisition,
-    getTecTeam
+    getTecTeam,
+    saveTecReport,
+    getTecReport
 };
   
