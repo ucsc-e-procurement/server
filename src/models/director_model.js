@@ -126,7 +126,11 @@ const getEmployees = () => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = "SELECT * FROM employee";
+    const sqlQueryString = `SELECT employee.*, CONCAT('[',GROUP_CONCAT(CONCAT('{"procurement_id":"',procurement.procurement_id,'","capacity":"',tec_emp.capacity,'",  "date":"',procurement.bid_opening_date,'"}')),']') AS assigned 
+                            FROM employee LEFT JOIN tec_emp ON
+                            employee.employee_id = tec_emp.employee_id 
+                            INNER JOIN procurement ON
+                            procurement.tec_team_id = tec_emp.tec_team_id `;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -379,7 +383,8 @@ const getRecentProducts = () => new Promise((resolve, reject) => {
     // SQL Query
     const sqlQueryString = `SELECT * FROM product INNER JOIN bid_product
                             ON product.product_id = bid_product.product_id INNER JOIN bid
-                            ON bid.bid_id = bid_product.bid_id WHERE
+                            ON bid.bid_id = bid_product.bid_id INNER JOIN supplier 
+                            ON supplier.supplier_id = bid.supplier_id WHERE
                             bid.status = 'approved' ORDER BY bid.bid_id DESC`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
