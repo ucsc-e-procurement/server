@@ -257,6 +257,24 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
     });
   });
 
+  const updateTecReport = (tec_report_data) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `UPDATE tec_report SET tec_report.tec_recommendation='${tec_report_data.tecRecommendation}' WHERE tec_report.report_id='${tec_report_data.procurementId}'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
 module.exports = {
     // getSupplierData,
     // getNewRequests,
@@ -268,6 +286,7 @@ module.exports = {
     getRequisition,
     getTecTeam,
     saveTecReport,
-    getTecReport
+    getTecReport,
+    updateTecReport
 };
   

@@ -137,4 +137,15 @@ router.get("/get_unlocked_procurements/", (req, res) => {
     })
   });
 
+  router.post("/update_tec_report", (req, res) => {
+
+    console.log('server tec report update', req.body)
+    tecTeamModel.updateTecReport(req.body).then((result) => {
+      console.log('server', result)
+      res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
 };
