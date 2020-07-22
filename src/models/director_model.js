@@ -126,11 +126,13 @@ const getEmployees = () => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT employee.*, CONCAT('[',GROUP_CONCAT(CONCAT('{"procurement_id":"',procurement.procurement_id,'","capacity":"',tec_emp.capacity,'",  "date":"',procurement.bid_opening_date,'"}')),']') AS assigned 
-                            FROM employee LEFT JOIN tec_emp ON
-                            employee.employee_id = tec_emp.employee_id 
-                            INNER JOIN procurement ON
-                            procurement.tec_team_id = tec_emp.tec_team_id `;
+    const sqlQueryString = `SELECT employee.*, grouped.assigned FROM employee LEFT JOIN 
+                            (SELECT CONCAT('[',GROUP_CONCAT(CONCAT('{"procurement_id":"',procurement.procurement_id,'","capacity":"',tec_emp.capacity,'",  "date":"',procurement.bid_opening_date,'"}')),']') AS assigned, 
+                            tec_emp.employee_id FROM tec_emp  
+                            INNER JOIN procurement on procurement.tec_team_id = tec_emp.tec_team_id 
+                            WHERE procurement.status = "on-going" 
+                            GROUP by tec_emp.employee_id) AS grouped ON 
+                            employee.employee_id = grouped.employee_id `;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
