@@ -98,6 +98,42 @@ const getCompletedProcurements = (supplier_id) => new Promise((resolve, reject) 
   });
 });
 
+// Get pending purchase orders for supplier
+const getPendingOrders = (supplier_id) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM bid 
+                            WHERE supplier_id='${supplier_id}' AND status='po-sent'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(results);
+    });
+  });
+});
+
+// Get pending purchase orders for supplier
+const getCompletedOrders = (supplier_id) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM bid 
+                            WHERE supplier_id='${supplier_id}' AND status='completed'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(results);
+    });
+  });
+});
+
 // Check if supllier exists before registering
 const checkExistingSupplier = (username) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -278,5 +314,7 @@ module.exports = {
   getNewRequests,
   getOngoingProcurements,
   getCompletedProcurements,
+  getPendingOrders,
+  getCompletedOrders,
   getSupplierByUserId,
 };

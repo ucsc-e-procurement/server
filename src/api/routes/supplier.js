@@ -167,4 +167,22 @@ module.exports = (app) => {
       res.json(err);
     });
   });
+
+  router.get("/get_pending_orders/", (req, res) => {
+    const supplier_id = req.query.id;
+    supplierModel.getPendingOrders(supplier_id).then((result) => {
+      res.json(result);
+    }).catch((err) => {
+      res.json(err);
+    });
+  });
+
+  router.get("/get_completed_orders/", (req, res) => {
+    const supplier_id = req.query.id;
+    supplierModel.getCompletedOrders(supplier_id).then((result) => {
+      res.json(result);
+    }).catch((err) => {
+      res.json(err);
+    });
+  });
 };
