@@ -15,10 +15,20 @@ module.exports = (app) => {
   // ----------------------------------------------------------------------------------------
   //                               Route Endpoints
   // ----------------------------------------------------------------------------------------
-  // Get PO data
-  router.get("/purchase_order", (req, res) => {
-    PurchaseOrderModel.getPurchaseOrderData().then((result) => {
+  // Get PO List
+  router.get("/purchase_orders", (req, res) => {
+    PurchaseOrderModel.getPurchaseOrderList().then((result) => {
       console.log("Result: ", result );
+      res.json(result);
+    }).catch(err => {
+      res.send(err)
+    });   
+  });
+
+  // Generate Purchase Order
+  router.get("/purchase_orders/details", (req, res) => {
+    PurchaseOrderModel.generatePurchaseOrder(req.query.procurementId).then((result) => {
+      console.log("Results: ", result );
       res.json(result);
     }).catch(err => {
       res.send(err)

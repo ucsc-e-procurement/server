@@ -8,18 +8,40 @@ const testUserModel = () => new Promise((resolve, reject) => {
     });
 });
 
-// Get PO data
-const getPurchaseOrderData = () => new Promise((resolve, reject) => {
+// Get PO List
+const getPurchaseOrderList = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    // SQL Query
+    const sqlQueryString = `SELECT procurement_id, status
+                            FROM procurement
+                            WHERE status = 'on-going' AND purchase_order = '0'`
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+// Generate Purchase Order
+const generatePurchaseOrder = (procurementId) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
         return;
       }
       // SQL Query
-      const sqlQueryString = `SELECT bid_product.unit_price, bid_product.quantity, bid_product.make
-                              FROM bid_product
-                              INNER JOIN bid ON bid.bid_id = bid_product.bid_id
-                              WHERE bid.procurement_id = 'UCSC/DIM/G/ENG/2020/0000001'`;
+      const sqlQueryString = `SELECT DISTINCT supplier.name, supplier.address,
+                              CONCAT('[',GROUP_CONCAT(CONCAT('{"unit_price":"', bid_product.unit_price,'", "quantity":"', bid_product.quantity,'", "make":"', bid_product.make,'"}')), ']') AS bids
+                              FROM bid
+                              INNER JOIN bid_product ON bid_product.bid_id = bid.bid_id
+                              INNER JOIN supplier ON supplier.supplier_id = bid.supplier_id
+                              WHERE bid.procurement_id = '${procurementId}'
+                              GROUP BY bid.bid_id`;
       db.query(sqlQueryString, (error, results, fields) => {
         console.log(error, results);
       // Release SQL Connection Back to the Connection Pool
@@ -30,5 +52,6 @@ const getPurchaseOrderData = () => new Promise((resolve, reject) => {
 });
 
 module.exports = {
-    getPurchaseOrderData
+    generatePurchaseOrder,
+    getPurchaseOrderList
 };
