@@ -75,6 +75,16 @@ module.exports = (app) => {
       });
   });
 
+  router.get("/price_schedule/get_bid_guarantee", (req, res) => {
+    supplierModel.getBidFile()
+      .then(result => {
+        res.set('Content-Type', 'application/pdf').send(result[0].document).end()
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
   router.post("/price_schedule/:procurement", (req, res) => {
     supplierModel.enterSupplierBid(req.body).then(() => {
       supplierModel.saveBidProducts(req.body.items)

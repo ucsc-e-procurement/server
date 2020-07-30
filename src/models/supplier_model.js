@@ -249,6 +249,21 @@ const getAuthFile = () => new Promise(async (resolve, reject) => {
   });
 });
 
+// Fetch bid guarantee pdf file
+const getBidFile = () => new Promise(async (resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    const sqlQueryString = `SELECT document FROM bid_guarantee`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 // Save price schedule data
 const enterSupplierBid = (data) =>
   new Promise((resolve, reject) => {
@@ -308,6 +323,7 @@ module.exports = {
   saveSupplierInfo,
   saveSupplierRegistration,
   getAuthFile,
+  getBidFile,
   enterSupplierBid,
   saveBidProducts,
   getSupplierData,
