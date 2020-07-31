@@ -49,6 +49,25 @@ const getRequisitionRequests = () => new Promise((resolve, reject) => {
   });
 });
 
+// Get Tec Appointment Requests 
+const getTecAppointmentRequests = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM procurement WHERE status = 'on-going' AND step = 3`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 // Get Product Requisition
 const getRequisition = (reqId, status = true) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -209,7 +228,7 @@ const appointTechTeam = (procurementId, directorId, employees, chairman, status 
       } else {
         const techId = results.insertId;
 
-        const sqlQueryString2 = `UPDATE procurement SET tec_team_id = '${results.insertId}', step = 4 WHERE procurement_id = '${procurementId}' `;
+        const sqlQueryString2 = `UPDATE procurement SET tec_team_id = '${results.insertId}', step = 5 WHERE procurement_id = '${procurementId}' `;
 
         db.query(sqlQueryString2, (error, results, fields) => {
           console.log(sqlQueryString2, results, fields);
@@ -413,5 +432,6 @@ module.exports = {
   getMaxTecTeamId,
   getMaxBidTeamId,
   getRfqDetails,
-  getRecentProducts
+  getRecentProducts,
+  getTecAppointmentRequests
 };

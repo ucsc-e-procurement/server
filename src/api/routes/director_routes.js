@@ -51,6 +51,22 @@ module.exports = (app) => {
     });
   })
 
+  // Get Tec Appointment Requests
+  router.get("/get_tec_appointment_requests", (req, res) => {
+    
+    // res.send("Getting Requests").status(200).end();
+
+    directorModel.getTecAppointmentRequests().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
   // Get PO Approval Requests
   
 
