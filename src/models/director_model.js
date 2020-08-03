@@ -416,6 +416,25 @@ const getRecentProducts = () => new Promise((resolve, reject) => {
   });
 });
 
+// Get Supplier List 
+const getSuppliers = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM supplier`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
   getProcurements,
   getRequisitionRequests,
@@ -433,5 +452,6 @@ module.exports = {
   getMaxBidTeamId,
   getRfqDetails,
   getRecentProducts,
-  getTecAppointmentRequests
+  getTecAppointmentRequests,
+  getSuppliers
 };

@@ -295,5 +295,19 @@ module.exports = (app) => {
       res.send(err).status(200).end();
     });
   })
+
+  // Get supplier list
+  router.get("/get_suppliers", (req, res) => {
+
+    directorModel.getSuppliers().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
   
 };
