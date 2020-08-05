@@ -435,6 +435,33 @@ const getSuppliers = () => new Promise((resolve, reject) => {
   });
 });
 
+// Get Supplier Details 
+const getSupplierDetails = (supplierId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT supplier.*, 
+                            CONCAT('[',GROUP_CONCAT(CONCAT('{"procurementId":"',procurement.procurement_id,'","status":"',procurement.status,'","prod_desc":"',requisition.description,'","procurement_method":"',procurement.procurement_method,'"}')),']') AS procurements
+                            FROM supplier INNER JOIN bid ON
+                            supplier.supplier_id = bid.supplier_id
+                            INNER JOIN procurement ON 
+                            bid.procurement_id = procurement.procurement_id
+                            INNER JOIN requisition ON
+                            procurement.requisition_id = requisition.requisition_id
+                            WHERE bid.status = 'approved' AND supplier.supplier_id = '${supplierId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
   getProcurements,
   getRequisitionRequests,
@@ -453,5 +480,6 @@ module.exports = {
   getRfqDetails,
   getRecentProducts,
   getTecAppointmentRequests,
-  getSuppliers
+  getSuppliers,
+  getSupplierDetails
 };
