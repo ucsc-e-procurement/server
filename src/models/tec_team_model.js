@@ -158,6 +158,24 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
     });
   });
 
+  const getProcurement = (procurement_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement WHERE procurement.procurement_id='${procurement_id}'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
   const getRequisition = (requisition_id) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
@@ -283,6 +301,7 @@ module.exports = {
     getCompletedProcurements,
     getItemWiseBids,
     getPackagedBids,
+    getProcurement,
     getRequisition,
     getTecTeam,
     saveTecReport,

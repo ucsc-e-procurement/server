@@ -106,6 +106,17 @@ router.get("/get_unlocked_procurements/", (req, res) => {
     })
   });
 
+  router.get("/get_procurement/", (req, res) => {
+    var procurement_id = req.query.id
+    console.log('procurement_id',procurement_id)
+    tecTeamModel.getProcurement(procurement_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
   router.get("/get_tec_team/", (req, res) => {
     var tec_team_id = req.query.id
     tecTeamModel.getTecTeam(tec_team_id).then((result) => {
