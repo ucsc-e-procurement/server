@@ -1,8 +1,7 @@
 const express = require("express");
 
 const router = express.Router();
-const passport = require("passport");
-// const middlewares = require("../middlewares");
+// const passport = require("passport");
 
 // Database Models
 const UserModel = require("../../models/user_model");
@@ -11,6 +10,7 @@ const SupplierModel = require("../../models/supplier_model");
 const ProductModel = require("../../models/products_model");
 const RequisitionModel = require("../../models/requisition_model");
 
+// Configurations
 require("../../config/passport_config");
 
 module.exports = (app) => {
@@ -87,7 +87,7 @@ module.exports = (app) => {
     res.json(result);
   });
 
-  router.get("/get_all_requisitions", async (req, res, next) => {
+  router.get("/requisitions", async (req, res, next) => {
     console.log("get_all_requisitions: ");
     const result = await RequisitionModel.getRequisitions();
     console.log("get_all_requisitions: 1234", result);
@@ -117,5 +117,10 @@ module.exports = (app) => {
       products: productsList,
     };
     res.json(requisitionData);
+  });
+
+  // Procurement Initialization
+  router.put("/product_requisition/init", async (req, res, next) => {
+
   });
 };
