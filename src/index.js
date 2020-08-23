@@ -18,11 +18,9 @@ async function startServer () {
   app.listen(config.port, (err) => {
     if (err) {
       logger.error(`Server Has Stopped Due to Error ${err}`);
-
       process.exit(1);
 
     }
-
     
     logger.info(`Server Has Started listening on PORT: ${config.port}`);
     console.log(`

@@ -25,6 +25,7 @@ module.exports = (app) => {
   // Morgan - HTTP/ HTTPS Logging Tool/Middleware to Log Requests, Errors, and More to the Console
   // let logStream = fs.createWriteStream(path.join(_dirname, "file.log"), {flags: "a"});
   app.use(morgan);
+  
 
 
   // Enable Cross Origin Resource Sharing(CORS) to all origins by default

@@ -1,12 +1,12 @@
-var appRoot = require("app-root-path");
-var winston = require("winston");
+let appRoot = require("app-root-path");
+let winston = require("winston");
 
 
 /* define the configuration settings for the file and console 
    transports in the winston configuration as follows 
    * define the custom settings for each transport (file, console)
 */
-var options = {
+let options = {
   fileInfo: {
     level: "info",
     filename: `${appRoot}/logs/general/info.log`,
@@ -55,6 +55,7 @@ var options = {
   }
 };
 
+// Formats
 const logFormat_1 = winston.format.printf(({ level, message, timestamp }) => {
   return `${timestamp} ${level}: ${message}`;
 });
@@ -63,18 +64,9 @@ const logFormat_2 = winston.format.printf(({ level, message, timestamp }) => {
   return `${timestamp} | ${level} | ${message}`;
 });
 
-// const logFormat = winston.format.combine(
-//   winston.format.timestamp({
-//     format: "YYYY-MM-DD HH:mm:ss.SSS"
-//   }),
-//   new TimestampFirst(true),
-//   winston.format.json()
-// );
-
 /*  instantiate a new winston logger with file and console transports using the 
-    properties defined in the options variable */
-    
-var logger = winston.createLogger({
+    properties defined in the options letiable */
+let logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.timestamp(),
     logFormat_2,
@@ -83,13 +75,19 @@ var logger = winston.createLogger({
   ),
   transports: [
     new winston.transports.File(options.fileInfo),
+    new winston.transports.File(options.fileWarn),
+    new winston.transports.File(options.fileError),
+    new winston.transports.File(options.fileDebug),
+
+    // For Real-time COnsole Output
     new winston.transports.Console(options.console)
   ],
   exitOnError: false // do not exit on handled exceptions
 });
 
-/* By default, morgan outputs to the console only, so let’s define a stream function that will be able to get morgan-generated output into the winston log files. We will use the info level so the 
-     output will be picked up by both transports (file and console) */
+/* By default, morgan outputs to the console only, so let’s define a stream function that 
+   will be able to get morgan-generated output into the winston log files. We will use 
+   the info level so the output will be picked up by both transports (file and console) */
 logger.stream = {
   // create a stream object with a 'write' function that will be used by `morgan`
   write: function(message, encoding) {
@@ -98,5 +96,4 @@ logger.stream = {
   }
 };
 
-//   export the logger so it can be used in other parts of the application
 module.exports = logger;

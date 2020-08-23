@@ -13,6 +13,10 @@ const RequisitionModel = require("../../models/requisition_model");
 // Configurations
 require("../../config/passport_config");
 
+// Logger
+const logger = require("../../config/winston_config");
+
+
 module.exports = (app) => {
   app.use("/admin", router);
 
@@ -33,6 +37,7 @@ module.exports = (app) => {
 
   // ################################### Get All Users #######################################
   router.get("/users", async (req, res) => {
+    logger.info("Admin --> GET /users invoked");
     try {
       const users = await UserModel.getUsers();
 
@@ -69,7 +74,7 @@ module.exports = (app) => {
 
       }
     } catch (error) {
-
+      logger.error(error);
     }
   });
 
@@ -88,6 +93,8 @@ module.exports = (app) => {
   });
 
   router.get("/requisitions", async (req, res, next) => {
+    logger.info("Admin --> GET /requisitions Invoked");
+
     console.log("get_all_requisitions: ");
     const result = await RequisitionModel.getRequisitions();
     console.log("get_all_requisitions: 1234", result);
@@ -95,6 +102,7 @@ module.exports = (app) => {
   });
 
   router.get("/get_product_requisition", async (req, res, next) => {
+    logger.info("Admin --> GET /get_product_requisition Invoked");
     console.log("get_all_requisitions: ", req.query);
 
     // Get the Requisition Data
