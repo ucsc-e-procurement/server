@@ -445,14 +445,14 @@ const getSupplierDetails = (supplierId) => new Promise((resolve, reject) => {
 
     // SQL Query
     const sqlQueryString = `SELECT supplier.*, 
-                            CONCAT('[',GROUP_CONCAT(CONCAT('{"procurementId":"',procurement.procurement_id,'","status":"',procurement.status,'","prod_desc":"',requisition.description,'","procurement_method":"',procurement.procurement_method,'"}')),']') AS procurements
-                            FROM supplier INNER JOIN bid ON
+                            CONCAT('[',GROUP_CONCAT(CONCAT('{"procurementId":"',procurement.procurement_id,'","status":"',procurement.status,'","step":"',procurement.step,'","prod_desc":"',requisition.description,'","bidStatus":"',bid.status,'","procurement_method":"',procurement.procurement_method,'"}')),']') AS procurements
+                            FROM supplier LEFT JOIN bid ON
                             supplier.supplier_id = bid.supplier_id
-                            INNER JOIN procurement ON 
+                            LEFT JOIN procurement ON 
                             bid.procurement_id = procurement.procurement_id
-                            INNER JOIN requisition ON
+                            LEFT JOIN requisition ON
                             procurement.requisition_id = requisition.requisition_id
-                            WHERE bid.status = 'approved' AND supplier.supplier_id = '${supplierId}'`;
+                            WHERE supplier.supplier_id = '${supplierId}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
