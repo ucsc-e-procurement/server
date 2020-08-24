@@ -1,10 +1,8 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const multer = require("multer");
-const { sprintf } = require("sprintf-js");
+const formidable = require('formidable');
 
 const router = express.Router();
-const upload = multer();
 
 const middlewares = require("../middlewares");
 
@@ -25,50 +23,79 @@ module.exports = (app) => {
 
   // -----------------------------------------------------------------------------------------------------
 
-  const formData = upload.fields([
-    { name: "name" },
-    { name: "email" },
-    { name: "contact" },
-    { name: "address" },
-    { name: "password" },
-    { name: "categories" },
-    { name: "payment" },
-  ]);
-
-  router.post("/registration", formData, async (req, res) => {
-    const result = await supplierModel.checkExistingSupplier(req.body.email)
-      .then((results) => {
-        if (results.length > 0) {
-          return res.statusMessage = "User exists";
-        }
+  router.get("/registration/check_supplier", (req, res) => {
+    supplierModel.checkExistingSupplier(req.query.email)
+      .then(result => {
+        res.json(result);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-      });
-    if (!result) {
-      const result = await supplierModel.getLastID();
-      // generate new ids for user
-      const user_id = `u${sprintf("%04d", parseInt(result[0].lastID.match(/\d+/)[0]) + 1)}`;
-      const supplier_id = `s${sprintf("%04d", parseInt(result[0].lastID.match(/\d+/)[0]) + 1)}`;
+      })
+  })
 
-      supplierModel.registerSupplier(req.body, user_id)
+  router.get("/registration/get_current_info", (req, res) => {
+    supplierModel.getSupplierInfo(req.query.email)
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  })
+
+  router.post("/registration", (req, res) => {
+    new formidable.IncomingForm().parse(req, (err, fields, files) => {
+      if (err) {
+        console.error('Error', err)
+        throw err
+      }      
+      supplierModel.registerSupplier(fields.email, fields.password, fields.user_state)
         .then(() => {
-          supplierModel.saveSupplierInfo(req, user_id, supplier_id)
+          supplierModel.saveSupplierInfo(fields, files)
             .then(() => {
-              res.statusMessage = "Successfully added";
-              res.send("Successful").status(200).end();
+              supplierModel.saveSupplierRegistration(fields, files)
+                .then(() => {
+                  res.send("Successful").end();
+                })
             })
-            .catch((err) => {
-              console.log(err);
-            });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
-        });
-    }
+        })
+    });
   });
 
-  router.post("/price_schedule", (req, res) => {
+  router.get("/price_schedule/get_bid_data_from_fb", (req, res) => {
+    supplierModel.getDatafromFirebase(req.query.procurement_id)
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  });
+
+  router.get("/price_schedule/get_file", (req, res) => {
+    supplierModel.getAuthFile()
+      .then(result => {
+        res.set('Content-Type', 'application/pdf').send(result[0].document).end()
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
+  router.get("/price_schedule/get_bid_guarantee", (req, res) => {
+    supplierModel.getBidFile()
+      .then(result => {
+        res.set('Content-Type', 'application/pdf').send(result[0].document).end()
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
+  router.post("/price_schedule/:procurement", (req, res) => {
     supplierModel.enterSupplierBid(req.body).then(() => {
       supplierModel.saveBidProducts(req.body.items)
         .then(() => {
@@ -155,6 +182,24 @@ module.exports = (app) => {
     console.log(supplier_id);
     supplierModel.getCompletedProcurements(supplier_id).then((result) => {
       console.log("server", result);
+      res.json(result);
+    }).catch((err) => {
+      res.json(err);
+    });
+  });
+
+  router.get("/get_pending_orders/", (req, res) => {
+    const supplier_id = req.query.id;
+    supplierModel.getPendingOrders(supplier_id).then((result) => {
+      res.json(result);
+    }).catch((err) => {
+      res.json(err);
+    });
+  });
+
+  router.get("/get_completed_orders/", (req, res) => {
+    const supplier_id = req.query.id;
+    supplierModel.getCompletedOrders(supplier_id).then((result) => {
       res.json(result);
     }).catch((err) => {
       res.json(err);
