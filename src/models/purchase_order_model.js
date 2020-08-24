@@ -16,9 +16,11 @@ const getPurchaseOrderList = () => new Promise((resolve, reject) => {
       return;
     }
     // SQL Query
-    const sqlQueryString = `SELECT procurement_id, status
+    const sqlQueryString = `SELECT procurement.procurement_id, procurement.category
                             FROM procurement
-                            WHERE status = 'on-going' AND purchase_order = '0'`
+                            INNER JOIN bid ON bid.procurement_id = procurement.procurement_id
+                            WHERE procurement.status = 'on-going' AND bid.status = 'approved' AND procurement.purchase_order = '0'
+                            GROUP BY bid.procurement_id`
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
