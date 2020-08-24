@@ -98,42 +98,6 @@ const getCompletedProcurements = (supplier_id) => new Promise((resolve, reject) 
   });
 });
 
-// Get pending purchase orders for supplier
-const getPendingOrders = (supplier_id) => new Promise((resolve, reject) => {
-  db.getConnection((err, connection) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-
-    // SQL Query
-    const sqlQueryString = `SELECT * FROM bid 
-                            WHERE supplier_id='${supplier_id}' AND status='po-sent'`;
-    db.query(sqlQueryString, (error, results, fields) => {
-      connection.release();
-      resolve(results);
-    });
-  });
-});
-
-// Get pending purchase orders for supplier
-const getCompletedOrders = (supplier_id) => new Promise((resolve, reject) => {
-  db.getConnection((err, connection) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-
-    // SQL Query
-    const sqlQueryString = `SELECT * FROM bid 
-                            WHERE supplier_id='${supplier_id}' AND status='completed'`;
-    db.query(sqlQueryString, (error, results, fields) => {
-      connection.release();
-      resolve(results);
-    });
-  });
-});
-
 // Check if supllier exists before registering
 const checkExistingSupplier = (username) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -141,44 +105,40 @@ const checkExistingSupplier = (username) => new Promise((resolve, reject) => {
       reject(err);
       return;
     }
-    const sqlQueryString = `SELECT YEAR(registration_date) AS reg_year FROM registration WHERE supplier_id='${username}'`;
+    const sqlQueryString = `SELECT * FROM user WHERE username='${username}'`;
     db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
       connection.release();
-      resolve((results));
+      resolve(JSON.parse(JSON.stringify(results)));
     });
   });
 });
 
-const getSupplierInfo = (username) => new Promise((resolve, reject) => {
+// Get last user_id from database
+const getLastID = () => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
       return;
     }
-    const sqlQueryString = `SELECT * FROM supplier WHERE supplier_id='${username}'`;
+    const sqlQueryString = "SELECT MAX(user_id) AS lastID FROM user";
     db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
       connection.release();
-      resolve((results));
+      resolve(results);
     });
   });
-})
+});
 
 // Save user
-const registerSupplier = (email, password, state) => new Promise(async (resolve, reject) => {
-  const hash = await bcrypt.hash(password, 10);
-  let sqlQueryString;
+const registerSupplier = (data, userId) => new Promise(async (resolve, reject) => {
+  const hash = await bcrypt.hash(data.password, 10);
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
       return;
     }
-    if(state == 'new') {
-      sqlQueryString = `INSERT INTO user VALUES ('${email}', '${hash}', 'SUP', '0')`;
-    }
-    else if(state == 'renew') {
-      sqlQueryString = `UPDATE user SET password='${hash}' WHERE user_id='${email}'`;
-    }
-    console.log(sqlQueryString);
+    const sqlQueryString = `INSERT INTO user VALUES ('${userId}', '${data.email}', '${hash}', 'SUP')`;
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(results);
@@ -187,101 +147,51 @@ const registerSupplier = (email, password, state) => new Promise(async (resolve,
 });
 
 // Save supplier information
-const saveSupplierInfo = (fields, files) => new Promise(async (resolve, reject) => {
-  let sqlQueryString;
+const saveSupplierInfo = (data, userId, supplierId) => new Promise(async (resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
       return;
     }
-    const bufferCertCopy = Buffer.from(files.cert_copy.path)
-    if(fields.user_state == 'new') {
-      sqlQueryString = `INSERT INTO supplier VALUES ('${fields.email}', '${fields.contact_name}', '${fields.business_address}', 
-                      '${fields.contact}', '${fields.cat_selection}', '${fields.official_email}', '${fields.legal}', '${fields.fax}', 
-                      '${fields.web}', '${fields.business_reg_no}', '${bufferCertCopy}', '${fields.vat_reg_no}', '${fields.ictad_reg_no}',
-                      '${fields.bank}', '${fields.branch}', '${fields.business_nature}', '${fields.business_type}', '${fields.credit_offered}',
-                      '${fields.maximum_credit}', '${fields.credit_period}', '${fields.experience}', '${fields.email}')`;
-    }
-    else if (fields.user_state == 'renew') {
-      sqlQueryString = `UPDATE supplier SET name=${fields.contact_name}', address='${fields.business_address}', 
-                      contact_number='${fields.contact}', category='${fields.cat_selection}', email='${fields.official_email}', legal='${fields.legal}', fax='${fields.fax}', 
-                      web='${fields.web}', business_reg'${fields.business_reg_no}', cert_copy='${bufferCertCopy}', vat_reg_no='${fields.vat_reg_no}', ictad_reg_no='${fields.ictad_reg_no}',
-                      bank='${fields.bank}', branch='${fields.branch}', business_nature='${fields.business_nature}', business_type='${fields.business_type}', credit_offered='${fields.credit_offered}',
-                      maximum_credit='${fields.maximum_credit}', credit_period='${fields.credit_period}', experience='${fields.experience}' WHERE supplier_id='${fields.email}'`;
-    }
-      db.query(sqlQueryString, (error, results, fields) => {
-      connection.release();
-      resolve(results);
-    });
-  });
-});
-
-// Save supplier registration
-const saveSupplierRegistration = (fields, files) => new Promise(async (resolve, reject) => {
-  db.getConnection((err, connection) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-    const date = new Date(fields.date).getFullYear();
-    const bufferPayment = Buffer.from(files.payment.path)
-    const sqlQueryString = `INSERT INTO registration VALUES ('${date}-${fields.email}', '${fields.date}', '${fields.email}', 
-                            'no', '${fields.payment_bank}', '${fields.shroff}', '${fields.amount}', '${bufferPayment}', '${fields.payment_type}')`;
+    const sqlQueryString = `INSERT INTO supplier VALUES ('${supplierId}', '${data.body.name}', '${data.body.address}', '${data.body.contact}', '${data.body.categories}', '${data.body.email}', 'processing', '${userId}', '${data.files.image}')`;
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(results);
-    });
-  });
-});
-
-// Fetch manufacturer's auth doc
-const getAuthFile = () => new Promise(async (resolve, reject) => {
-  db.getConnection((err, connection) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-    const sqlQueryString = `SELECT document FROM manufacture_auth`;
-    db.query(sqlQueryString, (error, results, fields) => {
-      connection.release();
-      resolve(JSON.parse(JSON.stringify(results)));
     });
   });
 });
 
 // Save price schedule data
-const enterSupplierBid = (data) =>
-  new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', 'pending', '${data.supplier_id}', '${data.procurement_id}', '${data.subtotal}', '${data.total_with_vat}', '${data.vat_no}', '${data.authorized}')`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        connection.release();
-        resolve(results);
-      });
+const enterSupplierBid = (data) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', '${data.subtotal}', '${data.total_with_vat}', 'processing', '${data.supplier_id}', '${data.procurement_id}', '${data.vat_no}', '${data.authorized}')`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(results);
     });
   });
+});
 
 // Save bid products of a single bid
-const saveBidProducts = (items) =>
-  new Promise((resolve, reject) => {
-    console.log(items);
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      for (const index in items) {
-        const sqlQueryString = `INSERT INTO bid_product VALUES ('bid0001', '${items[index].prod_id}', '${items[index].figures}', '${items[index].qty}', '${items[index].vat}', '${items[index].make}', '${items[index].date}', '${items[index].validity}', '${items[index].credit}')`;
-        db.query(sqlQueryString);
-      }
-      connection.release();
-      resolve();
-    });
+const saveBidProducts = (items) => new Promise((resolve, reject) => {
+  console.log(items);
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    for (const index in items) {
+      const sqlQueryString = `INSERT INTO bid_product VALUES ('bid0001', '${items[index].prod_id}', '${items[index].qty}', '${items[index].figures}', '${items[index].vat}', '${items[index].make}', '${items[index].date}', '${items[index].validity}', '${items[index].credit}')`;
+      db.query(sqlQueryString);
+    }
+    connection.release();
+    resolve();
   });
+});
 
 // Get Employee Details By UserID
 const getSupplierByUserId = (userId) => new Promise((resolve, reject) => {
@@ -303,18 +213,14 @@ const getSupplierByUserId = (userId) => new Promise((resolve, reject) => {
 
 module.exports = {
   checkExistingSupplier,
-  getSupplierInfo,
+  getLastID,
   registerSupplier,
   saveSupplierInfo,
-  saveSupplierRegistration,
-  getAuthFile,
   enterSupplierBid,
   saveBidProducts,
   getSupplierData,
   getNewRequests,
   getOngoingProcurements,
   getCompletedProcurements,
-  getPendingOrders,
-  getCompletedOrders,
   getSupplierByUserId,
 };

@@ -51,6 +51,22 @@ module.exports = (app) => {
     });
   })
 
+  // Get Tec Appointment Requests
+  router.get("/get_tec_appointment_requests", (req, res) => {
+    
+    // res.send("Getting Requests").status(200).end();
+
+    directorModel.getTecAppointmentRequests().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
   // Get PO Approval Requests
   
 
@@ -266,5 +282,45 @@ module.exports = (app) => {
     });
   })
 
-  
+  // Get Recent Products
+  router.get("/get_recent_products", (req, res) => {
+ 
+    directorModel.getRecentProducts().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
+  // Get supplier list
+  router.get("/get_suppliers", (req, res) => {
+
+    directorModel.getSuppliers().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
+  // Get Supplier Details 
+  router.get("/get_supplier_details", (req, res) => {
+
+    directorModel.getSupplierDetails(req.query.supplierId).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
 };

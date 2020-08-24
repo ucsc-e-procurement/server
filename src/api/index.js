@@ -8,6 +8,7 @@ const supplier = require("./routes/supplier");
 const director = require("./routes/director_routes");
 const deputyBursar = require("./routes/deputy_bursar");
 const hod = require("./routes/hod");
+const purchase_order = require("./routes/purchase_order");
 const admin = require("./routes/admin");
 const signature = require("./routes/signature");
 
@@ -33,11 +34,13 @@ module.exports = () => {
   // Head of Department
   hod(app);
 
+  // Purchase Order
+  purchase_order(app);
   // Administrator
   admin(app);
 
   // Signature
-  // signature(app);
+  signature(app);
 
   return app;
 };
