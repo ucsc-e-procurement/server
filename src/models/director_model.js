@@ -49,6 +49,25 @@ const getRequisitionRequests = () => new Promise((resolve, reject) => {
   });
 });
 
+// Get Tec Appointment Requests 
+const getTecAppointmentRequests = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM procurement WHERE status = 'on-going' AND step = 3`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 // Get Product Requisition
 const getRequisition = (reqId, status = true) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -126,7 +145,13 @@ const getEmployees = () => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = "SELECT * FROM employee";
+    const sqlQueryString = `SELECT employee.*, grouped.assigned FROM employee LEFT JOIN 
+                            (SELECT CONCAT('[',GROUP_CONCAT(CONCAT('{"procurement_id":"',procurement.procurement_id,'","capacity":"',tec_emp.capacity,'",  "date":"',procurement.bid_opening_date,'"}')),']') AS assigned, 
+                            tec_emp.employee_id FROM tec_emp  
+                            INNER JOIN procurement on procurement.tec_team_id = tec_emp.tec_team_id 
+                            WHERE procurement.status = "on-going" 
+                            GROUP by tec_emp.employee_id) AS grouped ON 
+                            employee.employee_id = grouped.employee_id `;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -203,7 +228,7 @@ const appointTechTeam = (procurementId, directorId, employees, chairman, status 
       } else {
         const techId = results.insertId;
 
-        const sqlQueryString2 = `UPDATE procurement SET tec_team_id = '${results.insertId}', step = 4 WHERE procurement_id = '${procurementId}' `;
+        const sqlQueryString2 = `UPDATE procurement SET tec_team_id = '${results.insertId}', step = 5 WHERE procurement_id = '${procurementId}' `;
 
         db.query(sqlQueryString2, (error, results, fields) => {
           console.log(sqlQueryString2, results, fields);
@@ -347,42 +372,114 @@ const getApprovedRequisitions = () => new Promise((resolve, reject) => {
   });
 });
 
-  // Get RFQ Details
-  const getRfqDetails = (procurementId) => new Promise((resolve, reject) => {
-    db.getConnection((err, connection) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-  
-      // SQL Query
-      const sqlQueryString = `SELECT * FROM rfq INNER JOIN supplier
-                              ON rfq.supplier_id = supplier.supplier_id
-                              WHERE rfq.procurement_id = '${procurementId}'`;
-      db.query(sqlQueryString, (error, results, fields) => {
-        // Release SQL Connection Back to the Connection Pool
-        connection.release();
-        console.log(sqlQueryString, results, fields);
-        resolve(JSON.parse(JSON.stringify(results)));
-      });
+// Get RFQ Details
+const getRfqDetails = (procurementId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM rfq INNER JOIN supplier
+                            ON rfq.supplier_id = supplier.supplier_id
+                            WHERE rfq.procurement_id = '${procurementId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
     });
   });
+});
+
+// Get Recent Products 
+const getRecentProducts = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM product INNER JOIN bid_product
+                            ON product.product_id = bid_product.product_id INNER JOIN bid
+                            ON bid.bid_id = bid_product.bid_id INNER JOIN supplier 
+                            ON supplier.supplier_id = bid.supplier_id WHERE
+                            bid.status = 'approved' ORDER BY bid.bid_id DESC`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
+// Get Supplier List 
+const getSuppliers = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM supplier WHERE status = 'active'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
+// Get Supplier Details 
+const getSupplierDetails = (supplierId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT supplier.*, 
+                            CONCAT('[',GROUP_CONCAT(CONCAT('{"procurementId":"',procurement.procurement_id,'","status":"',procurement.status,'","step":"',procurement.step,'","prod_desc":"',requisition.description,'","bidStatus":"',bid.status,'","procurement_method":"',procurement.procurement_method,'"}')),']') AS procurements
+                            FROM supplier LEFT JOIN bid ON
+                            supplier.supplier_id = bid.supplier_id
+                            LEFT JOIN procurement ON 
+                            bid.procurement_id = procurement.procurement_id
+                            LEFT JOIN requisition ON
+                            procurement.requisition_id = requisition.requisition_id
+                            WHERE supplier.supplier_id = '${supplierId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
 
 module.exports = {
-    getProcurements,
-    getRequisitionRequests,
-    getRequisition,
-    getProcurement,
-    approveRequisition,
-    getEmployees,
-    appointTechTeam,
-    appointBidOpeningTeam,
-    getTechTeam,
-    getBidOpeningTeam,
-    getEmployeesNotInTecTeam,
-    getApprovedRequisitions,
-    getMaxTecTeamId,
-    getMaxBidTeamId,
-    getRfqDetails
-
+  getProcurements,
+  getRequisitionRequests,
+  getRequisition,
+  getProcurement,
+  approveRequisition,
+  getEmployees,
+  appointTechTeam,
+  appointBidOpeningTeam,
+  getTechTeam,
+  getBidOpeningTeam,
+  getEmployeesNotInTecTeam,
+  getApprovedRequisitions,
+  getMaxTecTeamId,
+  getMaxBidTeamId,
+  getRfqDetails,
+  getRecentProducts,
+  getTecAppointmentRequests,
+  getSuppliers,
+  getSupplierDetails
 };

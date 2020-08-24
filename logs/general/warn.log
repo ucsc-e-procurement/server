@@ -1,0 +1,46 @@
+2020-08-23T17:23:15.016Z | error | Server Has Started listening on PORT: 5000
+2020-08-23T17:27:33.051Z | error | Server Has Started listening on PORT: 5000
+2020-08-24T06:51:20.512Z | error | uncaughtException: Unexpected token <<
+D:\UCSC\Group-Project-II\server\src\models\mysql.js:12
+<<<<<<< HEAD
+^^
+
+SyntaxError: Unexpected token <<
+    at new Script (vm.js:79:7)
+    at createScript (vm.js:251:10)
+    at Object.runInThisContext (vm.js:303:10)
+    at Module._compile (internal/modules/cjs/loader.js:657:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+    at Module.require (internal/modules/cjs/loader.js:637:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+2020-08-24T07:19:03.829Z | error | uncaughtException: Unexpected token <<
+D:\UCSC\Group-Project-II\server\src\models\mysql.js:12
+<<<<<<< HEAD
+^^
+
+SyntaxError: Unexpected token <<
+    at new Script (vm.js:79:7)
+    at createScript (vm.js:251:10)
+    at Object.runInThisContext (vm.js:303:10)
+    at Module._compile (internal/modules/cjs/loader.js:657:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+    at Module.require (internal/modules/cjs/loader.js:637:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+2020-08-24T07:58:21.341Z | error | uncaughtException: Cannot find module 'formidable'
+Error: Cannot find module 'formidable'
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:636:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:562:25)
+    at Module.require (internal/modules/cjs/loader.js:692:17)
+    at require (internal/modules/cjs/helpers.js:25:18)
+    at Object.<anonymous> (D:\Docs\Projects\Group Project\server\src\api\routes\supplier.js:3:20)
+    at Module._compile (internal/modules/cjs/loader.js:778:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
+    at Module.load (internal/modules/cjs/loader.js:653:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:585:3)

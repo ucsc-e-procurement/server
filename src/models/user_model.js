@@ -50,6 +50,7 @@ const findUserByEmail = (userId, status = 0) => new Promise((resolve, reject) =>
 const getUsers = (status = 0) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
+      console.log(err);
       reject(err);
       return;
     }
