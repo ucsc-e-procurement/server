@@ -34,7 +34,7 @@ const connection = mysql.createConnection({
   database: "ucsc_e_proc",
 });
 
-// If Connection Pooling is needed, use this approach instead
+// aws
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
