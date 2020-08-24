@@ -347,20 +347,42 @@ const getApprovedRequisitions = () => new Promise((resolve, reject) => {
   });
 });
 
+  // Get RFQ Details
+  const getRfqDetails = (procurementId) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM rfq INNER JOIN supplier
+                              ON rfq.supplier_id = supplier.supplier_id
+                              WHERE rfq.procurement_id = '${procurementId}'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        console.log(sqlQueryString, results, fields);
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
 module.exports = {
-  getProcurements,
-  getRequisitionRequests,
-  getRequisition,
-  getProcurement,
-  approveRequisition,
-  getEmployees,
-  appointTechTeam,
-  appointBidOpeningTeam,
-  getTechTeam,
-  getBidOpeningTeam,
-  getEmployeesNotInTecTeam,
-  getApprovedRequisitions,
-  getMaxTecTeamId,
-  getMaxBidTeamId,
+    getProcurements,
+    getRequisitionRequests,
+    getRequisition,
+    getProcurement,
+    approveRequisition,
+    getEmployees,
+    appointTechTeam,
+    appointBidOpeningTeam,
+    getTechTeam,
+    getBidOpeningTeam,
+    getEmployeesNotInTecTeam,
+    getApprovedRequisitions,
+    getMaxTecTeamId,
+    getMaxBidTeamId,
+    getRfqDetails
 
 };
