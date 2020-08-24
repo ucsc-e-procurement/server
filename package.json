@@ -19,6 +19,7 @@
   "homepage": "https://github.com/ucsc-e-procurement/server#readme",
   "dependencies": {
     "axios": "^0.19.2",
+    "app-root-path": "^3.0.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -38,8 +39,9 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "rotating-file-stream": "^2.1.3",
     "sprintf-js": "^1.1.2",
-    "winston": "^3.2.1"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^7.3.1",

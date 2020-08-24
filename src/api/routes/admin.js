@@ -1,8 +1,7 @@
 const express = require("express");
 
 const router = express.Router();
-const passport = require("passport");
-// const middlewares = require("../middlewares");
+// const passport = require("passport");
 
 // Database Models
 const UserModel = require("../../models/user_model");
@@ -11,7 +10,12 @@ const SupplierModel = require("../../models/supplier_model");
 const ProductModel = require("../../models/products_model");
 const RequisitionModel = require("../../models/requisition_model");
 
+// Configurations
 require("../../config/passport_config");
+
+// Logger
+const logger = require("../../config/winston_config");
+
 
 module.exports = (app) => {
   app.use("/admin", router);
@@ -33,6 +37,7 @@ module.exports = (app) => {
 
   // ################################### Get All Users #######################################
   router.get("/users", async (req, res) => {
+    logger.info("Admin --> GET /users invoked");
     try {
       const users = await UserModel.getUsers();
 
@@ -69,7 +74,7 @@ module.exports = (app) => {
 
       }
     } catch (error) {
-
+      logger.error(error);
     }
   });
 
@@ -87,7 +92,9 @@ module.exports = (app) => {
     res.json(result);
   });
 
-  router.get("/get_all_requisitions", async (req, res, next) => {
+  router.get("/requisitions", async (req, res, next) => {
+    logger.info("Admin --> GET /requisitions Invoked");
+
     console.log("get_all_requisitions: ");
     const result = await RequisitionModel.getRequisitions();
     console.log("get_all_requisitions: 1234", result);
@@ -95,6 +102,7 @@ module.exports = (app) => {
   });
 
   router.get("/get_product_requisition", async (req, res, next) => {
+    logger.info("Admin --> GET /get_product_requisition Invoked");
     console.log("get_all_requisitions: ", req.query);
 
     // Get the Requisition Data
@@ -117,5 +125,10 @@ module.exports = (app) => {
       products: productsList,
     };
     res.json(requisitionData);
+  });
+
+  // Procurement Initialization
+  router.put("/product_requisition/init", async (req, res, next) => {
+
   });
 };
