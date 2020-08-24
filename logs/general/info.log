@@ -4,3 +4,43 @@
 2020-08-23T17:27:33.051Z | error | Server Has Started listening on PORT: 5000
 2020-08-23T17:28:09.475Z | info | Server Has Started listening on PORT: 5000
 2020-08-23T17:28:22.873Z | info | Admin --> GET /users invoked
+<<<<<<< HEAD
+2020-08-24T05:37:45.663Z | info | Server Has Started listening on PORT: 5000
+2020-08-24T07:25:53.595Z | info | Server Has Started listening on PORT: 5000
+=======
+2020-08-24T05:17:00.557Z | info | Server Has Started listening on PORT: 5000
+2020-08-24T06:51:20.512Z | error | uncaughtException: Unexpected token <<
+D:\UCSC\Group-Project-II\server\src\models\mysql.js:12
+<<<<<<< HEAD
+^^
+
+SyntaxError: Unexpected token <<
+    at new Script (vm.js:79:7)
+    at createScript (vm.js:251:10)
+    at Object.runInThisContext (vm.js:303:10)
+    at Module._compile (internal/modules/cjs/loader.js:657:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+    at Module.require (internal/modules/cjs/loader.js:637:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+2020-08-24T07:19:03.829Z | error | uncaughtException: Unexpected token <<
+D:\UCSC\Group-Project-II\server\src\models\mysql.js:12
+<<<<<<< HEAD
+^^
+
+SyntaxError: Unexpected token <<
+    at new Script (vm.js:79:7)
+    at createScript (vm.js:251:10)
+    at Object.runInThisContext (vm.js:303:10)
+    at Module._compile (internal/modules/cjs/loader.js:657:28)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+    at Module.require (internal/modules/cjs/loader.js:637:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+2020-08-24T07:23:08.438Z | info | Server Has Started listening on PORT: 5000
+>>>>>>> a9982c81766570c5265611b032e407ae0fc25e38
+2020-08-24T07:27:14.993Z | info | Server Has Started listening on PORT: 5000

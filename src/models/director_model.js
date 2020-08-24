@@ -425,7 +425,7 @@ const getSuppliers = () => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT * FROM supplier`;
+    const sqlQueryString = `SELECT * FROM supplier WHERE status = 'active'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
