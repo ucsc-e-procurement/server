@@ -234,6 +234,16 @@ const saveSupplierRegistration = (fields, files) => new Promise(async (resolve, 
   });
 });
 
+const getDatafromFirebase = (id) => new Promise(async (resolve, reject) => {
+  const citiesRef = db.collection('Invitations');
+  const snapshot = await citiesRef.where('InvitationNo', '==', id).get();
+  if (snapshot.empty) {
+    reject("empty");
+    return;
+  }  
+  resolve(snapshot);
+})
+
 // Fetch manufacturer's auth doc
 const getAuthFile = () => new Promise(async (resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -322,6 +332,7 @@ module.exports = {
   registerSupplier,
   saveSupplierInfo,
   saveSupplierRegistration,
+  getDatafromFirebase,
   getAuthFile,
   getBidFile,
   enterSupplierBid,
