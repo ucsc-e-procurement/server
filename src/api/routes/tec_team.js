@@ -40,10 +40,21 @@ module.exports = (app) => {
 //     //res.send("get rfgs")
 //   });
 
-  router.get("/get_ongoing_procurements/", (req, res) => {
+router.get("/get_locked_procurements/", (req, res) => {
+  var employee_id = req.query.id
+  console.log(employee_id)
+  tecTeamModel.getLockedProcurements(employee_id).then((result) => {
+      console.log('server', result)
+      res.json(result);
+  }).catch((err) => {
+      res.json(err);
+  })
+});
+
+router.get("/get_unlocked_procurements/", (req, res) => {
     var employee_id = req.query.id
     console.log(employee_id)
-    tecTeamModel.getOngoingProcurements(employee_id).then((result) => {
+    tecTeamModel.getUnlockedProcurements(employee_id).then((result) => {
         console.log('server', result)
         res.json(result);
     }).catch((err) => {
@@ -62,10 +73,43 @@ module.exports = (app) => {
     })
   });
 
+  router.get("/get_itemwise_bids/", (req, res) => {
+    var procurement_id = req.query.id
+    console.log(procurement_id)
+    tecTeamModel.getItemWiseBids(procurement_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.get("/get_packaged_bids/", (req, res) => {
+    var procurement_id = req.query.id
+    console.log(procurement_id)
+    tecTeamModel.getPackagedBids(procurement_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
   router.get("/get_requisition/", (req, res) => {
     var requisition_id = req.query.id
     console.log('requisition_id',requisition_id)
     tecTeamModel.getRequisition(requisition_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.get("/get_procurement/", (req, res) => {
+    var procurement_id = req.query.id
+    console.log('procurement_id',procurement_id)
+    tecTeamModel.getProcurement(procurement_id).then((result) => {
         console.log('server', result)
         res.json(result);
     }).catch((err) => {
@@ -78,6 +122,38 @@ module.exports = (app) => {
     tecTeamModel.getTecTeam(tec_team_id).then((result) => {
         console.log('server', result)
         res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.post("/save_tec_report", (req, res) => {
+
+    console.log('server tec report submit', req.body)
+    tecTeamModel.saveTecReport(req.body).then((result) => {
+      console.log('server', result)
+      res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.get("/get_tec_report/", (req, res) => {
+    var procurement_id = req.query.id
+    tecTeamModel.getTecReport(procurement_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.post("/update_tec_report", (req, res) => {
+
+    console.log('server tec report update', req.body)
+    tecTeamModel.updateTecReport(req.body).then((result) => {
+      console.log('server', result)
+      res.json(result);
     }).catch((err) => {
         res.json(err);
     })

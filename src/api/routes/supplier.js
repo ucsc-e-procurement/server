@@ -65,8 +65,28 @@ module.exports = (app) => {
     });
   });
 
+  router.get("/price_schedule/get_bid_data_from_fb", (req, res) => {
+    supplierModel.getDatafromFirebase(req.query.procurement_id)
+      .then(result => {
+        res.json(result);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  });
+
   router.get("/price_schedule/get_file", (req, res) => {
     supplierModel.getAuthFile()
+      .then(result => {
+        res.set('Content-Type', 'application/pdf').send(result[0].document).end()
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
+  router.get("/price_schedule/get_bid_guarantee", (req, res) => {
+    supplierModel.getBidFile()
       .then(result => {
         res.set('Content-Type', 'application/pdf').send(result[0].document).end()
       })

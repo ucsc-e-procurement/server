@@ -234,6 +234,16 @@ const saveSupplierRegistration = (fields, files) => new Promise(async (resolve, 
   });
 });
 
+const getDatafromFirebase = (id) => new Promise(async (resolve, reject) => {
+  const citiesRef = db.collection('Invitations');
+  const snapshot = await citiesRef.where('InvitationNo', '==', id).get();
+  if (snapshot.empty) {
+    reject("empty");
+    return;
+  }  
+  resolve(snapshot);
+})
+
 // Fetch manufacturer's auth doc
 const getAuthFile = () => new Promise(async (resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -242,6 +252,21 @@ const getAuthFile = () => new Promise(async (resolve, reject) => {
       return;
     }
     const sqlQueryString = `SELECT document FROM manufacture_auth`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
+// Fetch bid guarantee pdf file
+const getBidFile = () => new Promise(async (resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    const sqlQueryString = `SELECT document FROM bid_guarantee`;
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(JSON.parse(JSON.stringify(results)));
@@ -307,7 +332,9 @@ module.exports = {
   registerSupplier,
   saveSupplierInfo,
   saveSupplierRegistration,
+  getDatafromFirebase,
   getAuthFile,
+  getBidFile,
   enterSupplierBid,
   saveBidProducts,
   getSupplierData,
