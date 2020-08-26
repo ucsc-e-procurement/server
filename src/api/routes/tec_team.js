@@ -181,4 +181,26 @@ router.get("/get_unlocked_procurements/", (req, res) => {
     })
   });
 
+  router.get("/get_current_tec_teams/", (req, res) => {
+    var employee_id = req.query.id
+    console.log('current tec teams for ', employee_id)
+    tecTeamModel.getCurrentTeams(employee_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.get("/get_past_tec_teams/", (req, res) => {
+    var employee_id = req.query.id
+    console.log('current tec teams for ', employee_id)
+    tecTeamModel.getPastTeams(employee_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
 };

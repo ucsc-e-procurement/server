@@ -44,3 +44,41 @@ SyntaxError: Unexpected token <<
 2020-08-25T16:25:44.386Z | info | Server Has Started listening on PORT: 5000
 2020-08-25T16:52:48.849Z | info | Server Has Started listening on PORT: 5000
 2020-08-25T16:53:12.826Z | info | Server Has Started listening on PORT: 5000
+2020-08-25T16:56:16.590Z | info | Server Has Started listening on PORT: 5000
+2020-08-25T17:33:26.036Z | info | Server Has Started listening on PORT: 5000
+2020-08-25T17:34:24.803Z | info | Server Has Started listening on PORT: 5000
+2020-08-25T17:40:29.990Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T13:05:08.442Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T13:14:44.081Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T13:16:29.817Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T13:16:35.129Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.db.query (D:\UCSC\Group-Project-II\server\src\models\tec_team_model.js:356:22)
+    at Query.<anonymous> (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-08-26T13:16:50.882Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T13:17:54.247Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T14:25:40.434Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T14:25:50.166Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.db.query (D:\UCSC\Group-Project-II\server\src\models\tec_team_model.js:357:22)
+    at Query.<anonymous> (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-08-26T14:28:25.215Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T14:29:05.387Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T14:30:43.480Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T14:31:52.181Z | info | Server Has Started listening on PORT: 5000

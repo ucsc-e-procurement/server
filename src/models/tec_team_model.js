@@ -335,6 +335,54 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
     });
   });
 
+  const getCurrentTeams = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT DISTINCT
+      procurement.*, tec_team.*, director.name AS appointed_by, chairman.name AS chairman
+      FROM procurement 
+      INNER JOIN tec_team ON procurement.tec_team_id = tec_team.tec_team_id
+      INNER JOIN employee AS director ON tec_team.appointed_by = director.employee_id
+      INNER JOIN employee AS chairman ON tec_team.chairman = chairman.employee_id
+      WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getPastTeams = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT DISTINCT
+      procurement.*, tec_team.*, director.name AS appointed_by, chairman.name AS chairman
+      FROM procurement 
+      INNER JOIN tec_team ON procurement.tec_team_id = tec_team.tec_team_id
+      INNER JOIN employee AS director ON tec_team.appointed_by = director.employee_id
+      INNER JOIN employee AS chairman ON tec_team.chairman = chairman.employee_id
+      WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='completed'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
 module.exports = {
     // getSupplierData,
     // getNewRequests,
@@ -350,6 +398,8 @@ module.exports = {
     getTecReport,
     updateTecReport,
     getNewAppointments,
-    getNewBidOpenings
+    getNewBidOpenings,
+    getCurrentTeams,
+    getPastTeams
 };
   

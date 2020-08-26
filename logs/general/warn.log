@@ -32,3 +32,27 @@ SyntaxError: Unexpected token <<
     at Function.Module._load (internal/modules/cjs/loader.js:530:3)
     at Module.require (internal/modules/cjs/loader.js:637:17)
     at require (internal/modules/cjs/helpers.js:22:18)
+2020-08-26T13:16:35.129Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.db.query (D:\UCSC\Group-Project-II\server\src\models\tec_team_model.js:356:22)
+    at Query.<anonymous> (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-08-26T14:25:50.166Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.db.query (D:\UCSC\Group-Project-II\server\src\models\tec_team_model.js:357:22)
+    at Query.<anonymous> (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
