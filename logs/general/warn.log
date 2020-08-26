@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2020-08-26T16:34:29.611Z | error | uncaughtException: Cannot find module 'formidable'
 Error: Cannot find module 'formidable'
     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:581:15)
@@ -6,10 +7,26 @@ Error: Cannot find module 'formidable'
     at require (internal/modules/cjs/helpers.js:22:18)
     at Object.<anonymous> (D:\UCSC\Group-Project-II\server\src\api\routes\supplier.js:3:20)
     at Module._compile (internal/modules/cjs/loader.js:689:30)
+=======
+<<<<<<< HEAD
+2020-08-23T17:23:15.016Z | error | Server Has Started listening on PORT: 5000
+2020-08-23T17:27:33.051Z | error | Server Has Started listening on PORT: 5000
+2020-08-24T06:51:20.512Z | error | uncaughtException: Unexpected token <<
+D:\UCSC\Group-Project-II\server\src\models\mysql.js:12
+<<<<<<< HEAD
+^^
+
+SyntaxError: Unexpected token <<
+    at new Script (vm.js:79:7)
+    at createScript (vm.js:251:10)
+    at Object.runInThisContext (vm.js:303:10)
+    at Module._compile (internal/modules/cjs/loader.js:657:28)
+>>>>>>> f0697a9cd211151673fe0c358b34ad3cc5c376f9
     at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
     at Module.load (internal/modules/cjs/loader.js:599:32)
     at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
     at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+<<<<<<< HEAD
 2020-08-26T16:34:45.346Z | error | uncaughtException: Cannot find module 'formidable'
 Error: Cannot find module 'formidable'
     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:581:15)
@@ -18,11 +35,57 @@ Error: Cannot find module 'formidable'
     at require (internal/modules/cjs/helpers.js:22:18)
     at Object.<anonymous> (D:\UCSC\Group-Project-II\server\src\api\routes\supplier.js:3:20)
     at Module._compile (internal/modules/cjs/loader.js:689:30)
+=======
+    at Module.require (internal/modules/cjs/loader.js:637:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+2020-08-24T07:19:03.829Z | error | uncaughtException: Unexpected token <<
+D:\UCSC\Group-Project-II\server\src\models\mysql.js:12
+<<<<<<< HEAD
+^^
+
+SyntaxError: Unexpected token <<
+    at new Script (vm.js:79:7)
+    at createScript (vm.js:251:10)
+    at Object.runInThisContext (vm.js:303:10)
+    at Module._compile (internal/modules/cjs/loader.js:657:28)
+>>>>>>> f0697a9cd211151673fe0c358b34ad3cc5c376f9
     at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
     at Module.load (internal/modules/cjs/loader.js:599:32)
     at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
     at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+<<<<<<< HEAD
 2020-08-26T16:35:10.241Z | error | uncaughtException: Cannot find module 'formidable'
+=======
+    at Module.require (internal/modules/cjs/loader.js:637:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+2020-08-26T13:16:35.129Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.db.query (D:\UCSC\Group-Project-II\server\src\models\tec_team_model.js:356:22)
+    at Query.<anonymous> (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-08-26T14:25:50.166Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.db.query (D:\UCSC\Group-Project-II\server\src\models\tec_team_model.js:357:22)
+    at Query.<anonymous> (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+=======
+>>>>>>> 5ac5edb45b9e6ae22c85fdced1aaa8f80dfeece2
+2020-08-26T16:31:19.886Z | error | uncaughtException: Cannot find module 'formidable'
+>>>>>>> f0697a9cd211151673fe0c358b34ad3cc5c376f9
 Error: Cannot find module 'formidable'
     at Function.Module._resolveFilename (internal/modules/cjs/loader.js:581:15)
     at Function.Module._load (internal/modules/cjs/loader.js:507:25)
