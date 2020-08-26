@@ -12,10 +12,10 @@ if (envFound.error) {
 module.exports = {
   // Database Configuration
   database: {
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    name: process.env.DATABASE_NAME,
+    host: "localhost",
+    user: "root",
+    password: "",
+    name: "eprocnew",
     connection_limit: process.env.DATABASE_CONNECTION_LIMIT,
   },
 
