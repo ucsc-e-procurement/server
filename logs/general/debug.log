@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2020-08-23T17:23:15.012Z | info | Server Has Started listening on PORT: 5000
 2020-08-23T17:23:15.016Z | error | Server Has Started listening on PORT: 5000
 2020-08-23T17:27:33.049Z | info | Server Has Started listening on PORT: 5000
@@ -83,3 +84,18 @@ SyntaxError: Unexpected token u in JSON at position 0
 2020-08-26T14:30:43.480Z | info | Server Has Started listening on PORT: 5000
 2020-08-26T14:31:52.181Z | info | Server Has Started listening on PORT: 5000
 2020-08-26T14:35:27.935Z | info | Server Has Started listening on PORT: 5000
+=======
+2020-08-26T08:52:28.016Z | info | Server Has Started listening on PORT: 5000
+>>>>>>> 5ac5edb45b9e6ae22c85fdced1aaa8f80dfeece2
+2020-08-26T16:31:19.886Z | error | uncaughtException: Cannot find module 'formidable'
+Error: Cannot find module 'formidable'
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:581:15)
+    at Function.Module._load (internal/modules/cjs/loader.js:507:25)
+    at Module.require (internal/modules/cjs/loader.js:637:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+    at Object.<anonymous> (D:\UCSC\Group-Project-II\server\src\api\routes\supplier.js:3:20)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:530:3)

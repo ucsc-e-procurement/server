@@ -1,0 +1,2 @@
+::1 | - | [Tue, 25 Aug 2020 02:43:27 GMT] | GET /api/admin/user_roles_internal | HTTP/1.1 | 304 | - | http://localhost:8080/admin/add_user | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 | 41.884 ms | 43.451 |
+::1 | - | [Tue, 25 Aug 2020 02:43:27 GMT] | GET /api/admin/next_employee_id | HTTP/1.1 | 200 | 9 | http://localhost:8080/admin/add_user | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 | 3.472 ms | 3.964 |

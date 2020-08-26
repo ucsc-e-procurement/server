@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ::1 - - [23/Aug/2020:14:20:54 +0000] "GET /api/admin/users HTTP/1.1" 200 2058 "-" "PostmanRuntime/7.26.3"
 ::1 - - [23/Aug/2020:14:22:57 +0000] "GET /api/admin/users HTTP/1.1" 200 2058 "-" "PostmanRuntime/7.26.3"
 ::1 - - [23/Aug/2020:14:24:42 +0000] | GET /api/admin/users | HTTP/1.1 | 200 | 2058 | - | PostmanRuntime/7.26.3
@@ -421,3 +422,5 @@
 ::1 | - | [Wed, 26 Aug 2020 16:23:08 GMT] | OPTIONS /api/tec_team/get_new_bidopenings?id=emp00005 | HTTP/1.1 | 204 | 0 | http://localhost:8080/employee/ | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 | 0.113 ms | 0.439 |
 ::1 | - | [Wed, 26 Aug 2020 16:23:09 GMT] | GET /api/tec_team/get_new_bidopenings?id=emp00005 | HTTP/1.1 | 304 | - | http://localhost:8080/employee/ | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 | 597.969 ms | 598.347 |
 ::1 | - | [Wed, 26 Aug 2020 16:23:09 GMT] | GET /api/tec_team/get_new_appointments?id=emp00005 | HTTP/1.1 | 304 | - | http://localhost:8080/employee/ | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 | 451.733 ms | 451.925 |
+=======
+>>>>>>> 5ac5edb45b9e6ae22c85fdced1aaa8f80dfeece2

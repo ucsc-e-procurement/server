@@ -9,13 +9,14 @@ const EmployeeModel = require("../../models/employee_model");
 const SupplierModel = require("../../models/supplier_model");
 const ProductModel = require("../../models/products_model");
 const RequisitionModel = require("../../models/requisition_model");
+const TestModel = require("../../models/test_model");
+const ProcurementModel = require("../../models/procurement_model");
 
 // Configurations
 require("../../config/passport_config");
 
 // Logger
 const logger = require("../../config/winston_config");
-
 
 module.exports = (app) => {
   app.use("/admin", router);
@@ -26,16 +27,19 @@ module.exports = (app) => {
     res.json({ error: err });
   });
 
-  // ----------------------------------------------------------------------------------------
-  //                               Route Endpoints
-  // ----------------------------------------------------------------------------------------
+  // ------------------------------------------------------------------------------------------------------------------------------------------------------
+  //                                                          Route Endpoints
+  // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-  // Health Check Route for Testing
+  // ######################################################################################################################################################
+  //                                                    Health Check Route for Testing
+  // ######################################################################################################################################################
   router.get("", (req, res, next) => {
     res.send("Ayubowan! from Admin Routes, I'm Working").status(200).end();
   });
-
-  // ################################### Get All Users #######################################
+  // ######################################################################################################################################################
+  //                                                            Get All Users
+  // ######################################################################################################################################################
   router.get("/users", async (req, res) => {
     logger.info("Admin --> GET /users invoked");
     try {
@@ -48,11 +52,15 @@ module.exports = (app) => {
         for (const user of users) {
           if (user.user_role !== "SUP") {
             // Internal Staff
-            const employee = await EmployeeModel.getEmplyeeByUserId(user.user_id);
+            const employee = await EmployeeModel.getEmplyeeByUserId(
+              user.user_id
+            );
             tempArray.push({ ...user, ...employee });
           } else {
             // External User - Supplier
-            const supplier = await SupplierModel.getSupplierByUserId(user.user_id);
+            const supplier = await SupplierModel.getSupplierByUserId(
+              user.user_id
+            );
             tempArray.push({ ...user, ...supplier });
           }
         }
@@ -71,27 +79,38 @@ module.exports = (app) => {
         // }
         res.json(tempArray);
       } else {
-
       }
     } catch (error) {
       logger.error(error);
     }
   });
-
+  // ######################################################################################################################################################
+  //                                                      Change User Status
+  // ######################################################################################################################################################
   router.put("/change_user_status", async (req, res, next) => {
     console.log("change_user_status: ", req.body);
-    const updatedResult = await UserModel.updateUserStatus(req.body.user_id, req.body.status);
+    const updatedResult = await UserModel.updateUserStatus(
+      req.body.user_id,
+      req.body.status
+    );
     console.log("change_user_status: 1234", updatedResult);
-    res.json({ message: updatedResult.affectedRows === 1 ? "SUCCESS" : "FAILED" });
+    res.json({
+      message: updatedResult.affectedRows === 1 ? "SUCCESS" : "FAILED",
+    });
   });
 
+  // ######################################################################################################################################################
+  //                                                      Get All Products
+  // ######################################################################################################################################################
   router.get("/get_all_products", async (req, res, next) => {
     console.log("get_all_products: ");
     const result = await ProductModel.getProducts();
     console.log("get_all_products: 1234", result);
     res.json(result);
   });
-
+  // // ######################################################################################################################################################
+  // //                                                      Get Requisitions
+  // // ######################################################################################################################################################
   router.get("/requisitions", async (req, res, next) => {
     logger.info("Admin --> GET /requisitions Invoked");
 
@@ -100,22 +119,34 @@ module.exports = (app) => {
     console.log("get_all_requisitions: 1234", result);
     res.json(result);
   });
-
-  router.get("/get_product_requisition", async (req, res, next) => {
-    logger.info("Admin --> GET /get_product_requisition Invoked");
+  // ######################################################################################################################################################
+  //                                                      Get Requisitions
+  // ######################################################################################################################################################
+  router.get("/requisition", async (req, res, next) => {
+    logger.info("Admin --> GET /requisition Invoked");
     console.log("get_all_requisitions: ", req.query);
 
     // Get the Requisition Data
-    const requisition = await RequisitionModel.getRequisitionById(req.query.requisitionId);
+    const requisition = await RequisitionModel.getRequisitionById(
+      req.query.requisitionId
+    );
 
     // Getting Names of Employees Involved
-    const headOfDivision = await EmployeeModel.getEmployeeByEmployeeId(requisition.head_of_division_id);
-    const director = await EmployeeModel.getEmployeeByEmployeeId(requisition.director_id);
-    const deputyBursar = await EmployeeModel.getEmployeeByEmployeeId(requisition.deputy_bursar_id);
+    const headOfDivision = await EmployeeModel.getEmployeeByEmployeeId(
+      requisition.head_of_division_id
+    );
+    const director = await EmployeeModel.getEmployeeByEmployeeId(
+      requisition.director_id
+    );
+    const deputyBursar = await EmployeeModel.getEmployeeByEmployeeId(
+      requisition.deputy_bursar_id
+    );
 
     // Getting Products
-    const productsList = await RequisitionModel.getProductsByRequisitionId(req.query.requisitionId);
-    // console.log("get_all_requisitions: 1234", requisition, headOfDivision, director, deputyBursar, productsList);
+    const productsList = await RequisitionModel.getProductsByRequisitionId(
+      req.query.requisitionId
+    );
+    console.log("get_all_requisitions: 1234", productsList);
 
     const requisitionData = {
       ...requisition,
@@ -126,9 +157,203 @@ module.exports = (app) => {
     };
     res.json(requisitionData);
   });
+  // ######################################################################################################################################################
+  //                                                   Procurement Initialization
+  // ######################################################################################################################################################
+  router.post("/procurement/init", async (req, res, next) => {
+    logger.info("Admin --> POST /procurement/init invoked");
 
-  // Procurement Initialization
-  router.put("/product_requisition/init", async (req, res, next) => {
+    const reqData = req.body;
 
+    try {
+      // Get the Product Requisition By ID
+      const productRequisition = await RequisitionModel.getRequisitionById(
+        reqData.requisitionId
+      );
+
+      // Generate Procurement ID
+      const procurementId = `UCSC/${reqData.procurementMethod}/${productRequisition.procurement_type}/${productRequisition.division}/${reqData.requisitionId}`;
+      console.log("ID: ",productRequisition, procurementId);
+      // Insert into the Procurement Table
+      let procurementData = {
+        procurement_id: procurementId,
+        procurement_method: reqData.procurementMethod,
+        bid_opening_date: reqData.bidOpeningDate,
+        expiration_date: reqData.bidExpirationDate,
+        requisition_id: reqData.requisitionId,
+        bid_opening_team_id: null,
+        tec_team_id: null,
+        assistant_bursar_id: reqData.assistantBursarId,
+        po_id: "NA",
+        status: "on-going",
+        step: 1,
+        category: reqData.procurementCategory,
+        procurement_type: productRequisition.procurement_type,
+        completed_date: null,
+        finance_method: productRequisition.fund_type,
+
+      };
+      const result = await ProcurementModel.createProcurement(procurementData);
+      logger.info(result);
+
+      res.status(201).json({message: "Procurement Created Succesfully"});
+    } catch (error) {
+      console.log(error);
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "",
+          description: error,
+        },
+      });
+    }
+    
+  });
+  // ######################################################################################################################################################
+  //                                                   Test Route - Firebase Doc to MySQL
+  // ######################################################################################################################################################
+  router.post("/test/firebaseToSQL", async (req, res, next) => {
+    try {
+      let jsonData = JSON.parse(req.body.data_string);
+
+      const result = await TestModel.updateBid("bid6", jsonData);
+      console.log(result);
+      res.json(jsonData);
+    } catch (error) {
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Invalid JSON String",
+          description: error,
+        },
+      });
+    }
+  });
+  // ######################################################################################################################################################
+  //                                                      Get User Roles
+  // ######################################################################################################################################################
+  router.get("/user_roles_internal", async (req, res, next) => {
+    logger.info("Admin --> GET /user_roles_internal invoked");
+
+    try {
+      let result = await UserModel.getUserRoles();
+      res.json(result);
+    } catch (error) {
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: error,
+        },
+      });
+    }
+  });
+  // ######################################################################################################################################################
+  //                                                      Get Next Employee ID
+  // ######################################################################################################################################################
+  router.get("/next_employee_id", async (req, res, next) => {
+    logger.info("Admin --> GET /next_employee_id invoked");
+
+    try {
+      let result = await UserModel.getLastEmployeeRecord();
+      let empId = String(result[0].employee_id);
+      let numericVal = parseInt(empId.substr(3)) + 1;
+      let paddedVal =
+        numericVal < 10
+          ? `000${numericVal}`
+          : numericVal < 100
+            ? `00${numericVal}`
+            : numericVal < 1000
+              ? `0${numericVal}`
+              : numericVal < 10000
+                ? `${numericVal}`
+                : String(numericVal);
+      let nextEmpId = "emp" + paddedVal;
+      res.json(nextEmpId);
+    } catch (error) {
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: error,
+        },
+      });
+    }
+  });
+  // ######################################################################################################################################################
+  //                                                      Create New User
+  // ######################################################################################################################################################
+  router.post("/user", async (req, res, next) => {
+    logger.info("Admin --> POST /user invoked");
+
+    let userData = {
+      employee_id: req.body.id,
+      name: req.body.name,
+      email: req.body.email,
+      user_id: req.body.email,
+      password: req.body.password,
+      division: req.body.division,
+      user_role: req.body.role,
+    };
+
+    try {
+      let result_1 = await UserModel.createUser(userData);
+      let result_2 = await EmployeeModel.createEmployee(userData);
+
+      console.log(result_1, result_2);
+      res.status(201).json({ message: "user created successfully" });
+    } catch (error) {
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: error,
+        },
+      });
+    }
+  });
+  // ######################################################################################################################################################
+  //                                                      Get All Products Related to the Product Requitition
+  // ######################################################################################################################################################
+  router.post("/user", async (req, res, next) => {
+    logger.info("Admin --> POST /user invoked");
+
+    let userData = {
+      employee_id: req.body.id,
+      name: req.body.name,
+      email: req.body.email,
+      user_id: req.body.email,
+      password: req.body.password,
+      division: req.body.division,
+      user_role: req.body.role,
+    };
+
+    try {
+      let result_1 = await UserModel.createUser(userData);
+      let result_2 = await EmployeeModel.createEmployee(userData);
+
+      console.log(result_1, result_2);
+      res.status(201).json({ message: "user created successfully" });
+    } catch (error) {
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: error,
+        },
+      });
+    }
   });
 };
