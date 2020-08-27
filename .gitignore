@@ -5,3 +5,7 @@
 
 # misc
 .env*
+file_uploads
+node_modules
+logs
+.env

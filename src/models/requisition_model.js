@@ -41,6 +41,8 @@ const getProductsByRequisitionId = (requisitionId) => new Promise((resolve, reje
       reject(err);
     }
 
+    console.log("RID: ", requisitionId);
+
     // SQL Query
     const sqlQueryString = `SELECT * FROM requisition_product INNER JOIN product ON requisition_product.product_id=product.product_id  WHERE requisition_product.requisition_id='${requisitionId}'`;
     console.log("QQQQQQQQQQQQQQQQ ", sqlQueryString);
