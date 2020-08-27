@@ -452,7 +452,7 @@ const getSupplierDetails = (supplierId) => new Promise((resolve, reject) => {
                             bid.procurement_id = procurement.procurement_id
                             LEFT JOIN requisition ON
                             procurement.requisition_id = requisition.requisition_id
-                            WHERE supplier.supplier_id = '${supplierId}'`;
+                            WHERE supplier.supplier_id = '${supplierId}' AND bid.status = 'approved'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -482,6 +482,29 @@ const getDepartments = () => new Promise((resolve, reject) => {
   });
 });
 
+// Get Department Details 
+const getDepartmentDetails = (department) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT CONCAT('[',GROUP_CONCAT(CONCAT('{"procurementId":"',procurement.procurement_id,'","status":"',procurement.status,'","step":"',procurement.step,'","prod_desc":"',requisition.description,'","procurement_method":"',procurement.procurement_method,'"}')),']') AS procurements
+                            FROM procurement INNER JOIN requisition ON
+                            procurement.requisition_id = requisition.requisition_id
+                            INNER JOIN employee ON requisition.head_of_division_id = employee.employee_id
+                            WHERE employee.department = '${department}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
   getProcurements,
   getRequisitionRequests,
@@ -502,5 +525,6 @@ module.exports = {
   getTecAppointmentRequests,
   getSuppliers,
   getSupplierDetails,
-  getDepartments
+  getDepartments,
+  getDepartmentDetails
 };

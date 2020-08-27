@@ -323,18 +323,34 @@ module.exports = (app) => {
       res.send(err).status(200).end();
     });
   })
+
+  // Get department list
+  router.get("/get_departments", (req, res) => {
+
+    directorModel.getDepartments().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
+  // Get Department Details 
+  router.get("/get_department_details", (req, res) => {
+
+    directorModel.getDepartmentDetails(req.query.department).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+  
 };
 
-// Get department list
-router.get("/get_departments", (req, res) => {
-
-  directorModel.getDepartments().then((result) => {
-    // eslint-disable-next-line no-console
-    console.log(result);
-    res.json(result).status(200).end();
-  }).catch((err) => {
-    // eslint-disable-next-line no-console
-    console.log(err);
-    res.send(err).status(200).end();
-  });
-})
