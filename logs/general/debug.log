@@ -44,3 +44,81 @@ SyntaxError: Unexpected token <<
 2020-08-24T07:23:08.438Z | info | Server Has Started listening on PORT: 5000
 >>>>>>> a9982c81766570c5265611b032e407ae0fc25e38
 2020-08-24T07:27:14.993Z | info | Server Has Started listening on PORT: 5000
+2020-08-24T07:56:46.377Z | error | uncaughtException: aws is not defined
+ReferenceError: aws is not defined
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\mysql.js:12:1)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+    at Module.load (internal/modules/cjs/loader.js:977:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:877:14)
+    at Module.require (internal/modules/cjs/loader.js:1019:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+2020-08-24T07:56:49.480Z | error | uncaughtException: aws is not defined
+ReferenceError: aws is not defined
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\mysql.js:12:1)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+    at Module.load (internal/modules/cjs/loader.js:977:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:877:14)
+    at Module.require (internal/modules/cjs/loader.js:1019:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+2020-08-24T07:56:59.394Z | info | Server Has Started listening on PORT: 5000
+2020-08-24T08:09:07.092Z | error | uncaughtException: localhost is not defined
+ReferenceError: localhost is not defined
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\mysql.js:29:1)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+    at Module.load (internal/modules/cjs/loader.js:977:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:877:14)
+    at Module.require (internal/modules/cjs/loader.js:1019:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+2020-08-24T08:09:13.647Z | error | uncaughtException: localhost is not defined
+ReferenceError: localhost is not defined
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\mysql.js:29:1)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+    at Module.load (internal/modules/cjs/loader.js:977:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:877:14)
+    at Module.require (internal/modules/cjs/loader.js:1019:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+2020-08-24T08:10:33.416Z | error | uncaughtException: aws is not defined
+ReferenceError: aws is not defined
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\mysql.js:37:1)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+    at Module.load (internal/modules/cjs/loader.js:977:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:877:14)
+    at Module.require (internal/modules/cjs/loader.js:1019:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+2020-08-24T08:10:35.001Z | error | uncaughtException: aws is not defined
+ReferenceError: aws is not defined
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\mysql.js:37:1)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+    at Module.load (internal/modules/cjs/loader.js:977:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:877:14)
+    at Module.require (internal/modules/cjs/loader.js:1019:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at Object.<anonymous> (C:\Users\Asus\Desktop\GitHub\ucsc-e-procurement\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:1133:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1153:10)
+2020-08-24T08:10:39.701Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T13:38:16.450Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T20:20:58.964Z | info | Server Has Started listening on PORT: 5000
+2020-08-26T20:46:48.879Z | info | Server Has Started listening on PORT: 5000
+2020-08-27T15:47:58.014Z | info | Server Has Started listening on PORT: 5000

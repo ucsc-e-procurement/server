@@ -462,6 +462,26 @@ const getSupplierDetails = (supplierId) => new Promise((resolve, reject) => {
   });
 });
 
+// Get Department List 
+const getDepartments = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT employee.name, employee.department FROM employee INNER JOIN user ON employee.user_id = user.user_id WHERE
+                            user.user_role = 'HOD'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
   getProcurements,
   getRequisitionRequests,
@@ -481,5 +501,6 @@ module.exports = {
   getRecentProducts,
   getTecAppointmentRequests,
   getSuppliers,
-  getSupplierDetails
+  getSupplierDetails,
+  getDepartments
 };

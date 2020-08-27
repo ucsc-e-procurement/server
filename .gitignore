@@ -1,6 +1,7 @@
 # dependencies
 /node_modules
 /file_uploads
+/logs
 
 # misc
 .env*
