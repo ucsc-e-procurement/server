@@ -31,7 +31,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "ucsc_e_proc",
+  database: "eprocnew",
 });
 
 // aws
@@ -39,7 +39,7 @@ const pool = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "",
-  database: "ucsc_e_proc",
+  database: "eprocnew",
   connectionLimit: 100,
 });
 

@@ -1,0 +1,17 @@
+::1 | - | [Thu, 27 Aug 2020 04:51:16 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 200 | 236 | - | PostmanRuntime/7.26.3 | 3.168 ms | 4.674 |
+::1 | - | [Thu, 27 Aug 2020 04:52:16 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 400 | 894 | - | PostmanRuntime/7.26.3 | 85.296 ms | 88.689 |
+::1 | - | [Thu, 27 Aug 2020 04:55:48 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 400 | 705 | - | PostmanRuntime/7.26.3 | 56.476 ms | 58.890 |
+::1 | - | [Thu, 27 Aug 2020 05:00:05 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 400 | 705 | - | PostmanRuntime/7.26.3 | 88.130 ms | 90.848 |
+::1 | - | [Thu, 27 Aug 2020 05:01:36 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 400 | 705 | - | PostmanRuntime/7.26.3 | 41.158 ms | 44.632 |
+::1 | - | [Thu, 27 Aug 2020 05:10:21 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 400 | 705 | - | PostmanRuntime/7.26.3 | 14.148 ms | 14.534 |
+::1 | - | [Thu, 27 Aug 2020 05:12:00 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 400 | 705 | - | PostmanRuntime/7.26.3 | 15.211 ms | 15.586 |
+::1 | - | [Thu, 27 Aug 2020 05:12:11 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 400 | 705 | - | PostmanRuntime/7.26.3 | 16.223 ms | 16.635 |
+::1 | - | [Thu, 27 Aug 2020 05:13:00 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 400 | 704 | - | PostmanRuntime/7.26.3 | 32.141 ms | 34.566 |
+::1 | - | [Thu, 27 Aug 2020 05:15:34 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 200 | 236 | - | PostmanRuntime/7.26.3 | 35.810 ms | 38.396 |
+::1 | - | [Thu, 27 Aug 2020 05:23:43 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 200 | 236 | - | PostmanRuntime/7.26.3 | 39.607 ms | 42.795 |
+::1 | - | [Thu, 27 Aug 2020 05:24:59 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 200 | 236 | - | PostmanRuntime/7.26.3 | 30.193 ms | 32.107 |
+::1 | - | [Thu, 27 Aug 2020 05:29:19 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 200 | 236 | - | PostmanRuntime/7.26.3 | 32.823 ms | 34.347 |
+::1 | - | [Thu, 27 Aug 2020 05:30:15 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 200 | 236 | - | PostmanRuntime/7.26.3 | 36.131 ms | 37.744 |
+::1 | - | [Thu, 27 Aug 2020 05:32:01 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 200 | 236 | - | PostmanRuntime/7.26.3 | 30.801 ms | 32.865 |
+::1 | - | [Thu, 27 Aug 2020 05:32:48 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 200 | 236 | - | PostmanRuntime/7.26.3 | 30.887 ms | 32.436 |
+::1 | - | [Thu, 27 Aug 2020 05:33:59 GMT] | POST /api/admin/test/firebaseToSQL | HTTP/1.1 | 200 | 236 | - | PostmanRuntime/7.26.3 | 32.958 ms | 34.487 |

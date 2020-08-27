@@ -11,6 +11,7 @@ const ProductModel = require("../../models/products_model");
 const RequisitionModel = require("../../models/requisition_model");
 const TestModel = require("../../models/test_model");
 const ProcurementModel = require("../../models/procurement_model");
+const BidModel = require("../../models/bid_model");
 
 // Configurations
 require("../../config/passport_config");
@@ -120,7 +121,7 @@ module.exports = (app) => {
     res.json(result);
   });
   // ######################################################################################################################################################
-  //                                                      Get Requisitions
+  //                                                      Get Requisition By ID
   // ######################################################################################################################################################
   router.get("/requisition", async (req, res, next) => {
     logger.info("Admin --> GET /requisition Invoked");
@@ -155,6 +156,7 @@ module.exports = (app) => {
       deputy_burasr: deputyBursar,
       products: productsList,
     };
+    console.log("############ ", requisitionData);
     res.json(requisitionData);
   });
   // ######################################################################################################################################################
@@ -173,7 +175,7 @@ module.exports = (app) => {
 
       // Generate Procurement ID
       const procurementId = `UCSC/${reqData.procurementMethod}/${productRequisition.procurement_type}/${productRequisition.division}/${reqData.requisitionId}`;
-      console.log("ID: ",productRequisition, procurementId);
+      console.log("ID: ", productRequisition, procurementId);
       // Insert into the Procurement Table
       let procurementData = {
         procurement_id: procurementId,
@@ -191,12 +193,11 @@ module.exports = (app) => {
         procurement_type: productRequisition.procurement_type,
         completed_date: null,
         finance_method: productRequisition.fund_type,
-
       };
       const result = await ProcurementModel.createProcurement(procurementData);
       logger.info(result);
 
-      res.status(201).json({message: "Procurement Created Succesfully"});
+      res.status(201).json({ message: "Procurement Created Succesfully" });
     } catch (error) {
       console.log(error);
       logger.error(error);
@@ -209,7 +210,6 @@ module.exports = (app) => {
         },
       });
     }
-    
   });
   // ######################################################################################################################################################
   //                                                   Test Route - Firebase Doc to MySQL
@@ -218,16 +218,20 @@ module.exports = (app) => {
     try {
       let jsonData = JSON.parse(req.body.data_string);
 
-      const result = await TestModel.updateBid("bid6", jsonData);
-      console.log(result);
-      res.json(jsonData);
+      const result_1 = await BidModel.createBid(jsonData);
+      const result_2 = await ProcurementModel.updateProcurementStep(
+        jsonData.procurement_id,
+        7
+      );
+
+      res.status(201).json({ message: "success", jsonData: jsonData });
     } catch (error) {
       logger.error(error);
 
       res.status(400).json({
         error: {
           code: "0000",
-          message: "Invalid JSON String",
+          message: "Error Occured",
           description: error,
         },
       });
@@ -344,6 +348,35 @@ module.exports = (app) => {
 
       console.log(result_1, result_2);
       res.status(201).json({ message: "user created successfully" });
+    } catch (error) {
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: error,
+        },
+      });
+    }
+  });
+  // ######################################################################################################################################################
+  //                                                   Check Whether a Requisition is Initialized OR Not
+  // ######################################################################################################################################################
+  router.get("/procurement/is_initialized", async (req, res, next) => {
+    logger.info("Admin --> GET /procurement/is_initialized invoked");
+
+    try {
+      let requisitionId = req.query.requisitionId;
+      console.log(requisitionId);
+
+      const result = await ProcurementModel.getProcurementByRequisitionId(
+        requisitionId
+      );
+      console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz ", result);
+      res.status(200).json({
+        is_initialized: result.length > 0 ? true : false,
+      });
     } catch (error) {
       logger.error(error);
 

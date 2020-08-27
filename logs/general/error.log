@@ -1,0 +1,61 @@
+2020-08-27T04:52:16.580Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.<anonymous> (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\src\models\test_model.js:64:22)
+    at Query.<anonymous> (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-08-27T04:52:16.597Z | error | ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'lock,
+      status,
+      supplier_id,
+      procurement_id,
+      total,
+      ' at line 4
+2020-08-27T04:55:48.508Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.<anonymous> (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\src\models\test_model.js:41:22)
+    at Query.<anonymous> (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-08-27T04:55:48.521Z | error | ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'lock, status, supplier_id, procurement_id, total, total_with_vat, vat_no, author' at line 1
+2020-08-27T05:00:05.081Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.<anonymous> (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\src\models\test_model.js:42:22)
+    at Query.<anonymous> (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-08-27T05:00:05.091Z | error | ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'lock, status, supplier_id, procurement_id, total, total_with_vat, vat_no, author' at line 1
+2020-08-27T05:01:36.802Z | error | ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'lock, status, supplier_id, procurement_id, total, total_with_vat, vat_no, author' at line 1
+2020-08-27T05:10:21.421Z | error | ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'lock, status, supplier_id, procurement_id, total, total_with_vat, vat_no, author' at line 1
+2020-08-27T05:12:00.154Z | error | ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'lock, status, supplier_id, procurement_id, total, total_with_vat, vat_no, author' at line 1
+2020-08-27T05:12:11.237Z | error | ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'lock, status, supplier_id, procurement_id, total, total_with_vat, vat_no, author' at line 1
+2020-08-27T05:13:00.649Z | error | ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'lock, status, supplier_id, procurement_id, total, total_with_vat, vat_no, author' at line 1
+2020-08-27T05:31:20.829Z | error | uncaughtException: createBid is not defined
+ReferenceError: createBid is not defined
+    at Object.<anonymous> (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\src\models\test_model.js:33:3)
+    at Module._compile (internal/modules/cjs/loader.js:1138:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1158:10)
+    at Module.load (internal/modules/cjs/loader.js:986:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:879:14)
+    at Module.require (internal/modules/cjs/loader.js:1026:19)
+    at require (internal/modules/cjs/helpers.js:72:18)
+    at Object.<anonymous> (E:\UCSC\3rd_Year\1st_Semester\Group_Project_II\Project\server\src\api\routes\test_routes.js:9:19)
+    at Module._compile (internal/modules/cjs/loader.js:1138:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1158:10)
