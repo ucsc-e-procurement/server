@@ -63,8 +63,50 @@ const updateProcurementStep = (updateProcurementStep, newStep) =>
     });
   });
 
+// Update Procurement Step
+const getProcurementsByStatus = (status) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement WHERE status='${status}'`;
+      db.query(sqlQueryString, (error, result, fields) => {
+  
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+        resolve(result);
+      });
+    });
+  });
+  
+// Update Procurement Step
+const getProcurementsById = (id) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement WHERE procurement_id='${id}'`;
+      db.query(sqlQueryString, (error, result, fields) => {
+
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+        resolve(result[0]);
+      });
+    });
+  });
+
 module.exports = {
   createProcurement,
   getProcurementByRequisitionId,
-  updateProcurementStep
+  updateProcurementStep,
+  getProcurementsByStatus,
+  getProcurementsById
 };
