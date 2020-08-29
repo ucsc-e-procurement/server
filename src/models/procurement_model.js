@@ -103,10 +103,35 @@ const getProcurementsById = (id) =>
     });
   });
 
+// Get Teach Team By ID
+const getTechTeamById = (tec_team_id) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+  
+    // SQL Query
+    const sqlQueryString = `SELECT DISTINCT
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"employee_id":"', employee.employee_id,'", "employee_name":"', employee.name,'","capacity":"', tec_emp.capacity,'"}')), ']') AS team
+        FROM tec_emp
+        INNER JOIN employee ON tec_emp.employee_id = employee.employee_id 
+        WHERE tec_emp.tec_team_id = '${tec_team_id}'
+        GROUP BY tec_emp.tec_team_id`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      //console.log(results)
+      resolve(JSON.parse(JSON.stringify(results[0])));
+    });
+  });
+});
+
 module.exports = {
   createProcurement,
   getProcurementByRequisitionId,
   updateProcurementStep,
   getProcurementsByStatus,
-  getProcurementsById
+  getProcurementsById,
+  getTechTeamById
 };

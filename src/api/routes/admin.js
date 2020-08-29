@@ -419,10 +419,32 @@ module.exports = (app) => {
     logger.info("Admin --> GET /procurement invoked");
 
     const procurementId = req.query.id;
-    console.log("=================================", procurementId);
 
     try {
       let result = await ProcurementModel.getProcurementsById(procurementId);
+      res.status(200).json(result);
+    } catch (error) {
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: error,
+        },
+      });
+    }
+  });
+  // ######################################################################################################################################################
+  //                                                      Get Tech Team By Procurement ID
+  // ######################################################################################################################################################
+  router.get("/procurement/tech-team", async (req, res, next) => {
+    logger.info("Admin --> GET /procurement/tech-team invoked");
+
+    const techteamId = req.query.id;
+
+    try {
+      let result = await ProcurementModel.getTechTeamById(techteamId);
       console.log(result);
       res.status(200).json(result);
     } catch (error) {
