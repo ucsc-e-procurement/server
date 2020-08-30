@@ -28,7 +28,7 @@ const getOngoingProcurements = () => new Promise((resolve, reject) => {
   });
 });
 
-// Get ongoing data
+// Get ongoing procurements data
 const getOngoingProcurementsData = (procurementId) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
