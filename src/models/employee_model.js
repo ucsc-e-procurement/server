@@ -36,9 +36,33 @@ const getEmployeeByEmployeeId = (employeeId) => new Promise((resolve, reject) =>
   });
 });
 
+// ######################################################################################################################################################
+//                                                 Create New Employee
+// ######################################################################################################################################################
+const createEmployee = (employeeData) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `INSERT INTO employee(employee_id, name, department, email, user_id) VALUES('${employeeData.employee_id}', '${employeeData.name}', '${employeeData.division}', '${employeeData.email}', '${employeeData.email}')`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      if (error) reject(error);
+
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
 
   getEmplyeeByUserId: getEmployeeByUserId,
   getEmployeeByEmployeeId,
+  createEmployee
 
 };
