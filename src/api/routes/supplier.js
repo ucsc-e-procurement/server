@@ -65,16 +65,6 @@ module.exports = (app) => {
     });
   });
 
-  router.get("/price_schedule/get_bid_data_from_fb", (req, res) => {
-    supplierModel.getDatafromFirebase(req.query.procurement_id)
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  });
-
   router.get("/price_schedule/get_file", (req, res) => {
     supplierModel.getAuthFile()
       .then(result => {
@@ -96,18 +86,19 @@ module.exports = (app) => {
   });
 
   router.post("/price_schedule/:procurement", (req, res) => {
-    supplierModel.enterSupplierBid(req.body).then(() => {
-      supplierModel.saveBidProducts(req.body.items)
+    new formidable.IncomingForm().parse(req, (err, fields, files) => {
+      if (err) {
+        console.error('Error', err)
+        throw err
+      }      
+      supplierModel.enterSupplierBid(fields, files)
         .then(() => {
           res.send("Successful").status(200).end();
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
-        });
-    })
-      .catch((err) => {
-        console.log(err);
-      });
+        })
+    });
   });
 
   // ------------------------------------------------------------------------------------------------------
@@ -168,7 +159,7 @@ module.exports = (app) => {
 
   router.get("/get_ongoing_procurements/", (req, res) => {
     const supplier_id = req.query.id;
-    console.log(supplier_id);
+    console.log(supplier_id, "hello");
     supplierModel.getOngoingProcurements(supplier_id).then((result) => {
       console.log("server", result);
       res.json(result);
