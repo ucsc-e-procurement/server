@@ -1,6 +1,7 @@
 const db = require("./mysql").pool;
 const bcrypt = require("bcrypt");
 const { resolve } = require("path");
+const firebase = require("firebase");
 
 const getSupplierData = (supplier_id) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -264,6 +265,32 @@ const getBidFile = () => new Promise(async (resolve, reject) => {
   });
 });
 
+// price schedule encryption
+const addBidToFirebase = (data) => {
+  console.log(data);
+  const responseKey = data.supplier_id.replace(".", "")
+  let itemRef = firebase.firestore().collection("ScheduleOfRequirements").doc(data.doc_id).collection("Items");
+  let iterator = 0;
+  itemRef.get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        doc.ref.update({
+          [responseKey]: data.items[iterator].bidderResponse
+        })
+        iterator++;
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  let bidRef = firebase.firestore().collection("bids").doc(data.bod);
+  bidRef.set({
+    [data.key]: data.encrypted    
+  }).catch(err => {
+    console.log(err);
+  })
+};
+
 // Save price schedule data
 const enterSupplierBid = (fields, files) =>
   new Promise((resolve, reject) => {
@@ -295,7 +322,6 @@ const enterSupplierBid = (fields, files) =>
 // Save bid products of a single bid
 const saveBidProducts = (items) =>
   new Promise((resolve, reject) => {
-    console.log(items);
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -334,9 +360,9 @@ module.exports = {
   registerSupplier,
   saveSupplierInfo,
   saveSupplierRegistration,
-  getDatafromFirebase,
   getAuthFile,
   getBidFile,
+  addBidToFirebase,
   enterSupplierBid,
   saveBidProducts,
   getSupplierData,
