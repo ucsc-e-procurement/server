@@ -160,3 +160,15 @@ SyntaxError: Missing initializer in const declaration
     at Object.<anonymous> (D:\Docs\Projects\Group Project\server\src\config\passport_config.js:14:23)
     at Module._compile (internal/modules/cjs/loader.js:778:30)
     at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
+2020-08-30T11:50:28.090Z | error | uncaughtException: getDatafromFirebase is not defined
+ReferenceError: getDatafromFirebase is not defined
+    at Object.<anonymous> (D:\Docs\Projects\Group Project\server\src\models\supplier_model.js:337:3)
+    at Module._compile (internal/modules/cjs/loader.js:778:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:789:10)
+    at Module.load (internal/modules/cjs/loader.js:653:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:593:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:585:3)
+    at Module.require (internal/modules/cjs/loader.js:692:17)
+    at require (internal/modules/cjs/helpers.js:25:18)
+    at Object.<anonymous> (D:\Docs\Projects\Group Project\server\src\config\passport_config.js:14:23)
+    at Module._compile (internal/modules/cjs/loader.js:778:30)
