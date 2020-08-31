@@ -13,6 +13,10 @@ const port = 5000;
 
 async function startServer () {
   
+  // const test = JSON.parse(str);
+  // console.log(">>", test);
+  // console.log("##", test.total);
+
   await loader(app);
 
   app.listen(config.port, (err) => {
@@ -29,6 +33,17 @@ async function startServer () {
       =====================================================================================
 
     `);
+    let rawStr = "{\"items\":[\"{\"prod_id\":\"prod5\",\"description\":\"60GSM A4 printer quality paper \",\"qty\":\"10\",\"figures\":0,\"vat\":0,\"discount\":0,\"make\":\"-\",\"date\":\"2020-08-30\",\"validity\":0,\"credit\":0}\"],\"subTotal\":\"0\",\"total\":\"0\"}";
+    console.log("######### ", rawStr);
+    let temp = String(rawStr);
+    console.log("#### ##### ", temp);
+
+
+    // let str = JSON.stringify(temp);
+    // str = str.replace(/\\/, "");
+    // str = str.replace(/\\/, "");
+
+    console.log("@@: ", JSON.parse(temp));
   }
   
   );

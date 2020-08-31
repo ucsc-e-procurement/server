@@ -12,6 +12,7 @@ const RequisitionModel = require("../../models/requisition_model");
 const TestModel = require("../../models/test_model");
 const ProcurementModel = require("../../models/procurement_model");
 const BidModel = require("../../models/bid_model");
+const AdminModel = require("../../models/admin_model");
 
 // Configurations
 require("../../config/passport_config");
@@ -453,10 +454,133 @@ module.exports = (app) => {
       res.status(400).json({
         error: {
           code: "0000",
+          message: "Error Occured",
+          description: error,
+        },
+      });
+    }
+  });
+  // ######################################################################################################################################################
+  //                                                      Get All Suppliers
+  // ######################################################################################################################################################
+  router.get("/suppliers", async (req, res, next) => {
+    logger.info("Admin --> GET /suppliers invoked");
+
+    AdminModel.getSuppliers().then(suppliers => {
+      res.status(200).json(suppliers);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error Occured",
+          description: err,
+        },
+      });
+    });
+    
+  });
+  // ######################################################################################################################################################
+  //                                                      Get Supplier By ID
+  // ######################################################################################################################################################
+  router.get("/supplier", async (req, res, next) => {
+    const supplierId = req.query.id;
+    logger.info("Admin --> GET /supplier?id=" + supplierId + " invoked");
+
+    AdminModel.getSupplierById(supplierId).then(supplier => {
+      res.status(200).json(supplier);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error Occured",
+          description: err,
+        },
+      });
+    });
+    
+  });
+  // ######################################################################################################################################################
+  //                                                      Get Signature Status - Added / Verified ? ********************************************************
+  // ######################################################################################################################################################
+  router.get("/signature/status", async (req, res, next) => {
+    logger.info("Admin --> GET /signature/status invoked");
+
+    const userId = req.query.id;
+    try {
+      let result = await ProcurementModel.getProcurementsByStatus(status);
+      console.log(result);
+      res.status(200).json(result);
+    } catch (error) {
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
           message: "Error",
           description: error,
         },
       });
     }
+  });
+  // ######################################################################################################################################################
+  //                                                      Get All Procurement Related to a Supplier
+  // ######################################################################################################################################################
+  router.get("/bids/supplier", async (req, res, next) => {
+    logger.info("Admin --> GET /bids/supplier?supplierId=" + req.query.supplierId + " invoked");
+
+    const supplierId = req.query.supplierId;
+    try {
+      let result = await BidModel.getBidsBySupplierId(supplierId);
+      console.log(result);
+      res.status(200).json(result);
+    } catch (error) {
+      logger.error(error);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: error,
+        },
+      });
+    }
+  });
+
+  // ######################################################################################################################################################
+  //                                                      Get Bid Info By Bid ID
+  // ######################################################################################################################################################
+  router.get("/bid", (req, res, next) => {
+    logger.info("Admin --> GET /bid?id=" + req.query.id + " invoked");
+    const bidId = req.query.id;
+
+    let bidData = null;
+
+    BidModel.getBidById(bidId).then(bid => {
+      bidData = {...bid};
+      return BidModel.getBidProductsById(bidId);
+    }).then(bidProducts => {
+      bidData = {...bidData, products: JSON.parse(JSON.stringify(bidProducts))};
+      console.log("BidProducts: ", bidProducts, bidData);
+
+
+      res.status(200).json(bidData);
+      return;
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: err,
+        },
+      });
+    });
+
+   
   });
 };
