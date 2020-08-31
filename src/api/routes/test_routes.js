@@ -69,3 +69,17 @@ module.exports = (app) => {
     res.json({ hashed_password: hash });
   });
 };
+
+// const temp = {
+//   bid_id: "bid7",
+//   description: "bid7 Desc",
+//   lock: "unloked",
+//   status: "pending",
+//   supplier_id: "s000003",
+//   procurement_id: "UCSC/NSP1/G/ENG/2020/0000030",
+//   total: 4000.00,
+//   total_with_vat: 4700.00,
+//   vat_no: "1234",
+//   authorize_person: "auth person1"
+// };
+// res.send(JSON.stringify(temp));

@@ -21,6 +21,117 @@ const createProcurement = (procurementData) =>
     });
   });
 
+// Get Procurement By Requisition ID
+const getProcurementByRequisitionId = (requisitionId) =>
+  new Promise((resolve, reject) => {
+    console.log(requisitionId);
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement WHERE requisition_id='${requisitionId}'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+      
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+        resolve(results);
+      });
+    });
+  });
+
+// Update Procurement Step
+const updateProcurementStep = (updateProcurementStep, newStep) =>
+  new Promise((resolve, reject) => {
+    console.log(newStep);
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `UPDATE procurement SET step=${newStep} WHERE procurement_id=${updateProcurementStep}`;
+      db.query(sqlQueryString, (error, result, fields) => {
+    
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+        resolve(result);
+      });
+    });
+  });
+
+// Update Procurement Step
+const getProcurementsByStatus = (status) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement WHERE status='${status}'`;
+      db.query(sqlQueryString, (error, result, fields) => {
+  
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+        resolve(result);
+      });
+    });
+  });
+  
+// Update Procurement Step
+const getProcurementsById = (id) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement WHERE procurement_id='${id}'`;
+      db.query(sqlQueryString, (error, result, fields) => {
+
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+        resolve(result[0]);
+      });
+    });
+  });
+
+// Get Teach Team By ID
+const getTechTeamById = (tec_team_id) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+  
+    // SQL Query
+    const sqlQueryString = `SELECT DISTINCT
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"employee_id":"', employee.employee_id,'", "employee_name":"', employee.name,'","capacity":"', tec_emp.capacity,'"}')), ']') AS team
+        FROM tec_emp
+        INNER JOIN employee ON tec_emp.employee_id = employee.employee_id 
+        WHERE tec_emp.tec_team_id = '${tec_team_id}'
+        GROUP BY tec_emp.tec_team_id`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      //console.log(results)
+      resolve(JSON.parse(JSON.stringify(results[0])));
+    });
+  });
+});
+
 module.exports = {
-  createProcurement
+  createProcurement,
+  getProcurementByRequisitionId,
+  updateProcurementStep,
+  getProcurementsByStatus,
+  getProcurementsById,
+  getTechTeamById
 };

@@ -4,13 +4,15 @@ const express = require("express");
 const test = require("./routes/test_routes");
 const auth = require("./routes/auth");
 const tecTeam = require("./routes/tec_team");
-const bidOpeningTeam = require("./routes/bid_opening_team")
+const bidOpeningTeam = require("./routes/bid_opening_team");
 const supplier = require("./routes/supplier");
 const director = require("./routes/director_routes");
 const deputyBursar = require("./routes/deputy_bursar");
 const hod = require("./routes/hod");
 const purchase_order = require("./routes/purchase_order");
 const admin = require("./routes/admin");
+const external = require("./routes/external");
+
 // const signature = require("./routes/signature");
 
 module.exports = () => {
@@ -32,7 +34,7 @@ module.exports = () => {
   tecTeam(app);
 
   //Bid Opening Team
-  bidOpeningTeam(app)
+  bidOpeningTeam(app);
 
   //Director
   director(app);
@@ -42,8 +44,12 @@ module.exports = () => {
 
   // Purchase Order
   purchase_order(app);
+  
   // Administrator
   admin(app);
+
+  // External Routes - Firebase Cloud Functions
+  external(app);
 
   // Signature
   // signature(app);

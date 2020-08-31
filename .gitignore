@@ -1,2 +1,8 @@
-node_modules
-logs
+# dependencies
+/node_modules
+/file_uploads
+/logs
+
+# misc
+.env*
+

@@ -17,7 +17,7 @@ const config = require("../config");
 //   database: "ucsc_e_proc",
 // });
 
-// // If Connection Pooling is needed, use this approach instead
+// If Connection Pooling is needed, use this approach instead
 // const pool = mysql.createPool({
 //   host: "testdb-1.cezlzfckdvnf.ap-south-1.rds.amazonaws.com",
 //   user: "root",
