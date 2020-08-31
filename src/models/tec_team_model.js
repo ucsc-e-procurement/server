@@ -166,7 +166,10 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
       }
   
       // SQL Query
-      const sqlQueryString = `SELECT * FROM procurement WHERE procurement.procurement_id='${procurement_id}'`;
+      const sqlQueryString = `SELECT procurement.*, tec_team.* 
+        FROM procurement 
+        INNER JOIN tec_team ON procurement.tec_team_id=tec_team.tec_team_id
+        WHERE procurement.procurement_id='${procurement_id}'`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
