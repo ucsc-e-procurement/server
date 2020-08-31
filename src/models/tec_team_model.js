@@ -166,7 +166,10 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
       }
   
       // SQL Query
-      const sqlQueryString = `SELECT * FROM procurement WHERE procurement.procurement_id='${procurement_id}'`;
+      const sqlQueryString = `SELECT procurement.*, tec_team.* 
+        FROM procurement 
+        INNER JOIN tec_team ON procurement.tec_team_id=tec_team.tec_team_id
+        WHERE procurement.procurement_id='${procurement_id}'`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
@@ -284,11 +287,23 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
   
       // SQL Query
       const sqlQueryString = `UPDATE tec_report SET tec_report.tec_recommendation='${tec_report_data.tecRecommendation}' WHERE tec_report.report_id='${tec_report_data.procurementId}'`;
+      const sqlQueryString1 = `UPDATE procurement SET procurement.step=8 WHERE procurement.procurement_id='${tec_report_data.procurementId}'`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
-        connection.release();
+        if(tec_report_data.complete){
+          db.query(sqlQueryString1, (error, results, fields) => {
+            connection.release();
+            if(error){
+              console.log('err', error)
+            }
+            else{
+              console.log('result', results)
+              resolve(JSON.parse(JSON.stringify(results)));
+            }
+          })
+        }
         //console.log(results)
-        resolve(JSON.parse(JSON.stringify(results)));
+        //resolve(JSON.parse(JSON.stringify(results)));
       });
     });
   });
