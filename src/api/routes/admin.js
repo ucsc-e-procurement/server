@@ -581,9 +581,8 @@ module.exports = (app) => {
       });
     });
   });
-
   // ######################################################################################################################################################
-  //                                                      Get Registration By Year
+  //                                                      Get Registrations By Year
   // ######################################################################################################################################################
   router.get("/registrations/year", async (req, res, next) => {
     logger.info("Admin --> GET /registrations/year?year=" + req.query.year + " invoked");
@@ -604,5 +603,32 @@ module.exports = (app) => {
       });
     });
    
+  });
+  // ######################################################################################################################################################
+  //                                                      Get Registration By ID
+  // ######################################################################################################################################################
+  router.get("/supplier-registration", async (req, res, next) => {
+    logger.info("Admin --> GET /supplier-registration?id=" + req.query.id + " invoked");
+
+    const registrationId = req.query.id;
+
+    AdminModel.getRegistrationById(registrationId).then(result => {
+
+      let tempData = {...result};
+      let buff = new Buffer(tempData.payment);
+      let base64data = buff.toString("base64");
+      tempData.payment = `data:image/jpeg;base64,${base64data}`;
+      res.status(200).json(tempData);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: err,
+        },
+      });
+    });
   });
 };

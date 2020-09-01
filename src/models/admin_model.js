@@ -69,6 +69,27 @@ const getRegistrationsByYear = (year) =>
     });
   });
 
+const getRegistrationById = (registrationId) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM registration LEFT JOIN supplier ON registration.supplier_id=supplier.supplier_id WHERE registration_no='${registrationId}'`;
+      console.log(sqlQueryString);
+      db.query(sqlQueryString, (error, results, fields) => {
+
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+
+        resolve(JSON.parse(JSON.stringify(results[0])));
+      });
+    });
+  });
+
 
 
 
@@ -76,6 +97,7 @@ const getRegistrationsByYear = (year) =>
 module.exports = {
   getSuppliers,
   getSupplierById,
-  getRegistrationsByYear
+  getRegistrationsByYear,
+  getRegistrationById
   
 };
