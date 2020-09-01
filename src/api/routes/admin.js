@@ -580,7 +580,29 @@ module.exports = (app) => {
         },
       });
     });
+  });
 
+  // ######################################################################################################################################################
+  //                                                      Get Registration By Year
+  // ######################################################################################################################################################
+  router.get("/registrations/year", async (req, res, next) => {
+    logger.info("Admin --> GET /registrations/year?year=" + req.query.year + " invoked");
+
+    const year = req.query.year;
+
+    AdminModel.getRegistrationsByYear(year).then(results => {
+      res.status(200).json(results);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Error",
+          description: err,
+        },
+      });
+    });
    
   });
 };
