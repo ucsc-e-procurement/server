@@ -90,6 +90,27 @@ const getRegistrationById = (registrationId) =>
     });
   });
 
+const updateSupplierRegistrationStatus = (registrationNo, status) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `UPDATE registration SET verified='${status}' WHERE registration_no='${registrationNo}'`;
+      console.log(sqlQueryString);
+      db.query(sqlQueryString, (error, result, fields) => {
+
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+
+        resolve(JSON.parse(JSON.stringify(result)));
+      });
+    });
+  });
+
 
 
 
@@ -98,6 +119,7 @@ module.exports = {
   getSuppliers,
   getSupplierById,
   getRegistrationsByYear,
-  getRegistrationById
+  getRegistrationById,
+  updateSupplierRegistrationStatus
   
 };

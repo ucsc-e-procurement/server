@@ -631,4 +631,27 @@ module.exports = (app) => {
       });
     });
   });
+  // ######################################################################################################################################################
+  //                                                      Update Supplier-Registration --> Verification Status
+  // ######################################################################################################################################################
+  router.put("/supplier-registration/verification-status", async (req, res, next) => {
+    logger.info("Admin --> PUT /supplier-registration/verification-status invoked");
+
+    const data = req.body;
+
+    AdminModel.updateSupplierRegistrationStatus(data.registrationNo, data.status).then(result => {
+
+      res.status(204).json({message: "status updated"});
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Upadte Error",
+          description: err,
+        },
+      });
+    });
+  });
 };
