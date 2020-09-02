@@ -12,6 +12,8 @@ const hod = require("./routes/hod");
 const purchase_order = require("./routes/purchase_order");
 const admin = require("./routes/admin");
 const external = require("./routes/external");
+const admin_analytics = require("./routes/admin_analytics");
+
 
 // const signature = require("./routes/signature");
 
@@ -50,6 +52,9 @@ module.exports = () => {
 
   // External Routes - Firebase Cloud Functions
   external(app);
+
+  // Reporting Module of Admin
+  admin_analytics(app);
 
   // Signature
   // signature(app);
