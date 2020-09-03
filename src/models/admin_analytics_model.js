@@ -1,7 +1,5 @@
 const db = require("./mysql").pool;
 
-
-  
 // ######################################################################################################################################################
 //                                                  Monthly Product Requisition Count of a Given Year
 // ######################################################################################################################################################
@@ -14,29 +12,40 @@ const getMonthlyProductRequisitionCount = (year) =>
       const dateRange = {
         begin: `${year}-01-01`,
         end: `${year}-12-31`,
-
       };
       // SQL Query
       const sqlQueryString = `SELECT MONTH(date) AS month , COUNT(*) AS count FROM requisition WHERE date BETWEEN '${dateRange.begin}'  AND '${dateRange.end}' GROUP BY MONTH(date)`;
       db.query(sqlQueryString, (error, results, fields) => {
-
         // Release SQL Connection Back to the Connection Pool
         connection.release();
-        if(error) reject(error);
+        if (error) reject(error);
 
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
 
         let index = 0;
-        let newResults = months.map(month => {
+        let newResults = months.map((month) => {
           index++;
           return {
             month: month,
             index: index,
-            count: 0
+            count: 0,
           };
         });
 
-        results.map(result => {
+        results.map((result) => {
           newResults[parseInt(result.month) - 1].count = result.count;
           return;
         });
@@ -45,15 +54,54 @@ const getMonthlyProductRequisitionCount = (year) =>
       });
     });
   });
+// ######################################################################################################################################################
+//                                                  Get Annual Method-wise Procurements
+// ######################################################################################################################################################
+const getAnnualMethodWiseProcurementCount = (year) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+      const dateRange = {
+        begin: `${year}-01-01`,
+        end: `${year}-12-31`,
+      };
+      // SQL Query
+      const sqlQueryString = `SELECT procurement_method as method, count(*) as count FROM procurement WHERE bid_opening_date BETWEEN '${dateRange.begin}'  AND '${dateRange.end}' GROUP BY procurement_method`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if (error) reject(error);
+
+        const procurementData = [
+          { method: "Direct Method", code: "DIM", count: 0 },
+          { method: "National Competitive Bidding", code: "NCB", count: 0 },
+          { method: "Normal Price Schedule", code: "NSP1", count: 0 },
+          { method: "National Shopping", code: "NSP2", count: 0 },
+        ];
+
+        results.map((data) => {
+          if (data.method === "DIM") {
+            procurementData[0].count = data.count;
+          } else if (data.method === "NCB") {
+            procurementData[1].count = data.count;
+          } else if (data.method === "NSP1") {
+            procurementData[2].count = data.count;
+          } else if (data.method === "NSP2") {
+            procurementData[3].count = data.count;
+          }
+
+          return;
+        });
 
 
-
-
-
-
-
+        resolve(procurementData);
+      });
+    });
+  });
 
 module.exports = {
-  getMonthlyProductRequisitionCount
-  
+  getMonthlyProductRequisitionCount,
+  getAnnualMethodWiseProcurementCount
 };

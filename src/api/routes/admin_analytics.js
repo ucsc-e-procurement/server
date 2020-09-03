@@ -50,4 +50,23 @@ module.exports = (app) => {
       });
     });
   });
+  // ######################################################################################################################################################
+  //                                         Annual Method-wise Procurements         
+  // ######################################################################################################################################################
+  router.get("/annual-method-wise-procurement-count", async (req, res, next) => {
+    const year = req.query.year;
+    AnalyticsModel.getAnnualMethodWiseProcurementCount(String(year)).then(results => {
+      res.status(200).json(results);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Retrieval Error",
+          description: err,
+        },
+      });
+    });
+  });
 };
