@@ -39,7 +39,7 @@ const getCompletedProcurements = (employee_id) => new Promise((resolve, reject) 
   });
 });
 
-const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) => {
+const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -48,17 +48,125 @@ const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) =>
   
       // SQL Query
       // do not select bid.procurement_id in this query as it returns proc_id = null for procs with no bids
-      const sqlQueryString = `SELECT DISTINCT
-        procurement.*, procurement.status AS procurement_status, requisition.*, requisition.status AS requisition_status, bid.status AS bid_status,
-        CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","unit_price":"',bid_product.unit_price, ' ", "total_with_vat":"', bid.total_with_vat,'"}')), ']') AS bids
+      // const sqlQueryString = `SELECT DISTINCT
+      //   procurement.*, procurement.status AS procurement_status, requisition.*, requisition.status AS requisition_status, bid.status AS bid_status,
+      //   CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","unit_price":"',bid_product.unit_price, ' ", "total_with_vat":"', bid.total_with_vat,'"}')), ']') AS bids
+      //   FROM procurement 
+      //   INNER JOIN requisition ON procurement.requisition_id = requisition.requisition_id
+      //   LEFT JOIN bid ON procurement.procurement_id = bid.procurement_id
+      //   LEFT JOIN bid_product ON bid.bid_id = bid_product.bid_id
+      //   LEFT JOIN product ON product.product_id = bid_product.product_id
+      //   LEFT JOIN supplier ON bid.supplier_id = supplier.supplier_id
+      //   WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going'
+      //   GROUP BY bid.procurement_id`;
+
+        // const sqlQueryString = `SELECT DISTINCT
+        // procurement.*, procurement.status AS procurement_status, bid.status AS bid_status,
+        // CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","unit_price":"',bid_product.unit_price, ' ", "total_with_vat":"', bid.total_with_vat,'"}')), ']') AS bids
+        // FROM procurement 
+        // INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
+        // INNER JOIN bid_product ON bid.bid_id = bid_product.bid_id
+        // INNER JOIN product ON product.product_id = bid_product.product_id
+        // INNER JOIN supplier ON bid.supplier_id = supplier.supplier_id
+        // WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going' AND procurement.step >= 7
+        // GROUP BY bid.procurement_id`;
+
+        const sqlQueryString = `SELECT DISTINCT
+        procurement.*, procurement.status AS procurement_status
         FROM procurement 
-        INNER JOIN requisition ON procurement.requisition_id = requisition.requisition_id
-        LEFT JOIN bid ON procurement.procurement_id = bid.procurement_id
-        LEFT JOIN bid_product ON bid.bid_id = bid_product.bid_id
-        LEFT JOIN product ON product.product_id = bid_product.product_id
-        LEFT JOIN supplier ON bid.supplier_id = supplier.supplier_id
-        WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going'
-        GROUP BY bid.procurement_id`;
+        WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going' AND procurement.step >= 7`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getLockedProcurements = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+
+        const sqlQueryString = `SELECT DISTINCT
+        procurement.*, procurement.status AS procurement_status
+        FROM procurement 
+        WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going' AND procurement.step < 7`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getItemWiseBids = (procurement_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+
+        const sqlQueryString = `SELECT product.*,
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","qty":"',bid_product.quantity,'","unit_price":"',bid_product.unit_price, ' ", "total_with_vat":"', bid.total_with_vat,'"}')), ']') AS bids
+        FROM bid
+        INNER JOIN supplier ON bid.supplier_id=supplier.supplier_id
+        INNER JOIN bid_product ON bid.bid_id=bid_product.bid_id
+        INNER JOIN product ON bid_product.product_id=product.product_id
+        where bid.procurement_id='${procurement_id}'
+        GROUP BY product.product_id`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getPackagedBids = (procurement_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+
+        const sqlQueryString = `SELECT bid.*, supplier.*,
+        CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', product.product_id, '", "product_name":"', product.product_name, '","qty":"', bid_product.quantity,'","unit_price":"',bid_product.unit_price,'"}')), ']') AS bids
+        FROM bid
+        INNER JOIN supplier ON bid.supplier_id=supplier.supplier_id
+        INNER JOIN bid_product ON bid.bid_id=bid_product.bid_id
+        INNER JOIN product ON bid_product.product_id=product.product_id
+        where bid.procurement_id='${procurement_id}'
+        GROUP BY bid.bid_id`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getProcurement = (procurement_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement WHERE procurement.procurement_id='${procurement_id}'`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
@@ -116,12 +224,182 @@ const getOngoingProcurements = (employee_id) => new Promise((resolve, reject) =>
     });
   });
 
+  const saveTecReport = (tec_report_data) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      console.log('save tec report model', tec_report_data)
+  
+      // SQL Query
+      const sqlQueryString = `UPDATE bid SET bid.status='rejected' WHERE bid.bid_id IN (?)`;
+      const sqlQueryString1 = `UPDATE bid SET bid.status='approved' WHERE bid.bid_id IN (?)`;
+      //set date
+      const sqlQueryString2 = `INSERT INTO tec_report(report_id, status, tec_team_id, procurement_id, rejected_bids, recommended_bids, tec_recommendation) 
+      VALUES ('${tec_report_data.procurementId}', 'saved', '${tec_report_data.tecTeamId}', '${tec_report_data.procurementId}', '${tec_report_data.reasonsForRejecting}', '${tec_report_data.reasonForRecommending}', '${tec_report_data.tecRecommendation}')`;
+      db.query(sqlQueryString, [tec_report_data.rejectedbids],(error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        db.query(sqlQueryString1, [tec_report_data.recommendedbids],(error, results, fields) => {
+          db.query(sqlQueryString2, [tec_report_data.recommendedbids],(error, results, fields) => {
+            connection.release();
+            //console.log(results)
+            if(error){
+              console.log('err', error)
+            }
+            else{
+              console.log('result', results)
+              resolve(JSON.parse(JSON.stringify(results)));
+            }
+          })
+        })
+      });
+    });
+  });
+
+  const getTecReport = (procurement_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM tec_report WHERE tec_report.procurement_id='${procurement_id}'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const updateTecReport = (tec_report_data) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `UPDATE tec_report SET tec_report.tec_recommendation='${tec_report_data.tecRecommendation}' WHERE tec_report.report_id='${tec_report_data.procurementId}'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getNewAppointments = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT DISTINCT
+      procurement.*
+      FROM procurement 
+      WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.step = 4`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getNewBidOpenings = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT DISTINCT
+      procurement.*
+      FROM procurement 
+      WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.step = 7`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getCurrentTeams = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT DISTINCT
+      procurement.*, tec_team.*, director.name AS appointed_by, chairman.name AS chairman
+      FROM procurement 
+      INNER JOIN tec_team ON procurement.tec_team_id = tec_team.tec_team_id
+      INNER JOIN employee AS director ON tec_team.appointed_by = director.employee_id
+      INNER JOIN employee AS chairman ON tec_team.chairman = chairman.employee_id
+      WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getPastTeams = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+      const sqlQueryString = `SELECT DISTINCT
+      procurement.*, tec_team.*, director.name AS appointed_by, chairman.name AS chairman
+      FROM procurement 
+      INNER JOIN tec_team ON procurement.tec_team_id = tec_team.tec_team_id
+      INNER JOIN employee AS director ON tec_team.appointed_by = director.employee_id
+      INNER JOIN employee AS chairman ON tec_team.chairman = chairman.employee_id
+      WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='completed'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
 module.exports = {
     // getSupplierData,
     // getNewRequests,
-    getOngoingProcurements,
+    getLockedProcurements,
+    getUnlockedProcurements,
     getCompletedProcurements,
+    getItemWiseBids,
+    getPackagedBids,
+    getProcurement,
     getRequisition,
-    getTecTeam
+    getTecTeam,
+    saveTecReport,
+    getTecReport,
+    updateTecReport,
+    getNewAppointments,
+    getNewBidOpenings,
+    getCurrentTeams,
+    getPastTeams
 };
   
