@@ -27,6 +27,8 @@ Linting in VS Code -> https://www.digitalocean.com/community/tutorials/workflow-
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 TERMS AND CONDITIONS
+
+
 0. Definitions.
 
 “This License” refers to version 3 of the GNU General Public License.
