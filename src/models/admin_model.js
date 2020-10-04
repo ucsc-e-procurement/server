@@ -29,27 +29,6 @@ const getDirectOngoingProcurements = () => new Promise((resolve, reject) => {
   });
 });
 
-// Get Shopping ongoing procurement List
-const getShoppingOngoingProcurements = () => new Promise((resolve, reject) => {
-  db.getConnection((err, connection) => {
-    if (err) {
-      reject(err);
-      return;
-    }
-    // SQL Query
-    const sqlQueryString = `SELECT procurement.procurement_id, procurement.category 
-                            FROM procurement
-                            INNER JOIN requisition ON procurement.requisition_id = requisition.requisition_id
-                            WHERE procurement.step = 3 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method = 'shopping'`
-    db.query(sqlQueryString, (error, results, fields) => {
-      // Release SQL Connection Back to the Connection Pool
-      connection.release();
-      console.log(sqlQueryString, results, fields);
-      resolve(JSON.parse(JSON.stringify(results)));
-    });
-  });
-});
-
 // Get list of suppliers
 const getSupplierList = () => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -78,7 +57,39 @@ const sendRFQDirectOngoingProcurements = (supplierId,procurementId,date,deadline
       return;
     }
     // SQL Query
-    const sqlQueryString = `INSERT INTO rfq VALUES('rfq12', 'rfq11', 'sent', '${deadline}' , '${procurementId}', '${supplierId}', '${date}');`;
+    const sqlQueryString1 = `INSERT INTO rfq VALUES('rfq12', 'rfq12', 'sent', '${deadline}' , '${procurementId}', '${supplierId}', '${date}');`;
+    // const sqlQueryString2 = `UPDATE procurement SET step = 4 WHERE procurement_id = '${procurementId}'`;
+
+    db.query(sqlQueryString1, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      console.log(sqlQueryString1, results, fields);
+
+      // if (error) {
+      //   connection.release();
+      //   console.log(JSON.stringify(error));
+      // } else {
+      //   db.query(sqlQueryString2, (error, results, fields) => {
+      //     connection.release();
+      //     console.log(sqlQueryString1, results, fields);
+      //     resolve(JSON.parse(JSON.stringify(results)));
+      //   });
+      // }
+    });
+  });
+});
+
+// Get Shopping ongoing procurement List
+const getShoppingOngoingProcurements = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    // SQL Query
+    const sqlQueryString = `SELECT procurement.procurement_id, procurement.category 
+                            FROM procurement
+                            INNER JOIN requisition ON procurement.requisition_id = requisition.requisition_id
+                            WHERE procurement.step = 3 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method = 'shopping'`
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
