@@ -654,4 +654,49 @@ module.exports = (app) => {
       });
     });
   });
+  // ######################################################################################################################################################
+  //                                                      Check for Email Availability in the Database
+  // ######################################################################################################################################################
+  router.get("/user/email/is-available", async (req, res, next) => {
+    logger.info("Admin --> GET /user/email/is-available invoked");
+
+    const email = req.query.email;
+
+    UserModel.findUserByEmail(email, 0).then(result => {
+
+      res.status(200).json({message: result.length > 0 ? "not_available" : "available"});
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Upadte Error",
+          description: err,
+        },
+      });
+    });
+  });
+  // ######################################################################################################################################################
+  //                                                      Get Bid Opening Dataes
+  // ######################################################################################################################################################
+  router.get("/bids/opening-schedule", async (req, res, next) => {
+    logger.info("Admin --> GET /bids/opening-schedule invoked");
+
+
+    BidModel.getBidOpeningSchedule("on-going").then(results => {
+
+      res.status(200).json(results);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Upadte Error",
+          description: err,
+        },
+      });
+    });
+  });
 };
