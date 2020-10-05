@@ -51,6 +51,22 @@ module.exports = (app) => {
     });
   })
 
+  // Get Tec Appointment Requests
+  router.get("/get_tec_appointment_requests", (req, res) => {
+    
+    // res.send("Getting Requests").status(200).end();
+
+    directorModel.getTecAppointmentRequests().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
   // Get PO Approval Requests
   
 
@@ -247,22 +263,94 @@ module.exports = (app) => {
     });
   })
 
-  // Approve PO generation
+  // Approve PO generation*
   router.post("/procurements/:id", (req, res) => {
     res.send("Approve PO generation for procurement " + req.params.id + ": " + req.body).status(200).end();
   })
 
-//   router.get("/db", (req, res) => {
-//     testModel.test().then((result) => {
-//       // eslint-disable-next-line no-console
-//       console.log(result);
-//       res.json(result).status(200).end();
-//     }).catch((err) => {
-//       // eslint-disable-next-line no-console
-//       console.log(err);
-//       res.send(err).status(200).end();
-//     });
-//   });
+  // Get RFQ details
+  router.get("/get_rfq_details", (req, res) => {
+ 
+    directorModel.getRfqDetails(req.query.procId).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
 
-  //
+  // Get Recent Products
+  router.get("/get_recent_products", (req, res) => {
+ 
+    directorModel.getRecentProducts().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
+  // Get supplier list
+  router.get("/get_suppliers", (req, res) => {
+
+    directorModel.getSuppliers().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
+  // Get Supplier Details 
+  router.get("/get_supplier_details", (req, res) => {
+
+    directorModel.getSupplierDetails(req.query.supplierId).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
+  // Get department list
+  router.get("/get_departments", (req, res) => {
+
+    directorModel.getDepartments().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
+  // Get Department Details 
+  router.get("/get_department_details", (req, res) => {
+
+    directorModel.getDepartmentDetails(req.query.department).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+  
 };
+
