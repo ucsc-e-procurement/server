@@ -146,3 +146,59 @@ Error: Cannot find module 'firebase'
     at Module.load (internal/modules/cjs/loader.js:599:32)
     at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
     at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+2020-10-05T07:45:24.979Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T07:45:25.860Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T07:45:25.867Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T07:45:26.372Z | info | Received query snapshot of size 4
+2020-10-05T08:08:52.597Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T08:08:53.271Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T08:08:53.274Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T08:08:53.691Z | info | Received query snapshot of size 4
+2020-10-05T08:15:00.507Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T08:15:01.266Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T08:15:01.272Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T08:15:01.666Z | info | Received query snapshot of size 4
+2020-10-05T08:15:19.165Z | info | Admin --> GET /registrations/year?year=2020 invoked
+2020-10-05T08:15:22.705Z | info | Admin --> GET /requisitions Invoked
+2020-10-05T08:15:26.156Z | info | Admin --> GET /procurements/status invoked
+2020-10-05T08:15:32.681Z | info | Admin --> GET /users invoked
+2020-10-05T08:16:00.326Z | info | Admin --> GET /requisitions Invoked
+2020-10-05T08:21:05.973Z | info | Admin --> GET /requisitions Invoked
+2020-10-05T08:21:24.866Z | info | Admin --> GET /registrations/year?year=2020 invoked
+2020-10-05T08:21:27.448Z | info | Admin --> GET /suppliers invoked
+2020-10-05T08:24:44.107Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T08:24:46.236Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T08:24:46.240Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T08:24:46.626Z | info | Received query snapshot of size 4
+2020-10-05T08:27:44.227Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T08:27:44.908Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T08:27:44.911Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T08:27:45.329Z | info | Received query snapshot of size 4
+2020-10-05T08:28:50.005Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T08:28:50.728Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T08:28:50.739Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T08:28:51.243Z | info | Received query snapshot of size 4
+2020-10-05T08:36:00.385Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T08:36:01.142Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T08:36:01.190Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T08:36:01.930Z | info | Received query snapshot of size 4
+2020-10-05T08:39:47.213Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T08:39:47.964Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T08:39:47.974Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T08:39:48.465Z | info | Received query snapshot of size 4
+2020-10-05T08:42:47.191Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T08:42:47.982Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T08:42:48.080Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T08:42:49.106Z | info | Received query snapshot of size 4
+2020-10-05T08:43:16.695Z | error | uncaughtException: Connection already released
+Error: Connection already released
+    at Pool.releaseConnection (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Pool.js:138:13)
+    at PoolConnection.release (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\PoolConnection.js:35:15)
+    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Pool.js:211:12)
+    at Object.onceWrapper (events.js:299:28)
+    at Query.emit (events.js:215:7)
+    at Query.Sequence.end (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:86:12)
+    at Query._handleFinalResultPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:149:8)
+    at Query.OkPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:74:10)
+    at Protocol._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:433:10)

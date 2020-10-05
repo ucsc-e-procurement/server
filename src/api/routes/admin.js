@@ -160,6 +160,54 @@ module.exports = (app) => {
     console.log("############ ", requisitionData);
     res.json(requisitionData);
   });
+
+  // Get direct ongoing procurements
+  router.get("/direct_ongoing_procurements", (req, res) => {
+    AdminModel.getDirectOngoingProcurements().then(result => {
+        res.json(result);
+    }).catch(err => {
+        res.send(err)
+    });   
+  });
+
+  // Get shopping ongoing procurements
+  router.get("/shopping_ongoing_procurements", (req, res) => {
+    AdminModel.getShoppingOngoingProcurements().then(result => {
+        res.json(result);
+    }).catch(err => {
+        res.send(err)
+    });   
+  });
+
+  // Get list of suppliers
+  router.get("/direct_ongoing_procurements/suppliers", (req, res) => {
+    AdminModel.getSupplierList().then(result => {
+        res.json(result);
+    }).catch(err => {
+        res.send(err)
+    });   
+  });
+
+  // Send RFQ in direct ongoing procurements
+  router.post("/direct_ongoing_procurements/suppliers/send_rfq", (req, res) => {
+    AdminModel.sendRFQDirectOngoingProcurements(req.query.supplierId,req.query.procurementId,req.query.date,req.query.deadline).then(result => {
+        res.json(result);
+        console.log("Result: ", result );
+    }).catch(err => {
+        res.send(err)
+    });   
+  });
+
+  // Send RFQ in shopping ongoing procurements
+  router.post("/shopping_ongoing_procurements/suppliers/send_rfq", (req, res) => {
+    AdminModel.sendRFQShoppingOngoingProcurements(req.query.date,req.query.deadline,req.query.procurementId).then(result => {
+        res.json(result);
+        console.log("Result: ", result );
+    }).catch(err => {
+        res.send(err)
+    });   
+  });
+  
   // ######################################################################################################################################################
   //                                                   Procurement Initialization
   // ######################################################################################################################################################
