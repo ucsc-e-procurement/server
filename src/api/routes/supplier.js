@@ -155,6 +155,16 @@ module.exports = (app) => {
       });
   });
 
+  // Reject quotation
+  router.get("/reject_quotation/", (req, res) => {
+    const rfq_id = req.query.id;
+    supplierModel.rejectSubmission(rfq_id).then((result) => {
+      res.send("Successful").status(200).end();
+    }).catch((err) => {
+      res.json(err);
+    });
+  });
+
   // ------------------------------------------------------------------------------------------------------
 
   router.get("/db", (req, res) => {

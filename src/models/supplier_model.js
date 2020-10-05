@@ -359,6 +359,22 @@ const getSupplierByUserId = (userId) => new Promise((resolve, reject) => {
   });
 });
 
+// Reject bid submission
+const rejectSubmission = (id) =>
+new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    const sqlQueryString = `UPDATE rfq SET status = 'rejected' WHERE rfq_id = "${id}"`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(results);
+    });
+  });
+});
+
 module.exports = {
   checkExistingSupplier,
   getSupplierInfo,
@@ -378,4 +394,5 @@ module.exports = {
   getPendingOrders,
   getCompletedOrders,
   getSupplierByUserId,
+  rejectSubmission
 };
