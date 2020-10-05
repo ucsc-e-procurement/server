@@ -35,7 +35,7 @@ passport.use("login", new LocalStrategy({ usernameField: "email", passwordField:
         return done(null, false, { message: "Wrong Password" });
       }
 
-      if (user.user_role !== "supplier") {
+      if (user[0].user_role !== "SUP") {
         const employee = await EmployeeModel.getEmplyeeByUserId(user[0].user_id);
         userData = { ...employee };
       } else {
