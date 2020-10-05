@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const formidable = require('formidable');
+const crypto = require('crypto');
 
 const router = express.Router();
 
@@ -65,16 +66,6 @@ module.exports = (app) => {
     });
   });
 
-  router.get("/price_schedule/get_bid_data_from_fb", (req, res) => {
-    supplierModel.getDatafromFirebase(req.query.procurement_id)
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  });
-
   router.get("/price_schedule/get_file", (req, res) => {
     supplierModel.getAuthFile()
       .then(result => {
@@ -95,19 +86,50 @@ module.exports = (app) => {
       });
   });
 
-  router.post("/price_schedule/:procurement", (req, res) => {
-    supplierModel.enterSupplierBid(req.body).then(() => {
-      supplierModel.saveBidProducts(req.body.items)
-        .then(() => {
-          res.send("Successful").status(200).end();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })
-      .catch((err) => {
+  router.get("/price_schedule/encryption_data", (req, res) => {
+    try {
+      const data = JSON.stringify(req.query);
+      const algorithm = 'aes256';
+      const key = crypto.randomBytes(32); 
+
+      let cipher = crypto.createCipher(algorithm, key.toString('hex'));
+      let endata = cipher.update(data,'utf8','hex') + cipher.final('hex');
+
+      res.json({
+        key: key.toString('hex'),
+        encrypted: endata
+      }).status(200);
+  
+    }catch(error){
+        console.log(error);
+        res.json({'error':error}).status(500);
+    }
+  });
+
+  router.post("/price_schedule/update_firebase", (req, res) => {    
+    supplierModel.addBidToFirebase(req.body)
+      .then(() => {
+        res.send("Successful").status(200).end();
+      })
+      .catch(err => {
         console.log(err);
-      });
+      })
+  });
+
+  router.post("/price_schedule/:procurement", (req, res) => {
+    new formidable.IncomingForm().parse(req, (err, fields, files) => {
+      if (err) {
+        console.error('Error', err)
+        throw err
+      }      
+      // supplierModel.enterSupplierBid(fields, files)
+      //   .then(() => {
+      //     res.send("Successful").status(200).end();
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   })
+    });
   });
 
   // ------------------------------------------------------------------------------------------------------
@@ -168,7 +190,7 @@ module.exports = (app) => {
 
   router.get("/get_ongoing_procurements/", (req, res) => {
     const supplier_id = req.query.id;
-    console.log(supplier_id);
+    console.log(supplier_id, "hello");
     supplierModel.getOngoingProcurements(supplier_id).then((result) => {
       console.log("server", result);
       res.json(result);

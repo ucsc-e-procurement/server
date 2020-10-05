@@ -1,6 +1,7 @@
 const db = require("./mysql").pool;
 const bcrypt = require("bcrypt");
 const { resolve } = require("path");
+const firebase = require("firebase");
 
 const getSupplierData = (supplier_id) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -234,16 +235,6 @@ const saveSupplierRegistration = (fields, files) => new Promise(async (resolve, 
   });
 });
 
-const getDatafromFirebase = (id) => new Promise(async (resolve, reject) => {
-  const citiesRef = db.collection('Invitations');
-  const snapshot = await citiesRef.where('InvitationNo', '==', id).get();
-  if (snapshot.empty) {
-    reject("empty");
-    return;
-  }  
-  resolve(snapshot);
-})
-
 // Fetch manufacturer's auth doc
 const getAuthFile = () => new Promise(async (resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -274,18 +265,56 @@ const getBidFile = () => new Promise(async (resolve, reject) => {
   });
 });
 
+// price schedule encryption
+const addBidToFirebase = (data) => {
+  console.log(data);
+  const responseKey = data.supplier_id.replace(".", "")
+  let itemRef = firebase.firestore().collection("ScheduleOfRequirements").doc(data.doc_id).collection("Items");
+  let iterator = 0;
+  itemRef.get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        doc.ref.update({
+          [responseKey]: data.items[iterator].bidderResponse
+        })
+        iterator++;
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  let bidRef = firebase.firestore().collection("bids").doc(data.bod);
+  bidRef.set({
+    [data.key]: data.encrypted    
+  }).catch(err => {
+    console.log(err);
+  })
+};
+
 // Save price schedule data
-const enterSupplierBid = (data) =>
+const enterSupplierBid = (fields, files) =>
   new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
         return;
       }
-      const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', 'pending', '${data.supplier_id}', '${data.procurement_id}', '${data.subtotal}', '${data.total_with_vat}', '${data.vat_no}', '${data.authorized}')`;
+      let bufferAuth = '';
+      let bufferExtra = '';
+
+      if(files.auth) {
+        bufferAuth = Buffer.from(files.auth.path);
+      }
+      if(files.extra) {
+        bufferExtra = Buffer.from(files.extra.path);
+      }
+      const bufferGuarantee = Buffer.from(files.guarantee.path)
+
+      const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', 'pending', '${fields.supplier_id}', '${fields.procurement_id}', '', '', '${fields.vat_no}', '${fields.authorized}', '${fields.designation}', '${fields.nic}', '${bufferAuth}', '${bufferGuarantee}', '${bufferExtra}')`;
       db.query(sqlQueryString, (error, results, fields) => {
         connection.release();
         resolve(results);
+        console.log(results, error);
       });
     });
   });
@@ -293,7 +322,6 @@ const enterSupplierBid = (data) =>
 // Save bid products of a single bid
 const saveBidProducts = (items) =>
   new Promise((resolve, reject) => {
-    console.log(items);
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
@@ -332,9 +360,9 @@ module.exports = {
   registerSupplier,
   saveSupplierInfo,
   saveSupplierRegistration,
-  getDatafromFirebase,
   getAuthFile,
   getBidFile,
+  addBidToFirebase,
   enterSupplierBid,
   saveBidProducts,
   getSupplierData,
