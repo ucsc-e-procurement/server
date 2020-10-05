@@ -24,7 +24,7 @@ const get_init = (hod_id) =>
         return;
       }
       db.query(
-        `SELECT * FROM REQUISITION WHERE head_of_division_id = '${hod_id}' AND (status = 'I' OR status = 'D')`,
+        `SELECT * FROM requisition WHERE head_of_division_id = '${hod_id}' AND (status = 'I' OR status = 'D')`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -42,7 +42,7 @@ const get_approved = (hod_id) =>
         return;
       }
       db.query(
-        `SELECT * FROM REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'A'`,
+        `SELECT * FROM requisition WHERE head_of_division_id = '${hod_id}' AND status = 'A'`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -60,7 +60,7 @@ const get_completed = (hod_id) =>
         return;
       }
       db.query(
-        `SELECT * FROM REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'C'`,
+        `SELECT * FROM requisition WHERE head_of_division_id = '${hod_id}' AND status = 'C'`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -78,7 +78,7 @@ const get_terminated = (hod_id) =>
         return;
       }
       db.query(
-        `SELECT * FROM REQUISITION WHERE head_of_division_id = '${hod_id}' AND status = 'T'`,
+        `SELECT * FROM requisition WHERE head_of_division_id = '${hod_id}' AND status = 'T'`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -99,7 +99,7 @@ const create_request = (data) =>
       }
       //description, status, head_of_division_id, director_id, deputy_bursar_id, division, reorder
       let query =
-        "INSERT INTO REQUISITION(description, procurement_type, head_of_division_id, director_id, deputy_bursar_id, division, reorder) VALUES('" +
+        "INSERT INTO requisition(description, procurement_type, head_of_division_id, director_id, deputy_bursar_id, division, reorder) VALUES('" +
         data.description +
         "', '" +
         data.procurement_type +
@@ -185,6 +185,29 @@ const get_products = () =>
     });
   });
 
+
+
+  const get_proc_specsheet = (emp_id) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((errDB, connection) => {
+      if (errDB) {
+        reject(errDB);
+        return;
+      }
+      db.query(
+        `SELECT procurement.procurement_id, tec_emp.employee_id, procurement.step 
+        FROM procurement 
+        INNER JOIN tec_emp ON procurement.tec_team_id = tec_emp.tec_team_id
+        WHERE tec_emp.employee_id = '${emp_id}' AND procurement.step <= 3`,
+        (errQuery, results) => {
+          if (errQuery) reject(errQuery);
+          connection.release();
+          resolve(JSON.parse(JSON.stringify(results)));
+        }
+      );
+    });
+  });
+
 // const test_create_request = (data) =>
 //   new Promise((resolve, reject) => {
 //     console.log(data.procurement_name);
@@ -215,4 +238,5 @@ module.exports = {
   get_db_empid,
   get_products,
   create_request,
+  get_proc_specsheet
 };
