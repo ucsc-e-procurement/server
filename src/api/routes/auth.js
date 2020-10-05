@@ -9,6 +9,7 @@ require("../../config/passport_config");
 
 const { use } = require("passport");
 const UserModel = require("../../models/user_model");
+const logger = require("../../config/winston_config");
 
 module.exports = (app) => {
   app.use("/auth", router);
@@ -24,6 +25,8 @@ module.exports = (app) => {
 
   // Login
   router.post("/login", (req, res, next) => {
+    logger.info("User Login Invoked");
+    console.log(req.body);
     if (req.body.email === "" || req.body.password === "") {
       res.status(400).json({
         error: {
@@ -38,6 +41,7 @@ module.exports = (app) => {
       passport.authenticate("login", async (err, user, info) => {
         try {
           if (err || !user) {
+            console.log("==================", user, err);
             res.status(400).json({
               error: {
                 code: 1002,

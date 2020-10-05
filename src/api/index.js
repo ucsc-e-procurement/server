@@ -9,8 +9,9 @@ const supplier = require("./routes/supplier");
 const director = require("./routes/director_routes");
 const deputyBursar = require("./routes/deputy_bursar");
 const hod = require("./routes/hod");
-const purchase_order = require("./routes/purchase_order");
 const admin = require("./routes/admin");
+const signature = require("./routes/signature");
+const home_page = require("./routes/home_page");
 const external = require("./routes/external");
 const admin_analytics = require("./routes/admin_analytics");
 
@@ -23,6 +24,10 @@ module.exports = () => {
   // Test Route
   test(app);
 
+  // Home Page
+  home_page(app);
+
+  // Deputy Bursar
   //Deputy Bursar
   deputyBursar(app);
 
@@ -43,9 +48,6 @@ module.exports = () => {
 
   // Head of Department
   hod(app);
-
-  // Purchase Order
-  purchase_order(app);
   
   // Administrator
   admin(app);

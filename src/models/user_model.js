@@ -45,7 +45,7 @@ const findUserByEmail = (userId, status = 0) => new Promise((resolve, reject) =>
       // Release SQL Connection Back to the Connection Pool
       connection.release();
 
-      resolve(JSON.parse(JSON.stringify(results[0])));
+      resolve(JSON.parse(JSON.stringify(results)));
     });
   });
 });
