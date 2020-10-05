@@ -34,6 +34,7 @@ module.exports = (app) => {
       })
   })
 
+  // Get supplier information
   router.get("/registration/get_current_info", (req, res) => {
     supplierModel.getSupplierInfo(req.query.email)
       .then(result => {
@@ -44,6 +45,7 @@ module.exports = (app) => {
       })
   })
 
+  // Supplier registration routing
   router.post("/registration", (req, res) => {
     new formidable.IncomingForm().parse(req, (err, fields, files) => {
       if (err) {
@@ -66,6 +68,7 @@ module.exports = (app) => {
     });
   });
 
+  // Download auth file
   router.get("/price_schedule/get_file", (req, res) => {
     supplierModel.getAuthFile()
       .then(result => {
@@ -76,6 +79,7 @@ module.exports = (app) => {
       });
   });
 
+  // Download bid guarantee
   router.get("/price_schedule/get_bid_guarantee", (req, res) => {
     supplierModel.getBidFile()
       .then(result => {
@@ -86,6 +90,7 @@ module.exports = (app) => {
       });
   });
 
+  // Encryption data handling
   router.get("/price_schedule/encryption_data", (req, res) => {
     try {
       const data = JSON.stringify(req.query);
@@ -106,6 +111,7 @@ module.exports = (app) => {
     }
   });
 
+  // Update data in firebase
   router.post("/price_schedule/update_firebase", (req, res) => {    
     supplierModel.addBidToFirebase(req.body)
       .then(() => {
@@ -116,6 +122,7 @@ module.exports = (app) => {
       })
   });
 
+  // Bid submission API route
   router.post("/price_schedule/:procurement", (req, res) => {
     new formidable.IncomingForm().parse(req, (err, fields, files) => {
       if (err) {
@@ -132,6 +139,7 @@ module.exports = (app) => {
     });
   });
 
+  // Direct method price schedule submission
   router.post("/price_schedule_direct/:procurement", (req, res) => {
     supplierModel.enterSupplierQuotation(req.body).then(result => {
       supplierModel.saveBidProducts(req.body.items, result.insertId)
