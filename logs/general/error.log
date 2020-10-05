@@ -121,3 +121,119 @@ Error: Connection already released
     at Query.OkPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:74:10)
     at Protocol._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
     at Parser._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+2020-10-05T11:40:55.184Z | error | uncaughtException: Identifier 'pool' has already been declared
+C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
+const pool = mysql.createPool({
+      ^
+
+SyntaxError: Identifier 'pool' has already been declared
+    at wrapSafe (internal/modules/cjs/loader.js:891:16)
+    at Module._compile (internal/modules/cjs/loader.js:941:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+    at Module.load (internal/modules/cjs/loader.js:822:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
+    at Module.require (internal/modules/cjs/loader.js:864:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:971:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+2020-10-05T11:45:45.913Z | error | uncaughtException: connection is not defined
+ReferenceError: connection is not defined
+    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:39:3)
+    at Module._compile (internal/modules/cjs/loader.js:971:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+    at Module.load (internal/modules/cjs/loader.js:822:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
+    at Module.require (internal/modules/cjs/loader.js:864:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:971:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+2020-10-05T11:46:14.506Z | error | uncaughtException: connection is not defined
+ReferenceError: connection is not defined
+    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:39:3)
+    at Module._compile (internal/modules/cjs/loader.js:971:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+    at Module.load (internal/modules/cjs/loader.js:822:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
+    at Module.require (internal/modules/cjs/loader.js:864:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:971:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+2020-10-05T11:59:30.258Z | error | uncaughtException: Identifier 'pool' has already been declared
+C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
+const pool = mysql.createPool({
+      ^
+
+SyntaxError: Identifier 'pool' has already been declared
+    at wrapSafe (internal/modules/cjs/loader.js:891:16)
+    at Module._compile (internal/modules/cjs/loader.js:941:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+    at Module.load (internal/modules/cjs/loader.js:822:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
+    at Module.require (internal/modules/cjs/loader.js:864:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:971:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+2020-10-05T11:59:46.308Z | error | uncaughtException: Identifier 'pool' has already been declared
+C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
+const pool = mysql.createPool({
+      ^
+
+SyntaxError: Identifier 'pool' has already been declared
+    at wrapSafe (internal/modules/cjs/loader.js:891:16)
+    at Module._compile (internal/modules/cjs/loader.js:941:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+    at Module.load (internal/modules/cjs/loader.js:822:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
+    at Module.require (internal/modules/cjs/loader.js:864:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:971:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+2020-10-05T12:00:19.899Z | error | uncaughtException: Identifier 'pool' has already been declared
+C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
+const pool = mysql.createPool({
+      ^
+
+SyntaxError: Identifier 'pool' has already been declared
+    at wrapSafe (internal/modules/cjs/loader.js:891:16)
+    at Module._compile (internal/modules/cjs/loader.js:941:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+    at Module.load (internal/modules/cjs/loader.js:822:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
+    at Module.require (internal/modules/cjs/loader.js:864:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:971:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+2020-10-05T12:05:19.914Z | error | uncaughtException: Identifier 'pool' has already been declared
+C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
+const pool = mysql.createPool({
+      ^
+
+SyntaxError: Identifier 'pool' has already been declared
+    at wrapSafe (internal/modules/cjs/loader.js:891:16)
+    at Module._compile (internal/modules/cjs/loader.js:941:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+    at Module.load (internal/modules/cjs/loader.js:822:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
+    at Module.require (internal/modules/cjs/loader.js:864:19)
+    at require (internal/modules/cjs/helpers.js:74:18)
+    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
+    at Module._compile (internal/modules/cjs/loader.js:971:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
+2020-10-05T14:24:03.699Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\admin_model.js:47:20)
+    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
