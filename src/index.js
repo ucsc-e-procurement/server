@@ -13,6 +13,10 @@ const port = 5000;
 
 async function startServer () {
   
+  // const test = JSON.parse(str);
+  // console.log(">>", test);
+  // console.log("##", test.total);
+
   await loader(app);
 
   app.listen(config.port, (err) => {
