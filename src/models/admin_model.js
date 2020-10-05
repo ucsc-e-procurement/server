@@ -99,9 +99,36 @@ const getShoppingOngoingProcurements = () => new Promise((resolve, reject) => {
   });
 });
 
+// Send RFQ in shopping ongoing procurements
+const sendRFQShoppingOngoingProcurements = (date,deadline,procurementId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    // SQL Query
+    const sqlQueryString = `SELECT *
+                            FROM supplier
+                            WHERE status = 'active'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      console.log(sqlQueryString, results, fields);
+
+      for(var i = 0; i < results.length; i++){
+        const sqlQueryString2 = `INSERT INTO rfq VALUES('rfq12', 'rfq12', 'sent', '${deadline}' , '${procurementId}', '${results[i].supplier_id}', '${date}');`
+        console.log("hi", results[i].supplier_id)
+        db.query(sqlQueryString2, (error, results, fields) => {
+        })
+      }
+      connection.release(); 
+      resolve(JSON.parse(JSON.stringify(results)));     
+    });
+  });
+});
+
 module.exports = {
     getDirectOngoingProcurements,
     getShoppingOngoingProcurements,
     getSupplierList,
     sendRFQDirectOngoingProcurements,
+    sendRFQShoppingOngoingProcurements,
   };

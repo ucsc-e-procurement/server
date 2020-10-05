@@ -156,5 +156,15 @@ module.exports = (app) => {
         res.send(err)
     });   
   });
+
+  // Send RFQ in shopping ongoing procurements
+  router.post("/shopping_ongoing_procurements/suppliers/send_rfq", (req, res) => {
+    AdminModel.sendRFQShoppingOngoingProcurements(req.query.date,req.query.deadline,req.query.procurementId).then(result => {
+        res.json(result);
+        console.log("Result: ", result );
+    }).catch(err => {
+        res.send(err)
+    });   
+  });
   
 };
