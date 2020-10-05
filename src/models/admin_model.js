@@ -57,23 +57,23 @@ const sendRFQDirectOngoingProcurements = (supplierId,procurementId,date,deadline
       return;
     }
     // SQL Query
-    const sqlQueryString1 = `INSERT INTO rfq VALUES('rfq12', 'rfq12', 'sent', '${deadline}' , '${procurementId}', '${supplierId}', '${date}');`;
-    // const sqlQueryString2 = `UPDATE procurement SET step = 4 WHERE procurement_id = '${procurementId}'`;
+    const sqlQueryString1 = `INSERT INTO rfq(status,deadline,procurement_id,supplier_id,date) VALUES('sent', '${deadline}' , '${procurementId}', '${supplierId}', '${date}');`;
+    const sqlQueryString2 = `UPDATE procurement SET step = 4 WHERE procurement.procurement_id = '${procurementId}'`;
 
     db.query(sqlQueryString1, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       console.log(sqlQueryString1, results, fields);
 
-      // if (error) {
-      //   connection.release();
-      //   console.log(JSON.stringify(error));
-      // } else {
-      //   db.query(sqlQueryString2, (error, results, fields) => {
-      //     connection.release();
-      //     console.log(sqlQueryString1, results, fields);
-      //     resolve(JSON.parse(JSON.stringify(results)));
-      //   });
-      // }
+      if (error) {
+        connection.release();
+        console.log(JSON.stringify(error));
+      } else {
+        db.query(sqlQueryString2, (error, results, fields) => {
+          connection.release();
+          console.log(sqlQueryString1, results, fields);
+          resolve(JSON.parse(JSON.stringify(results)));
+        });
+      }
     });
   });
 });
@@ -111,29 +111,27 @@ const sendRFQShoppingOngoingProcurements = (date,deadline,procurementId) => new 
                             FROM supplier
                             WHERE status = 'active'`;
     db.query(sqlQueryString, (error, results, fields) => {
-      console.log(sqlQueryString, results, fields);
-
       for(var i = 0; i < results.length; i++){
-        const sqlQueryString2 = `INSERT INTO rfq VALUES('rfq12', 'rfq12', 'sent', '${deadline}' , '${procurementId}', '${results[i].supplier_id}', '${date}');`
-        console.log("hi", results[i].supplier_id)
+        const sqlQueryString2 = `INSERT INTO rfq(status,deadline,procurement_id,supplier_id,date) VALUES('sent', '${deadline}' , '${procurementId}', '${results[i].supplier_id}', '${date}');`
+        const sqlQueryString3 = `UPDATE procurement SET step = 4 WHERE procurement.procurement_id = '${procurementId}'`;
+
         db.query(sqlQueryString2, (error, results, fields) => {
-        })
+          // Release SQL Connection Back to the Connection Pool
+          console.log(sqlQueryString2, results, fields);   
+          if (error) {
+            console.log(JSON.stringify(error));
+          } else {
+            db.query(sqlQueryString3, (error, results, fields) => {
+              console.log(sqlQueryString2, results, fields);
+            });
+          }
+        });
       }
       connection.release(); 
       resolve(JSON.parse(JSON.stringify(results)));     
     });
   });
 });
-
-module.exports = {
-    getDirectOngoingProcurements,
-    getShoppingOngoingProcurements,
-    getSupplierList,
-    sendRFQDirectOngoingProcurements,
-    sendRFQShoppingOngoingProcurements,
-  };
-
-  
 
 const getSuppliers = () =>
   new Promise((resolve, reject) => {
@@ -252,6 +250,11 @@ module.exports = {
   getSupplierById,
   getRegistrationsByYear,
   getRegistrationById,
-  updateSupplierRegistrationStatus
+  updateSupplierRegistrationStatus,
+  getDirectOngoingProcurements,
+  getShoppingOngoingProcurements,
+  getSupplierList,
+  sendRFQDirectOngoingProcurements,
+  sendRFQShoppingOngoingProcurements,
   
 };
