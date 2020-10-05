@@ -149,3 +149,15 @@ module.exports = (app) => {
       });
   });
 };
+
+
+router.get("/procforspec/:empid", (req, res) => {
+  hodModal
+    .get_proc_specsheet(req.params.empid)
+    .then((result) => {
+      res.json(result).status(200).end();
+    })
+    .catch((err) => {
+      res.send(err).status(400).end();
+    });
+});
