@@ -83,6 +83,29 @@ const getBidById = (id) =>
     });
   });
 
+// Get Bid Opening Dates
+const getBidOpeningSchedule = (status) =>
+  new Promise((resolve, reject) => {
+    console.log("I'm Here");
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT bid_opening_date, procurement_id, status FROM procurement WHERE status='${status}'`;
+      console.log(sqlQueryString);
+      db.query(sqlQueryString, (error, results, fields) => {
+
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+
+        resolve(results);
+      });
+    });
+  });
+
 // const sqlQueryString = `SELECT * FROM bid INNER JOIN bid_product ON bid.bid_id=bid_product.bid_id WHERE supplier_id='${id}'`;
 
 module.exports = {
@@ -90,5 +113,6 @@ module.exports = {
   createBid,
   getBidsBySupplierId,
   getBidProductsById,
-  getBidById
+  getBidById,
+  getBidOpeningSchedule
 };
