@@ -195,18 +195,17 @@ const saveSupplierInfo = (fields, files) => new Promise(async (resolve, reject) 
       reject(err);
       return;
     }
-    const bufferCertCopy = Buffer.from(files.cert_copy.path)
     if(fields.user_state == 'new') {
       sqlQueryString = `INSERT INTO supplier VALUES ('${fields.email}', '${fields.contact_name}', '${fields.business_address}', 
                       '${fields.contact}', '${fields.cat_selection}', '${fields.official_email}', '${fields.legal}', '${fields.fax}', 
-                      '${fields.web}', '${fields.business_reg_no}', '${bufferCertCopy}', '${fields.vat_reg_no}', '${fields.ictad_reg_no}',
+                      '${fields.web}', '${fields.business_reg_no}', '${fields.vat_reg_no}', '${fields.ictad_reg_no}',
                       '${fields.bank}', '${fields.branch}', '${fields.business_nature}', '${fields.business_type}', '${fields.credit_offered}',
                       '${fields.maximum_credit}', '${fields.credit_period}', '${fields.experience}', '${fields.email}')`;
     }
     else if (fields.user_state == 'renew') {
       sqlQueryString = `UPDATE supplier SET name=${fields.contact_name}', address='${fields.business_address}', 
                       contact_number='${fields.contact}', category='${fields.cat_selection}', email='${fields.official_email}', legal='${fields.legal}', fax='${fields.fax}', 
-                      web='${fields.web}', business_reg'${fields.business_reg_no}', cert_copy='${bufferCertCopy}', vat_reg_no='${fields.vat_reg_no}', ictad_reg_no='${fields.ictad_reg_no}',
+                      web='${fields.web}', business_reg'${fields.business_reg_no}', vat_reg_no='${fields.vat_reg_no}', ictad_reg_no='${fields.ictad_reg_no}',
                       bank='${fields.bank}', branch='${fields.branch}', business_nature='${fields.business_nature}', business_type='${fields.business_type}', credit_offered='${fields.credit_offered}',
                       maximum_credit='${fields.maximum_credit}', credit_period='${fields.credit_period}', experience='${fields.experience}' WHERE supplier_id='${fields.email}'`;
     }
@@ -225,9 +224,8 @@ const saveSupplierRegistration = (fields, files) => new Promise(async (resolve, 
       return;
     }
     const date = new Date(fields.date).getFullYear();
-    const bufferPayment = Buffer.from(files.payment.path)
     const sqlQueryString = `INSERT INTO registration VALUES ('${date}-${fields.email}', '${fields.date}', '${fields.email}', 
-                            'no', '${fields.payment_bank}', '${fields.shroff}', '${fields.amount}', '${bufferPayment}', '${fields.payment_type}')`;
+                            'no', '${fields.payment_bank}', '${fields.shroff}', '${fields.amount}', '${fields.payment_type}')`;
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(results);
@@ -292,25 +290,15 @@ const addBidToFirebase = (data) => {
 };
 
 // Save price schedule data
-const enterSupplierBid = (fields, files) =>
+const enterSupplierBid = (fields) =>
   new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
         reject(err);
         return;
       }
-      let bufferAuth = '';
-      let bufferExtra = '';
 
-      if(files.auth) {
-        bufferAuth = Buffer.from(files.auth.path);
-      }
-      if(files.extra) {
-        bufferExtra = Buffer.from(files.extra.path);
-      }
-      const bufferGuarantee = Buffer.from(files.guarantee.path)
-
-      const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', 'pending', '${fields.supplier_id}', '${fields.procurement_id}', '', '', '${fields.vat_no}', '${fields.authorized}', '${fields.designation}', '${fields.nic}', '${bufferAuth}', '${bufferGuarantee}', '${bufferExtra}')`;
+      const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', 'pending', '${fields.supplier_id}', '${fields.procurement_id}', '', '', '${fields.vat_no}', '${fields.authorized}', '${fields.designation}', '${fields.nic}')`;
       db.query(sqlQueryString, (error, results, fields) => {
         connection.release();
         resolve(results);

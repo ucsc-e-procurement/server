@@ -122,13 +122,13 @@ module.exports = (app) => {
         console.error('Error', err)
         throw err
       }      
-      // supplierModel.enterSupplierBid(fields, files)
-      //   .then(() => {
-      //     res.send("Successful").status(200).end();
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   })
+      supplierModel.enterSupplierBid(fields)
+        .then(() => {
+          res.send("Successful").status(200).end();
+        })
+        .catch(err => {
+          console.log(err);
+        })
     });
   });
 
