@@ -2,10 +2,10 @@ const db = require("./mysql").pool;
 
 // Database Model Health Check - Development Purposes Only
 const testUserModel = () => new Promise((resolve, reject) => {
-    db.connect((err) => {
-      if (err) reject(err);
-      db.query();
-    });
+  db.connect((err) => {
+    if (err) reject(err);
+    db.query();
+  });
 });
 
 // Get Direct ongoing procurement List
@@ -19,7 +19,7 @@ const getDirectOngoingProcurements = () => new Promise((resolve, reject) => {
     const sqlQueryString = `SELECT procurement.procurement_id, procurement.category 
                             FROM procurement
                             INNER JOIN requisition ON procurement.requisition_id = requisition.requisition_id
-                            WHERE procurement.step = 3 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method = 'direct'`
+                            WHERE procurement.step = 3 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method = 'direct'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -89,7 +89,7 @@ const getShoppingOngoingProcurements = () => new Promise((resolve, reject) => {
     const sqlQueryString = `SELECT procurement.procurement_id, procurement.category 
                             FROM procurement
                             INNER JOIN requisition ON procurement.requisition_id = requisition.requisition_id
-                            WHERE procurement.step = 3 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method = 'shopping'`
+                            WHERE procurement.step = 3 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method = 'shopping'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -112,7 +112,7 @@ const sendRFQShoppingOngoingProcurements = (date,deadline,procurementId) => new 
                             WHERE status = 'active'`;
     db.query(sqlQueryString, (error, results, fields) => {
       for(var i = 0; i < results.length; i++){
-        const sqlQueryString2 = `INSERT INTO rfq(status,deadline,procurement_id,supplier_id,date) VALUES('sent', '${deadline}' , '${procurementId}', '${results[i].supplier_id}', '${date}');`
+        const sqlQueryString2 = `INSERT INTO rfq(status,deadline,procurement_id,supplier_id,date) VALUES('sent', '${deadline}' , '${procurementId}', '${results[i].supplier_id}', '${date}');`;
         const sqlQueryString3 = `UPDATE procurement SET step = 4 WHERE procurement.procurement_id = '${procurementId}'`;
 
         db.query(sqlQueryString2, (error, results, fields) => {
@@ -242,6 +242,42 @@ const updateSupplierRegistrationStatus = (registrationNo, status) =>
   });
 
 
+const getSupplierRegistrationStatus = (supplierId, year) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM registration WHERE supplier_id='${supplierId}' AND registration_date LIKE '${year}%'`;
+      console.log(sqlQueryString);
+      db.query(sqlQueryString, (error, results, fields) => {
+
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+        let status = "";
+        if(results.length > 0){
+          if(results[0].verified === "verified"){
+            status = "VERIFIED";
+          } else if(results[0].verified === "denied") {
+            status = "DENIED";
+
+          }
+          else {
+            status = "REGISTERED_BUT_NOT_VERIFIED";
+          }
+        } else {
+          status = "NOT_REGISTERED";
+        }
+        resolve({status: status});
+        
+      });
+    });
+  });
+
+
 
 
 
@@ -256,5 +292,6 @@ module.exports = {
   getSupplierList,
   sendRFQDirectOngoingProcurements,
   sendRFQShoppingOngoingProcurements,
+  getSupplierRegistrationStatus
   
 };
