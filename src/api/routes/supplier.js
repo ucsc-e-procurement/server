@@ -98,6 +98,7 @@ module.exports = (app) => {
       const key = crypto.randomBytes(32); 
 
       let cipher = crypto.createCipher(algorithm, key.toString('hex'));
+      cipher.setAutoPadding(false);
       let endata = cipher.update(data,'utf8','hex') + cipher.final('hex');
 
       res.json({
