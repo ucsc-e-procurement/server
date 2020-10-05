@@ -132,6 +132,21 @@ module.exports = (app) => {
     });
   });
 
+  router.post("/price_schedule_direct/:procurement", (req, res) => {
+    supplierModel.enterSupplierQuotation(req.body).then(result => {
+      supplierModel.saveBidProducts(req.body.items, result.insertId)
+        .then(() => {
+          res.send("Successful").status(200).end();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
   // ------------------------------------------------------------------------------------------------------
 
   router.get("/db", (req, res) => {

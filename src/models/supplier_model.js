@@ -29,7 +29,7 @@ const getNewRequests = (supplier_id) => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.category, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', rfq_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', rfq_product.quantity,'"}')), ']') AS products 
+    const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.category, procurement.procurement_method, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', rfq_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', rfq_product.quantity,'"}')), ']') AS products 
         FROM rfq 
         INNER JOIN procurement ON rfq.procurement_id = procurement.procurement_id 
         INNER JOIN rfq_product ON rfq.rfq_id = rfq_product.rfq_id 
@@ -298,7 +298,7 @@ const enterSupplierBid = (fields) =>
         return;
       }
 
-      const sqlQueryString = `INSERT INTO bid VALUES ('bid0001', 'this is for bid0001', 'locked', 'pending', '${fields.supplier_id}', '${fields.procurement_id}', '', '', '${fields.vat_no}', '${fields.authorized}', '${fields.designation}', '${fields.nic}')`;
+      const sqlQueryString = `INSERT INTO bid (description, lock, status, supplier_id, procurement_id, total, total_with_vat, vat_no, authorize_person, designation, nic) VALUES ('this is for bid0001', 'locked', 'pending', '${fields.supplier_id}', '${fields.procurement_id}', '', '', '${fields.vat_no}', '${fields.authorized}', '${fields.designation}', '${fields.nic}')`;
       db.query(sqlQueryString, (error, results, fields) => {
         connection.release();
         resolve(results);
@@ -307,8 +307,25 @@ const enterSupplierBid = (fields) =>
     });
   });
 
+// Save price schedule data for direct method
+const enterSupplierQuotation = (req) =>
+new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    const sqlQueryString = "INSERT INTO bid (`description`, `lock`, `status`, `supplier_id`, `procurement_id`, `total`, `total_with_vat`, `vat_no`, `authorize_person`, `designation`, `nic`) VALUES ('this is for bid0001', 'locked', 'pending',"+`'${req.supplier_id}'`+","+`'${req.procurement_id}'`+","+`'${req.subtotal}'`+","+`'${req.total_with_vat}'`+","+`'${req.vat_no}'`+","+`'${req.authorized}'`+","+`'${req.designation}'`+","+`'${req.nic}'`+")";
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(results);
+    });
+  });
+});
+
 // Save bid products of a single bid
-const saveBidProducts = (items) =>
+const saveBidProducts = (items, id) =>
   new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
@@ -316,7 +333,7 @@ const saveBidProducts = (items) =>
         return;
       }
       for (const index in items) {
-        const sqlQueryString = `INSERT INTO bid_product VALUES ('bid0001', '${items[index].prod_id}', '${items[index].figures}', '${items[index].qty}', '${items[index].vat}', '${items[index].make}', '${items[index].date}', '${items[index].validity}', '${items[index].credit}')`;
+        const sqlQueryString = `INSERT INTO bid_product VALUES ('${id}', '${items[index].prod_id}', '${items[index].figures}', '${items[index].qty}', '${items[index].vat}', '${items[index].make}', '${items[index].date}', '${items[index].validity}', '${items[index].credit}')`;
         db.query(sqlQueryString);
       }
       connection.release();
@@ -352,6 +369,7 @@ module.exports = {
   getBidFile,
   addBidToFirebase,
   enterSupplierBid,
+  enterSupplierQuotation,
   saveBidProducts,
   getSupplierData,
   getNewRequests,
