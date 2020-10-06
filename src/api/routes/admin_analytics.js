@@ -69,4 +69,23 @@ module.exports = (app) => {
       });
     });
   });
-};
+  
+};// ######################################################################################################################################################
+//                                         Dashboard Main Counts -> Cards Data        
+// ######################################################################################################################################################
+router.get("/main-counts", async (req, res, next) => {
+  const year = req.query.year;
+  AnalyticsModel.getAnnualMethodWiseProcurementCount(String(year)).then(results => {
+    res.status(200).json(results);
+  }).catch(err => {
+    logger.error(err);
+
+    res.status(400).json({
+      error: {
+        code: "0000",
+        message: "Retrieval Error",
+        description: err,
+      },
+    });
+  });
+});

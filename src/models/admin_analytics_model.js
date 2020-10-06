@@ -100,8 +100,78 @@ const getAnnualMethodWiseProcurementCount = (year) =>
       });
     });
   });
+// ######################################################################################################################################################
+//               Get Main Cards Data (Ongoing Procurement Count/Registered Suppliers/Completed Procurements/Requisition Count)
+// ######################################################################################################################################################
+const getOngoingProcurementsCount = (year) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='on-going' AND requisition.date LIKE '*${year}*'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if (error) reject(error);
+        resolve({count: results.length});
+      });
+    
+    });
+  });
+const getRegisteredSuppliersCount = (year) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='on-going' AND requisition.date LIKE '*${year}*'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if (error) reject(error);
+        resolve({count: results.length});
+      });
+    
+    });
+  });
+const getCOmpletedProcurementsCount = (year) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='on-going' AND requisition.date LIKE '*${year}*'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if (error) reject(error);
+        resolve({count: results.length});
+      });
+    
+    });
+  });
+const getRequisitionCount = (year) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+    
+    });
+  });
 
 module.exports = {
   getMonthlyProductRequisitionCount,
-  getAnnualMethodWiseProcurementCount
+  getAnnualMethodWiseProcurementCount,
+  getOngoingProcurementsCount,
+  getRegisteredSuppliersCount,
+  getCOmpletedProcurementsCount,
+  getRequisitionCount
 };
