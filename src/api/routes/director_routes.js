@@ -351,6 +351,19 @@ module.exports = (app) => {
       res.send(err).status(200).end();
     });
   })
+
+  // Advanced Search
+  router.get("/advanced_search", (req, res) => {
+    directorModel.advancedSearch(req.query.department, req.query.procurementStatus, req.query.procurementType, req.query.supplier, req.query.from, req.query.to).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
   
 };
 
