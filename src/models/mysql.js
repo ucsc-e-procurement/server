@@ -35,6 +35,18 @@ const pool = mysql.createPool({
   connectionLimit: 100,
 });
 
+// =====================================================
+// PasinduDew Local DB Credentails
+// const pool = mysql.createPool({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "eprocnew",
+//   connectionLimit: 100,
+// });
+// =====================================================
+
+
 // aws
 // const pool = mysql.createPool({
 //   host: process.env.DATABASE_HOST,

@@ -31,6 +31,7 @@ const getEmployeeByEmployeeId = (employeeId) => new Promise((resolve, reject) =>
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ", results);
       resolve(JSON.parse(JSON.stringify(results[0])));
     });
   });
