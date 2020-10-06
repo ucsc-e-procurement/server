@@ -127,6 +127,15 @@ const getRegisteredSuppliersCount = (year) =>
       if (err) {
         reject(err);
       }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='on-going' AND requisition.date LIKE '*${year}*'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if (error) reject(error);
+        resolve({count: results.length});
+      });
     
     });
   });
@@ -136,6 +145,15 @@ const getCOmpletedProcurementsCount = (year) =>
       if (err) {
         reject(err);
       }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='on-going' AND requisition.date LIKE '*${year}*'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if (error) reject(error);
+        resolve({count: results.length});
+      });
     
     });
   });

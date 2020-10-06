@@ -237,7 +237,7 @@ module.exports = (app) => {
         assistant_bursar_id: reqData.assistantBursarId,
         po_id: "NA",
         status: "on-going",
-        step: 1,
+        step: 3,
         category: reqData.procurementCategory,
         procurement_type: productRequisition.procurement_type,
         completed_date: null,
