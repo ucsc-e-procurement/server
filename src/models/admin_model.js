@@ -30,7 +30,7 @@ const getDirectOngoingProcurements = () => new Promise((resolve, reject) => {
 });
 
 // Get list of suppliers
-const getSupplierList = () => new Promise((resolve, reject) => {
+const getSupplierList = (category) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
@@ -39,7 +39,7 @@ const getSupplierList = () => new Promise((resolve, reject) => {
     // SQL Query
     const sqlQueryString = `SELECT *
                             FROM supplier
-                            WHERE status = 'active'`;
+                            WHERE status = 'active' AND category LIKE '%${category}%'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -100,7 +100,7 @@ const getShoppingOngoingProcurements = () => new Promise((resolve, reject) => {
 });
 
 // Send RFQ in shopping ongoing procurements
-const sendRFQShoppingOngoingProcurements = (date,deadline,procurementId) => new Promise((resolve, reject) => {
+const sendRFQShoppingOngoingProcurements = (date,deadline,procurementId,category) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
@@ -109,7 +109,7 @@ const sendRFQShoppingOngoingProcurements = (date,deadline,procurementId) => new 
     // SQL Query
     const sqlQueryString = `SELECT *
                             FROM supplier
-                            WHERE status = 'active'`;
+                            WHERE status = 'active' AND category LIKE '%${category}%'`;
     db.query(sqlQueryString, (error, results, fields) => {
       for(var i = 0; i < results.length; i++){
         const sqlQueryString2 = `INSERT INTO rfq(status,deadline,procurement_id,supplier_id,date) VALUES('sent', '${deadline}' , '${procurementId}', '${results[i].supplier_id}', '${date}');`;
