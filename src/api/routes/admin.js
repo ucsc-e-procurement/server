@@ -164,47 +164,51 @@ module.exports = (app) => {
   // Get direct ongoing procurements
   router.get("/direct_ongoing_procurements", (req, res) => {
     AdminModel.getDirectOngoingProcurements().then(result => {
-        res.json(result);
+      res.json(result);
     }).catch(err => {
-        res.send(err)
+      res.send(err);
     });   
   });
 
   // Get shopping ongoing procurements
   router.get("/shopping_ongoing_procurements", (req, res) => {
     AdminModel.getShoppingOngoingProcurements().then(result => {
-        res.json(result);
+      res.json(result);
     }).catch(err => {
-        res.send(err)
+      res.send(err);
     });   
   });
 
   // Get list of suppliers
   router.get("/direct_ongoing_procurements/suppliers", (req, res) => {
+
     AdminModel.getSupplierList(req.query.category).then(result => {
         res.json(result);
+
     }).catch(err => {
-        res.send(err)
+      res.send(err);
     });   
   });
 
   // Send RFQ in direct ongoing procurements
   router.post("/direct_ongoing_procurements/suppliers/send_rfq", (req, res) => {
     AdminModel.sendRFQDirectOngoingProcurements(req.query.supplierId,req.query.procurementId,req.query.date,req.query.deadline).then(result => {
-        res.json(result);
-        console.log("Result: ", result );
+      res.json(result);
+      console.log("Result: ", result );
     }).catch(err => {
-        res.send(err)
+      res.send(err);
     });   
   });
 
   // Send RFQ in shopping ongoing procurements
   router.post("/shopping_ongoing_procurements/suppliers/send_rfq", (req, res) => {
+
     AdminModel.sendRFQShoppingOngoingProcurements(req.query.date,req.query.deadline,req.query.procurementId,req.query.category).then(result => {
         res.json(result);
         console.log("Result: ", result );
+
     }).catch(err => {
-        res.send(err)
+      res.send(err);
     });   
   });
   
@@ -697,6 +701,99 @@ module.exports = (app) => {
         error: {
           code: "0000",
           message: "Upadte Error",
+          description: err,
+        },
+      });
+    });
+  });
+  // ######################################################################################################################################################
+  //                                                      Check for Email Availability in the Database
+  // ######################################################################################################################################################
+  router.get("/user/email/is-available", async (req, res, next) => {
+    logger.info("Admin --> GET /user/email/is-available invoked");
+
+    const email = req.query.email;
+
+    UserModel.findUserByEmail(email, 0).then(result => {
+
+      res.status(200).json({message: result.length > 0 ? "not_available" : "available"});
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Upadte Error",
+          description: err,
+        },
+      });
+    });
+  });
+  // ######################################################################################################################################################
+  //                                                      Get Bid Opening Dataes
+  // ######################################################################################################################################################
+  router.get("/bids/opening-schedule", async (req, res, next) => {
+    logger.info("Admin --> GET /bids/opening-schedule invoked");
+
+
+    BidModel.getBidOpeningSchedule("on-going").then(results => {
+
+      res.status(200).json(results);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Upadte Error",
+          description: err,
+        },
+      });
+    });
+  });
+  // ######################################################################################################################################################
+  //                                                      Get Supplier Registration Status
+  // ######################################################################################################################################################
+  router.get("/supplier/registration-status", async (req, res, next) => {
+    logger.info("Admin --> GET /supplier/registration-status invoked");
+
+    let supplierId = req.query.supplierId;
+    let d = new Date();
+
+    AdminModel.getSupplierRegistrationStatus(supplierId, String(d.getFullYear())).then(result => {
+
+      res.status(200).json(result);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Unable to Get Data",
+          description: err,
+        },
+      });
+    });
+  });
+  // ######################################################################################################################################################
+  //                                                      Get Supplier Registrations By Supplier ID
+  // ######################################################################################################################################################
+  router.get("/supplier/registrations", async (req, res, next) => {
+    logger.info("Admin --> GET /supplier/registrations invoked");
+
+    let supplierId = req.query.supplierId;
+    let d = new Date();
+    
+    AdminModel.getSupplierRegistrationsBySupplierID(supplierId).then(results => {
+
+      res.status(200).json(results);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Unable to Get Data",
           description: err,
         },
       });
