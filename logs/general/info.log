@@ -387,3 +387,11 @@ SyntaxError: Unexpected token u in JSON at position 0
 2020-10-05T14:38:08.863Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
 2020-10-05T14:38:08.868Z | info | Listening for Decrypted Bids Begin...
 2020-10-05T14:38:09.322Z | info | Received query snapshot of size 4
+2020-10-05T14:40:00.323Z | info | Server Has Started listening on PORT: 5000
+2020-10-05T14:40:01.039Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-05T14:40:01.042Z | info | Listening for Decrypted Bids Begin...
+2020-10-05T14:40:01.469Z | info | Received query snapshot of size 4
+2020-10-06T05:29:58.586Z | info | Server Has Started listening on PORT: 5000
+2020-10-06T05:29:59.398Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-06T05:29:59.418Z | info | Listening for Decrypted Bids Begin...
+2020-10-06T05:29:59.960Z | info | Received query snapshot of size 4
