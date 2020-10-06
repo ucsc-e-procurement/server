@@ -395,3 +395,55 @@ SyntaxError: Unexpected token u in JSON at position 0
 2020-10-06T05:29:59.398Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
 2020-10-06T05:29:59.418Z | info | Listening for Decrypted Bids Begin...
 2020-10-06T05:29:59.960Z | info | Received query snapshot of size 4
+2020-10-06T11:24:41.760Z | info | Server Has Started listening on PORT: 5000
+2020-10-06T11:24:44.374Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-06T11:24:44.383Z | info | Listening for Decrypted Bids Begin...
+2020-10-06T11:24:44.883Z | info | Received query snapshot of size 4
+2020-10-06T11:28:25.877Z | info | Admin --> GET /requisitions Invoked
+2020-10-06T11:28:33.725Z | info | Admin --> GET /procurements/status invoked
+2020-10-06T11:28:46.197Z | info | Admin --> GET /requisitions Invoked
+2020-10-06T11:28:48.610Z | info | Admin --> GET /suppliers invoked
+2020-10-06T11:28:56.982Z | info | Admin --> GET /procurements/status invoked
+2020-10-06T11:34:54.027Z | info | Admin --> GET /suppliers invoked
+2020-10-06T11:34:56.310Z | info | Admin --> GET /registrations/year?year=2020 invoked
+2020-10-06T11:35:12.575Z | info | Admin --> GET /requisitions Invoked
+2020-10-06T11:43:58.173Z | info | Admin --> GET /requisitions Invoked
+2020-10-06T11:44:10.463Z | info | Admin --> GET /requisitions Invoked
+2020-10-06T11:53:09.429Z | info | Server Has Started listening on PORT: 5000
+2020-10-06T11:53:10.311Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-06T11:53:10.316Z | info | Listening for Decrypted Bids Begin...
+2020-10-06T11:53:10.810Z | info | Received query snapshot of size 4
+2020-10-06T11:57:34.646Z | info | Admin --> GET /suppliers invoked
+2020-10-06T11:57:40.360Z | info | Admin --> GET /users invoked
+2020-10-06T11:58:13.563Z | info | Admin --> GET /registrations/year?year=2020 invoked
+2020-10-06T11:58:17.441Z | info | Admin --> GET /procurements/status invoked
+2020-10-06T11:58:21.390Z | info | Admin --> GET /requisitions Invoked
+2020-10-06T11:58:31.100Z | info | Admin --> GET /suppliers invoked
+2020-10-06T11:58:39.040Z | info | Admin --> GET /supplier/registration-status invoked
+2020-10-06T11:58:39.044Z | info | Admin --> GET /supplier?id=s000003 invoked
+2020-10-06T11:58:39.409Z | error | uncaughtException: Cannot read property 'length' of undefined
+TypeError: Cannot read property 'length' of undefined
+    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\admin_model.js:261:20)
+    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:88:28)
+2020-10-06T11:58:39.460Z | error | ER_WRONG_VALUE: Incorrect DATE value: '2020%'
+2020-10-06T12:48:20.928Z | info | Server Has Started listening on PORT: 5000
+2020-10-06T12:48:21.655Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-06T12:48:21.712Z | info | Listening for Decrypted Bids Begin...
+2020-10-06T12:48:22.096Z | info | Received query snapshot of size 4
+2020-10-06T13:08:43.759Z | info | Admin --> GET /registrations/year?year=2020 invoked
+2020-10-06T14:05:27.175Z | info | Server Has Started listening on PORT: 5000
+2020-10-06T14:05:27.926Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-06T14:05:27.950Z | info | Listening for Decrypted Bids Begin...
+2020-10-06T14:05:28.432Z | info | Received query snapshot of size 4
+2020-10-06T14:50:42.485Z | info | Server Has Started listening on PORT: 5000
+2020-10-06T14:50:43.183Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-06T14:50:43.187Z | info | Listening for Decrypted Bids Begin...
+2020-10-06T14:50:43.584Z | info | Received query snapshot of size 4
