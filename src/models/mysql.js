@@ -18,23 +18,23 @@ const connection = mysql.createConnection({
 });
 
 // If Connection Pooling is needed, use this approach instead
-// const pool = mysql.createPool({
-//   host: "testdb-1.cezlzfckdvnf.ap-south-1.rds.amazonaws.com",
-//   user: "root",
-//   password: "ucsc1234",
-//   database: "ucsc_e_proc",
-//   connectionLimit: 100,
-// });
+const pool = mysql.createPool({
+  host: "testdb-1.cezlzfckdvnf.ap-south-1.rds.amazonaws.com",
+  user: "root",
+  password: "ucsc1234",
+  database: "ucsc_e_proc",
+  connectionLimit: 100,
+});
 
 // =====================================================
 // PasinduDew Local DB Credentails
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "eprocnew",
-  connectionLimit: 100,
-});
+// const pool = mysql.createPool({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "eprocnew",
+//   connectionLimit: 100,
+// });
 // =====================================================
 
 // aws

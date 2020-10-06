@@ -795,4 +795,29 @@ module.exports = (app) => {
       });
     });
   });
+
+  // ######################################################################################################################################################
+  //                                                      Get Supplier Registrations By Supplier ID
+  // ######################################################################################################################################################
+  router.get("/supplier/registrations", async (req, res, next) => {
+    logger.info("Admin --> GET /supplier/registrations invoked");
+
+    let supplierId = req.query.supplierId;
+    let d = new Date();
+    
+    AdminModel.getSupplierRegistrationsBySupplierID(supplierId).then(results => {
+
+      res.status(200).json(results);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Unable to Get Data",
+          description: err,
+        },
+      });
+    });
+  });
 };
