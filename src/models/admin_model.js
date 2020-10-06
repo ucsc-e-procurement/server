@@ -277,6 +277,27 @@ const getSupplierRegistrationStatus = (supplierId, year) =>
     });
   });
 
+const getSupplierRegistrationsBySupplierID = (supplierId) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM registration WHERE supplier_id='${supplierId}'`;
+      console.log(sqlQueryString);
+      db.query(sqlQueryString, (error, results, fields) => {
+
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
 
 
 
@@ -292,6 +313,7 @@ module.exports = {
   getSupplierList,
   sendRFQDirectOngoingProcurements,
   sendRFQShoppingOngoingProcurements,
-  getSupplierRegistrationStatus
+  getSupplierRegistrationStatus,
+  getSupplierRegistrationsBySupplierID
   
 };
