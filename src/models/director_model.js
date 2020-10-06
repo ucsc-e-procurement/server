@@ -1,3 +1,5 @@
+const { promises } = require("fs");
+
 const db = require("./mysql").pool;
 
 // Get procurements
@@ -126,7 +128,7 @@ const approveRequisition = (reqId, directorRemarks, directorRecommendation, stat
     }
 
     // SQL Query
-    const sqlQueryString = `UPDATE requisition SET director_remarks = '${directorRemarks}', director_recommendation = '${directorRecommendation}' WHERE requisition_id = '${reqId}'`;
+    const sqlQueryString = `UPDATE requisition SET director_remarks = '${directorRemarks}', director_recommendation = '${directorRecommendation}', director_id = 'emp00001' WHERE requisition_id = '${reqId}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -211,7 +213,7 @@ const appointTechTeam = (procurementId, directorId, employees, chairman, status 
       return;
     }
 
-    const date = new Date();
+    const date = new Date().toJSON().slice(0, 10);
 
     // SQL Query
     const sqlQueryString = `INSERT INTO tec_team(appointed_date, appointed_by, chairman) VALUES ('${date}', '${directorId}', '${chairman}')`;
@@ -228,7 +230,7 @@ const appointTechTeam = (procurementId, directorId, employees, chairman, status 
       } else {
         const techId = results.insertId;
 
-        const sqlQueryString2 = `UPDATE procurement SET tec_team_id = '${results.insertId}', step = 5 WHERE procurement_id = '${procurementId}' `;
+        const sqlQueryString2 = `UPDATE procurement SET tec_team_id = '${results.insertId}', step = 4 WHERE procurement_id = '${procurementId}' `;
 
         db.query(sqlQueryString2, (error, results, fields) => {
           console.log(sqlQueryString2, results, fields);
@@ -505,6 +507,46 @@ const getDepartmentDetails = (department) => new Promise((resolve, reject) => {
   });
 });
 
+// Advanced Search 
+const advancedSearch = (department, procurementStatus, procurementType, supplier, from, to) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if(err){
+      reject(err);
+      return;
+    }
+
+    var sqlQueryString;
+
+    if(supplier){
+      sqlQueryString = `SELECT CONCAT('[',GROUP_CONCAT(CONCAT('{"procurementId":"',procurement.procurement_id,'","status":"',procurement.status,'","step":"',procurement.step,'","prod_desc":"',requisition.description,'","bidStatus":"',bid.status,'","procurement_method":"',procurement.procurement_method,'"}')),']') AS procurements
+            FROM supplier LEFT JOIN bid ON
+            supplier.supplier_id = bid.supplier_id
+            LEFT JOIN procurement ON 
+            bid.procurement_id = procurement.procurement_id
+            LEFT JOIN requisition ON
+            procurement.requisition_id = requisition.requisition_id
+            INNER JOIN employee ON requisition.head_of_division_id = employee.employee_id
+            WHERE supplier.supplier_id = '${supplier}' AND bid.status = 'approved' AND employee.department LIKE '${department}%' AND procurement.status LIKE '${procurementStatus}%'
+            AND procurement.procurement_method LIKE '${procurementType}%' AND procurement.completed_date BETWEEN '${from}' AND '${to}'`;
+    }else{
+      sqlQueryString = `SELECT CONCAT('[',GROUP_CONCAT(CONCAT('{"procurementId":"',procurement.procurement_id,'","status":"',procurement.status,'","step":"',procurement.step,'","prod_desc":"',requisition.description,'","procurement_method":"',procurement.procurement_method,'"}')),']') AS procurements
+      FROM procurement INNER JOIN requisition ON
+      procurement.requisition_id = requisition.requisition_id
+      INNER JOIN employee ON requisition.head_of_division_id = employee.employee_id
+      WHERE employee.department LIKE '${department}%' AND procurement.status LIKE '${procurementStatus}%'
+      AND procurement.procurement_method LIKE '${procurementType}%' AND procurement.bid_opening_date BETWEEN '${from}' AND '${to}'`;
+    }
+
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+    
+  });
+});
+
 module.exports = {
   getProcurements,
   getRequisitionRequests,
@@ -526,5 +568,6 @@ module.exports = {
   getSuppliers,
   getSupplierDetails,
   getDepartments,
-  getDepartmentDetails
+  getDepartmentDetails,
+  advancedSearch
 };

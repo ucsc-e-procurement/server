@@ -181,8 +181,10 @@ module.exports = (app) => {
 
   // Get list of suppliers
   router.get("/direct_ongoing_procurements/suppliers", (req, res) => {
-    AdminModel.getSupplierList().then(result => {
-      res.json(result);
+
+    AdminModel.getSupplierList(req.query.category).then(result => {
+        res.json(result);
+
     }).catch(err => {
       res.send(err);
     });   
@@ -200,9 +202,11 @@ module.exports = (app) => {
 
   // Send RFQ in shopping ongoing procurements
   router.post("/shopping_ongoing_procurements/suppliers/send_rfq", (req, res) => {
-    AdminModel.sendRFQShoppingOngoingProcurements(req.query.date,req.query.deadline,req.query.procurementId).then(result => {
-      res.json(result);
-      console.log("Result: ", result );
+
+    AdminModel.sendRFQShoppingOngoingProcurements(req.query.date,req.query.deadline,req.query.procurementId,req.query.category).then(result => {
+        res.json(result);
+        console.log("Result: ", result );
+
     }).catch(err => {
       res.send(err);
     });   

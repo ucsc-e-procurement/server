@@ -37,6 +37,7 @@ const pool = mysql.createPool({
 // });
 // =====================================================
 
+
 // aws
 // const pool = mysql.createPool({
 //   host: process.env.DATABASE_HOST,
