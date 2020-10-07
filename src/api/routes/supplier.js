@@ -95,7 +95,6 @@ module.exports = (app) => {
   // get increment of bid table
   router.get("/price_schedule/next_increment/", (req, res) => {
     supplierModel.nextIncrement().then((result) => {
-      console.log("the result",result)
       res.json(result);
     }).catch((err) => {
       res.json(err);
@@ -110,7 +109,7 @@ module.exports = (app) => {
       const key = crypto.randomBytes(32); 
 
       let cipher = crypto.createCipher(algorithm, key.toString('hex'));
-      cipher.setAutoPadding(false);
+      // cipher.setAutoPadding(false);
       let endata = cipher.update(data,'utf8','hex') + cipher.final('hex');
 
       res.json({
@@ -125,13 +124,14 @@ module.exports = (app) => {
   });
 
   // Update data in firebase
-  router.post("/price_schedule/update_firebase", (req, res) => {    
+  router.post("/price_schedule/update_firebase", (req, res) => { 
     supplierModel.addBidToFirebase(req.body)
       .then(() => {
         res.send("Successful").status(200).end();
       })
       .catch(err => {
-        res.send("Unsuccessful").status(500).end();
+        console.log(err)
+        // res.send("Unsuccessful").status(500).end();
       })
   });
 
@@ -144,7 +144,9 @@ module.exports = (app) => {
       }      
       supplierModel.enterSupplierBid(fields)
         .then(() => {
-          res.send("Successful").status(200).end();
+          supplierModel.acceptSubmission(fields.rfq_id).then(() => {
+            res.send("Successful").status(200).end();
+          })  
         })
         .catch(err => {
           res.send("Unsuccessful").status(500).end();

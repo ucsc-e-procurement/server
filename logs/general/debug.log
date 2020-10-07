@@ -144,3 +144,101 @@ TypeError: Cannot read property 'forEach' of undefined
 2020-10-07T13:59:05.372Z | info | Received query snapshot of size 3
 =======
 >>>>>>> 57a16044d6f4add977156937a80779c684ffbb49
+2020-10-07T17:56:43.036Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T17:56:43.478Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T17:56:43.480Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T17:56:43.817Z | info | Received query snapshot of size 3
+2020-10-07T17:59:14.092Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T17:59:14.616Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T17:59:14.617Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T17:59:14.943Z | info | Received query snapshot of size 3
+2020-10-07T18:00:42.949Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:00:43.498Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:00:43.500Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:00:43.833Z | info | Received query snapshot of size 3
+2020-10-07T18:06:08.216Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:06:08.733Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:06:08.734Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:06:09.073Z | info | Received query snapshot of size 3
+2020-10-07T18:06:53.933Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:06:54.448Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:06:54.451Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:06:54.770Z | info | Received query snapshot of size 3
+2020-10-07T18:07:23.170Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:07:23.602Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:07:23.604Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:07:23.944Z | info | Received query snapshot of size 3
+2020-10-07T18:09:47.545Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:09:48.059Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:09:48.060Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:09:48.384Z | info | Received query snapshot of size 3
+2020-10-07T18:14:03.587Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:14:04.109Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:14:04.111Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:14:04.451Z | info | Received query snapshot of size 3
+2020-10-07T18:17:07.577Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:17:08.100Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:17:08.102Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:17:08.441Z | info | Received query snapshot of size 3
+2020-10-07T18:17:37.616Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:17:38.184Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:17:38.186Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:17:38.551Z | info | Received query snapshot of size 3
+2020-10-07T18:18:02.538Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:18:02.977Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:18:02.979Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:18:03.301Z | info | Received query snapshot of size 3
+2020-10-07T18:22:14.958Z | info | Received query snapshot of size 4
+2020-10-07T18:24:15.675Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:24:16.281Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:24:16.283Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:24:16.622Z | info | Received query snapshot of size 4
+2020-10-07T18:24:50.713Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:24:51.239Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:24:51.240Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:24:51.659Z | info | Received query snapshot of size 4
+2020-10-07T18:26:19.223Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:26:20.101Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:26:20.102Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:26:20.548Z | info | Received query snapshot of size 4
+2020-10-07T18:45:05.175Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:45:05.676Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:45:05.678Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:45:06.126Z | info | Received query snapshot of size 4
+2020-10-07T18:50:37.855Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:50:38.379Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:50:38.380Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:50:38.707Z | info | Received query snapshot of size 4
+2020-10-07T18:52:19.586Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:52:20.087Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:52:20.089Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:52:20.425Z | info | Received query snapshot of size 4
+2020-10-07T18:55:55.382Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:55:55.893Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:55:55.895Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:55:56.219Z | info | Received query snapshot of size 4
+2020-10-07T18:59:47.181Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T18:59:47.709Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T18:59:47.710Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T18:59:48.048Z | info | Received query snapshot of size 4
+2020-10-07T19:02:18.327Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T19:02:19.086Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T19:02:19.089Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T19:02:19.429Z | info | Received query snapshot of size 4
+2020-10-07T19:05:56.334Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T19:05:56.914Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T19:05:56.916Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T19:05:57.240Z | info | Received query snapshot of size 4
+2020-10-07T19:09:16.987Z | info | User Login Invoked
+2020-10-07T19:11:00.155Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T19:11:00.743Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T19:11:00.746Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T19:11:01.068Z | info | Received query snapshot of size 4
+2020-10-07T19:11:30.941Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T19:11:31.444Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T19:11:31.445Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T19:11:31.867Z | info | Received query snapshot of size 4
+2020-10-07T19:12:33.045Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T19:12:33.565Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T19:12:33.566Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T19:12:33.891Z | info | Received query snapshot of size 4

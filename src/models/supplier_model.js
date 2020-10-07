@@ -279,8 +279,7 @@ const nextIncrement = () => new Promise((resolve, reject) => {
 });
 
 // price schedule encryption
-const addBidToFirebase = (data) => {
-  console.log(data);
+const addBidToFirebase = (data) => new Promise((resolve, reject) => {
   const responseKey = data.supplier_id.replace(".", "")
   let itemRef = firebase.firestore().collection("ScheduleOfRequirements").doc(data.doc_id).collection("Items");
   let iterator = 0;
@@ -294,15 +293,17 @@ const addBidToFirebase = (data) => {
       });
     })
     .catch(err => {
-      console.log(err);
+      reject(err);
     });
   let bidRef = firebase.firestore().collection("bids").doc(data.bod);
   bidRef.set({
     [data.key]: data.encrypted    
+  }).then(() => {
+    resolve('done');
   }).catch(err => {
-    console.log(err);
+    reject(err);
   })
-};
+});
 
 // Save price schedule data
 const enterSupplierBid = (fields) =>
@@ -313,7 +314,7 @@ const enterSupplierBid = (fields) =>
         return;
       }
 
-      const sqlQueryString = `INSERT INTO bid (description, lock, status, supplier_id, procurement_id, total, total_with_vat, vat_no, authorize_person, designation, nic) VALUES ('this is for bid0001', 'locked', 'pending', '${fields.supplier_id}', '${fields.procurement_id}', '', '', '${fields.vat_no}', '${fields.authorized}', '${fields.designation}', '${fields.nic}')`;
+      const sqlQueryString = `INSERT INTO bid (description, lock, status, supplier_id, procurement_id, vat_no, authorize_person, designation, nic) VALUES ('this is for bid0001', 'locked', 'pending', '${fields.supplier_id}', '${fields.procurement_id}', '${fields.vat_no}', '${fields.authorized}', '${fields.designation}', '${fields.nic}')`;
       db.query(sqlQueryString, (error, results, fields) => {
         connection.release();
         resolve(results);
@@ -391,6 +392,22 @@ const getSupplierByUserId = (userId) => new Promise((resolve, reject) => {
   });
 });
 
+// Accept bid submission
+const acceptSubmission = (id) =>
+new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    const sqlQueryString = `UPDATE rfq SET status = 'accepted' WHERE rfq_id = "${id}"`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(results);
+    });
+  });
+});
+
 // Reject bid submission
 const rejectSubmission = (id) =>
 new Promise((resolve, reject) => {
@@ -428,5 +445,6 @@ module.exports = {
   getPendingOrders,
   getCompletedOrders,
   getSupplierByUserId,
+  acceptSubmission,
   rejectSubmission
 };
