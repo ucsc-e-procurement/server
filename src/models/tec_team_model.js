@@ -398,6 +398,67 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
     });
   });
 
+  const getUnlockedProcurementCount = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+        const sqlQueryString = `SELECT COUNT(procurement.procurement_id) AS count
+        FROM procurement 
+        WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going' AND procurement.step >= 7`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getLockedProcurementCount = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+
+        const sqlQueryString = `SELECT COUNT(procurement.procurement_id) AS count
+        FROM procurement 
+        WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='on-going' AND procurement.step < 7`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+  const getCompletedProcurementCount = (employee_id) => new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+  
+      // SQL Query
+
+        const sqlQueryString = `SELECT COUNT(procurement.procurement_id) AS count
+        FROM procurement 
+        WHERE procurement.tec_team_id IN (SELECT tec_team_id FROM tec_emp WHERE employee_id='${employee_id}') AND procurement.status='completed'`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        //console.log(results)
+        resolve(JSON.parse(JSON.stringify(results)));
+      });
+    });
+  });
+
+
 module.exports = {
     // getSupplierData,
     // getNewRequests,
@@ -415,6 +476,9 @@ module.exports = {
     getNewAppointments,
     getNewBidOpenings,
     getCurrentTeams,
-    getPastTeams
+    getPastTeams,
+    getUnlockedProcurementCount,
+    getLockedProcurementCount,
+    getCompletedProcurementCount
 };
   

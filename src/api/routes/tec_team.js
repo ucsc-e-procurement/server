@@ -203,4 +203,37 @@ router.get("/get_unlocked_procurements/", (req, res) => {
     })
   });
 
+  router.get("/get_unlocked_procurement_count/", (req, res) => {
+    var employee_id = req.query.id
+    console.log(employee_id)
+    tecTeamModel.getUnlockedProcurementCount(employee_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.get("/get_locked_procurement_count/", (req, res) => {
+    var employee_id = req.query.id
+    console.log(employee_id)
+    tecTeamModel.getLockedProcurementCount(employee_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
+  router.get("/get_completed_procurement_count/", (req, res) => {
+    var employee_id = req.query.id
+    console.log(employee_id)
+    tecTeamModel.getCompletedProcurementCount(employee_id).then((result) => {
+        console.log('server', result)
+        res.json(result);
+    }).catch((err) => {
+        res.json(err);
+    })
+  });
+
 };
