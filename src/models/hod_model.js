@@ -139,7 +139,7 @@ const add_products = (data) =>
 
       let final_result = [];
 
-      data.product_list.forEach(element => {
+      data.forEach(element => {
         let product_id = element.product_name.split(':')[0];
         let query =
         "INSERT INTO requisition_product VALUES('" + element.requisition_id +"', '" +product_id +"', '" +element.qnty +"')";
