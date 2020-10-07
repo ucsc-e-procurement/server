@@ -421,7 +421,6 @@ module.exports = (app) => {
 
     try {
       let requisitionId = req.query.requisitionId;
-      console.log(requisitionId);
 
       const result = await ProcurementModel.getProcurementByRequisitionId(
         requisitionId
@@ -663,13 +662,13 @@ module.exports = (app) => {
     logger.info("Admin --> GET /supplier-registration?id=" + req.query.id + " invoked");
 
     const registrationId = req.query.id;
-
+    console.log("Test 01: ", req.query.id);
     AdminModel.getRegistrationById(registrationId).then(result => {
 
       let tempData = {...result};
-      let buff = new Buffer(tempData.payment);
-      let base64data = buff.toString("base64");
-      tempData.payment = `data:image/jpeg;base64,${base64data}`;
+      // let buff = new Buffer(tempData.payment);
+      // let base64data = buff.toString("base64");
+      // tempData.payment = `data:image/jpeg;base64,${base64data}`;
       res.status(200).json(tempData);
     }).catch(err => {
       logger.error(err);

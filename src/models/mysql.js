@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
 
 });
 
-// localhost
+//localhost
 // const connection = mysql.createConnection({
 //   host: "localhost",
 //   user: "root",

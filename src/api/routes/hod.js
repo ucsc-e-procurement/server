@@ -175,7 +175,7 @@ module.exports = (app) => {
   });
 
    //set requisition sequance
-   router.post("/set_req_seq", (req, res) => {
+  router.post("/set_req_seq", (req, res) => {
     hodModal
       .set_req_seq(req.body)
       .then((result) => {
@@ -190,6 +190,19 @@ module.exports = (app) => {
   router.get("/procforspec/:empid", (req, res) => {
     hodModal
       .get_proc_specsheet(req.params.empid)
+      .then((result) => {
+        res.json(result).status(200).end();
+      })
+      .catch((err) => {
+        res.send(err).status(400).end();
+      });
+  });
+
+  //update procurement step
+  router.post("/update_step", (req, res) => {
+    console.log(req.body)
+    hodModal
+      .update_step(req.body)
       .then((result) => {
         res.json(result).status(200).end();
       })
