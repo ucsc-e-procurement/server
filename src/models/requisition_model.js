@@ -2,6 +2,7 @@ const db = require("./mysql").pool;
 
 // Get Employee Details By UserID
 const getRequisitions = () => new Promise((resolve, reject) => {
+  console.log("===========================================================");
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);

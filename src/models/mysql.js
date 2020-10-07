@@ -9,6 +9,7 @@ const config = require("../config");
 //   database: config.database.name,
 // });
 
+//aws
 const connection = mysql.createConnection({
   host: "testdb-1.cezlzfckdvnf.ap-south-1.rds.amazonaws.com",
   user: "root",
@@ -16,6 +17,14 @@ const connection = mysql.createConnection({
   database: "ucsc_e_proc",
 
 });
+
+// localhost
+// const connection = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "ucsc_e_proc",
+// });
 
 // If Connection Pooling is needed, use this approach instead
 const pool = mysql.createPool({
@@ -25,6 +34,18 @@ const pool = mysql.createPool({
   database: "ucsc_e_proc",
   connectionLimit: 100,
 });
+
+// =====================================================
+// PasinduDew Local DB Credentails
+// const pool = mysql.createPool({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "eprocnew",
+//   connectionLimit: 100,
+// });
+// =====================================================
+
 
 // aws
 // const pool = mysql.createPool({

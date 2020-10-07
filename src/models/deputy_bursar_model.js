@@ -71,7 +71,7 @@ const approveRequisition = (requisitionId, selectedFundType) => new Promise((res
     }
 
     // SQL Query
-    const sqlQueryString = `UPDATE requisition SET deputy_bursar_recommendation = 'Recommended', deputy_bursar_remarks = 'none', fund_type = '${selectedFundType}', status = 'D' WHERE requisition_id = '${requisitionId}'`;
+    const sqlQueryString = `UPDATE requisition SET deputy_bursar_id = 'emp00008', deputy_bursar_recommendation = 'Recommended', deputy_bursar_remarks = 'none', fund_type = '${selectedFundType}', status = 'D' WHERE requisition_id = '${requisitionId}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       console.log(sqlQueryString, results, fields);
@@ -90,7 +90,7 @@ const denyRequisition = (requisitionId, remarks) => new Promise((resolve, reject
     }
 
     // SQL Query
-    const sqlQueryString = `UPDATE requisition SET deputy_bursar_recommendation = 'Denied', fund_type = 'none', deputy_bursar_remarks = '${remarks}', status = 'D' WHERE requisition_id = '${requisitionId}'`;
+    const sqlQueryString = `UPDATE requisition SET deputy_bursar_id = 'emp00008', deputy_bursar_recommendation = 'Denied', fund_type = 'none', deputy_bursar_remarks = '${remarks}', status = 'D' WHERE requisition_id = '${requisitionId}'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       console.log(sqlQueryString, results, fields);
