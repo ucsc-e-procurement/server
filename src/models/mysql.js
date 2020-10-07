@@ -13,8 +13,8 @@ const config = require("../config");
 const connection = mysql.createConnection({
   host: "testdb-1.cezlzfckdvnf.ap-south-1.rds.amazonaws.com",
   user: "root",
-  password: "ucsc1234",
-  database: "ucsc_e_proc",
+  password: "",
+  database: "eprocnew",
 
 });
 
@@ -24,14 +24,6 @@ const connection = mysql.createConnection({
 //   user: "root",
 //   password: "",
 //   database: "ucsc_e_proc",
-// });
-
-// const pool = mysql.createPool({
-//   host: "localhost",
-//   user: "root",
-//   password: "",
-//   database: "ucsc_e_proc",
-//   connectionLimit: 100,
 // });
 
 // If Connection Pooling is needed, use this approach instead

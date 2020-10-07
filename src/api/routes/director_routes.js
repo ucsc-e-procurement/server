@@ -384,7 +384,7 @@ module.exports = (app) => {
 
     // res.send("Appointing bid opening team for procurement " + req.params.id + ": " + req.body).status(200).end();
 
-    directorModel.acceptBidEvaluation(req.body.procurementId, req.body.directorRemarks, req.body.directorRecommendation).then((result) => {
+    directorModel.acceptBidEvaluation(req.body.procurementId, req.body.directorRemarks, req.body.directorRecommendation, req.body.step).then((result) => {
       // eslint-disable-next-line no-console
       console.log(result);
       res.json(result).status(200).end();
@@ -413,5 +413,20 @@ module.exports = (app) => {
 
   })
 
+  // Get Approval Requests 
+  router.get("/get_approval_requests", (req, res) => {
+    
+    // res.send("Getting Requests").status(200).end();
+
+    directorModel.getApprovalRequests().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
 };
 

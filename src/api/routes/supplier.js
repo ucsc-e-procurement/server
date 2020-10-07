@@ -63,7 +63,7 @@ module.exports = (app) => {
             })
         })
         .catch(err => {
-          res.json(err);
+          res.send("Unsuccessful").status(500).end();
         })
     });
   });
@@ -75,7 +75,7 @@ module.exports = (app) => {
         res.set('Content-Type', 'application/pdf').send(result[0].document).end()
       })
       .catch(err => {
-        res.json(err);
+        res.send("Unsuccessful").status(500).end();
       });
   });
 
@@ -86,7 +86,7 @@ module.exports = (app) => {
         res.set('Content-Type', 'application/pdf').send(result[0].document).end()
       })
       .catch(err => {
-        res.json(err);
+        res.send("Unsuccessful").status(500).end();
       });
   });
 
@@ -119,7 +119,7 @@ module.exports = (app) => {
         res.send("Successful").status(200).end();
       })
       .catch(err => {
-        res.json(err);
+        res.send("Unsuccessful").status(500).end();
       })
   });
 
@@ -135,7 +135,7 @@ module.exports = (app) => {
           res.send("Successful").status(200).end();
         })
         .catch(err => {
-          res.json(err);
+          res.send("Unsuccessful").status(500).end();
         })
     });
   });
@@ -148,15 +148,15 @@ module.exports = (app) => {
             res.send("Successful").status(200).end();
           })
           .catch((err) => {
-            res.json(err);
+            res.send("Unsuccessful").status(500).end();
           });
         })
         .catch((err) => {
-          res.json(err);
+          res.send("Unsuccessful").status(500).end();
         });
     })
       .catch((err) => {
-        res.json(err);
+        res.send("Unsuccessful").status(500).end();
       });
   });
 
@@ -166,7 +166,7 @@ module.exports = (app) => {
     supplierModel.rejectSubmission(rfq_id).then((result) => {
       res.send("Successful").status(200).end();
     }).catch((err) => {
-      res.json(err);
+      res.send("Unsuccessful").status(500).end();
     });
   });
 
