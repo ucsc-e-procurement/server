@@ -111,10 +111,13 @@ const getOngoingProcurementsCount = (year) =>
       }
 
       // SQL Query
-      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='on-going' AND requisition.date LIKE '*${year}*'`;
+      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='on-going' AND YEAR(requisition.date) = "${year}"`;
+      console.log("Query: ", sqlQueryString);
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
+        console.log(error);
+
         if (error) reject(error);
         resolve({count: results.length});
       });
@@ -129,17 +132,19 @@ const getRegisteredSuppliersCount = (year) =>
       }
 
       // SQL Query
-      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='on-going' AND requisition.date LIKE '*${year}*'`;
+      const sqlQueryString = `SELECT * FROM registration WHERE YEAR(registration_date) = "${year}"`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
+        console.log("###############",sqlQueryString, error, ">>>>>>>>>>>>>>", results.length);
+
         if (error) reject(error);
         resolve({count: results.length});
       });
     
     });
   });
-const getCOmpletedProcurementsCount = (year) =>
+const getCompletedProcurementsCount = (year) =>
   new Promise((resolve, reject) => {
     db.getConnection((err, connection) => {
       if (err) {
@@ -147,10 +152,12 @@ const getCOmpletedProcurementsCount = (year) =>
       }
 
       // SQL Query
-      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='on-going' AND requisition.date LIKE '*${year}*'`;
+      const sqlQueryString = `SELECT * FROM procurement INNER JOIN requisition ON procurement.requisition_id=requisition.requisition_id WHERE procurement.status='completed' AND YEAR(requisition.date) = "${year}"`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         connection.release();
+        console.log(error);
+
         if (error) reject(error);
         resolve({count: results.length});
       });
@@ -163,6 +170,16 @@ const getRequisitionCount = (year) =>
       if (err) {
         reject(err);
       }
+
+      // SQL Query
+      const sqlQueryString = `SELECT * FROM requisition WHERE YEAR(date) = "${year}"`;
+      db.query(sqlQueryString, (error, results, fields) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        console.log(error);
+        if (error) reject(error);
+        resolve({count: results.length});
+      });
     
     });
   });
@@ -172,6 +189,6 @@ module.exports = {
   getAnnualMethodWiseProcurementCount,
   getOngoingProcurementsCount,
   getRegisteredSuppliersCount,
-  getCOmpletedProcurementsCount,
+  getCompletedProcurementsCount,
   getRequisitionCount
 };

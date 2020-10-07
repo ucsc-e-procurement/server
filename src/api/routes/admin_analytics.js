@@ -75,17 +75,44 @@ module.exports = (app) => {
 // ######################################################################################################################################################
 router.get("/main-counts", async (req, res, next) => {
   const year = req.query.year;
-  AnalyticsModel.getAnnualMethodWiseProcurementCount(String(year)).then(results => {
-    res.status(200).json(results);
-  }).catch(err => {
-    logger.error(err);
+  console.log("******************** ", year);
+  let data = {
+    ongoing: 0,
+    registered: 0,
+    completed: 0,
+    requisitions: 0
+  };
+  AnalyticsModel.getOngoingProcurementsCount(String(year))
+    .then(result => {
+    // res.status(200).json(results);
+      data.ongoing = result.count;
+      console.log("1: ", result);
+      return AnalyticsModel.getRegisteredSuppliersCount(String(year));
+    }).then(result => {
+      console.log("2: ", result);
 
-    res.status(400).json({
-      error: {
-        code: "0000",
-        message: "Retrieval Error",
-        description: err,
-      },
+      data.registered = result.count;
+      return AnalyticsModel.getCompletedProcurementsCount(String(year));
+    }).then(result => {
+      console.log("3: ", result);
+
+      data.completed = result.count;
+      return AnalyticsModel.getRequisitionCount(String(year));
+    }).then(result => {
+      console.log("4: ", result);
+
+      data.requisitions = result.count;
+      res.status(200).json(data);
+
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Retrieval Error",
+          description: err,
+        },
+      });
     });
-  });
 });

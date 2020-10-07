@@ -30,7 +30,7 @@ module.exports = (app) => {
         res.json(result);
       })
       .catch(err => {
-        console.log(err);
+        res.json(err);
       })
   })
 
@@ -41,7 +41,7 @@ module.exports = (app) => {
         res.json(result);
       })
       .catch(err => {
-        console.log(err);
+        res.json(err);
       })
   })
 
@@ -63,7 +63,7 @@ module.exports = (app) => {
             })
         })
         .catch(err => {
-          console.log(err);
+          res.send("Unsuccessful").status(500).end();
         })
     });
   });
@@ -72,10 +72,11 @@ module.exports = (app) => {
   router.get("/price_schedule/get_file", (req, res) => {
     supplierModel.getAuthFile()
       .then(result => {
+        console.log(result);
         res.set('Content-Type', 'application/pdf').send(result[0].document).end()
       })
       .catch(err => {
-        console.log(err);
+        res.send("Unsuccessful").status(500).end();
       });
   });
 
@@ -83,11 +84,21 @@ module.exports = (app) => {
   router.get("/price_schedule/get_bid_guarantee", (req, res) => {
     supplierModel.getBidFile()
       .then(result => {
+        console.log(result);
         res.set('Content-Type', 'application/pdf').send(result[0].document).end()
       })
       .catch(err => {
-        console.log(err);
+        res.send("Unsuccessful").status(500).end();
       });
+  });
+
+  // get increment of bid table
+  router.get("/price_schedule/next_increment/", (req, res) => {
+    supplierModel.nextIncrement().then((result) => {
+      res.json(result);
+    }).catch((err) => {
+      res.json(err);
+    });
   });
 
   // Encryption data handling
@@ -98,7 +109,7 @@ module.exports = (app) => {
       const key = crypto.randomBytes(32); 
 
       let cipher = crypto.createCipher(algorithm, key.toString('hex'));
-      cipher.setAutoPadding(false);
+      // cipher.setAutoPadding(false);
       let endata = cipher.update(data,'utf8','hex') + cipher.final('hex');
 
       res.json({
@@ -113,13 +124,14 @@ module.exports = (app) => {
   });
 
   // Update data in firebase
-  router.post("/price_schedule/update_firebase", (req, res) => {    
+  router.post("/price_schedule/update_firebase", (req, res) => { 
     supplierModel.addBidToFirebase(req.body)
       .then(() => {
         res.send("Successful").status(200).end();
       })
       .catch(err => {
-        console.log(err);
+        console.log(err)
+        // res.send("Unsuccessful").status(500).end();
       })
   });
 
@@ -132,10 +144,12 @@ module.exports = (app) => {
       }      
       supplierModel.enterSupplierBid(fields)
         .then(() => {
-          res.send("Successful").status(200).end();
+          supplierModel.acceptSubmission(fields.rfq_id).then(() => {
+            res.send("Successful").status(200).end();
+          })  
         })
         .catch(err => {
-          console.log(err);
+          res.send("Unsuccessful").status(500).end();
         })
     });
   });
@@ -143,16 +157,20 @@ module.exports = (app) => {
   // Direct method price schedule submission
   router.post("/price_schedule_direct/:procurement", (req, res) => {
     supplierModel.enterSupplierQuotation(req.body).then(result => {
-      supplierModel.saveBidProducts(req.body.items, result.insertId)
-        .then(() => {
-          res.send("Successful").status(200).end();
+      supplierModel.saveBidProducts(req.body.items, result.insertId).then(() => {
+          supplierModel.updateProcurementStep(req.body.procurement_id).then(() => {
+            res.send("Successful").status(200).end();
+          })
+          .catch((err) => {
+            res.send("Unsuccessful").status(500).end();
+          });
         })
         .catch((err) => {
-          console.log(err);
+          res.send("Unsuccessful").status(500).end();
         });
     })
       .catch((err) => {
-        console.log(err);
+        res.send("Unsuccessful").status(500).end();
       });
   });
 
@@ -162,7 +180,7 @@ module.exports = (app) => {
     supplierModel.rejectSubmission(rfq_id).then((result) => {
       res.send("Successful").status(200).end();
     }).catch((err) => {
-      res.json(err);
+      res.send("Unsuccessful").status(500).end();
     });
   });
 

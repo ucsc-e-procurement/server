@@ -395,6 +395,27 @@ const getRfqDetails = (procurementId) => new Promise((resolve, reject) => {
   });
 });
 
+// Get Bid Details
+const getBid = (procurementId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM bid INNER JOIN bid_product ON
+                            bid.bid_id = bid_product.bid_id
+                            WHERE bid.procurement_id = '${procurementId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 // Get Recent Products 
 const getRecentProducts = () => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -527,14 +548,14 @@ const advancedSearch = (department, procurementStatus, procurementType, supplier
             procurement.requisition_id = requisition.requisition_id
             INNER JOIN employee ON requisition.head_of_division_id = employee.employee_id
             WHERE supplier.name LIKE '${supplier}%' AND bid.status = 'approved' AND employee.department LIKE '${department}%' AND procurement.status LIKE '${procurementStatus}%'
-            AND procurement.procurement_method LIKE '${procurementType}%' AND procurement.completed_date BETWEEN '${from}' AND '${to}'`;
+            AND procurement.procurement_method LIKE '${procurementType}%' AND procurement.completed_date >= '${from}' AND procurement.completed_date < '${to}'`;
     }else{
       sqlQueryString = `SELECT CONCAT('[',GROUP_CONCAT(CONCAT('{"procurementId":"',procurement.procurement_id,'","status":"',procurement.status,'","step":"',procurement.step,'","prod_desc":"',requisition.description,'","procurement_method":"',procurement.procurement_method,'"}')),']') AS procurements
       FROM procurement INNER JOIN requisition ON
       procurement.requisition_id = requisition.requisition_id
       INNER JOIN employee ON requisition.head_of_division_id = employee.employee_id
       WHERE employee.department LIKE '${department}%' AND procurement.status LIKE '${procurementStatus}%'
-      AND procurement.procurement_method LIKE '${procurementType}%' AND procurement.bid_opening_date BETWEEN '${from}' AND '${to}'`;
+      AND procurement.procurement_method LIKE '${procurementType}%'  AND procurement.bid_opening_date < '${to}' AND procurement.bid_opening_date >= '${from}'`;
     }
 
     db.query(sqlQueryString, (error, results, fields) => {
@@ -544,6 +565,76 @@ const advancedSearch = (department, procurementStatus, procurementType, supplier
       resolve(JSON.parse(JSON.stringify(results)));
     });
     
+  });
+});
+
+// Accept Bid Evaluation
+const acceptBidEvaluation = (procurementId, directorRemarks, directorRecommendation, step) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    const date = new Date().toJSON().slice(0, 10);
+
+    // SQL Query
+    var sqlQueryString = '';
+
+    if(directorRecommendation == "Denied"){
+      sqlQueryString = `UPDATE procurement SET director_remarks = '${directorRemarks}', status = 'terminated', step = '${step}' 
+                            WHERE procurement_id = '${procurementId}'`;
+    }else{
+      sqlQueryString = `UPDATE procurement SET director_remarks = '${directorRemarks}', completed_date = '${date}', status = 'completed', step = '${step}' 
+                            WHERE procurement_id = '${procurementId}'`;
+    }
+    
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
+// Get evaluation details 
+const getEvaluationDetails = (procurementId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    const date = new Date().toJSON().slice(0, 10);
+
+    // SQL Query
+    const sqlQueryString = `SELECT status, director_remarks FROM procurement WHERE procurement_id = '${procurementId}'`;
+    
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
+const getApprovalRequests = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM procurement WHERE (status = 'on-going' AND step = 8 AND procurement_method LIKE 'NSP%') OR (status = 'on-going' AND step = 6 AND procurement_method LIKE 'DIM%')`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
   });
 });
 
@@ -569,5 +660,9 @@ module.exports = {
   getSupplierDetails,
   getDepartments,
   getDepartmentDetails,
-  advancedSearch
+  advancedSearch,
+  getBid,
+  acceptBidEvaluation,
+  getEvaluationDetails,
+  getApprovalRequests
 };
