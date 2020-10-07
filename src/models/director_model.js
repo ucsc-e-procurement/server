@@ -569,7 +569,7 @@ const advancedSearch = (department, procurementStatus, procurementType, supplier
 });
 
 // Accept Bid Evaluation
-const acceptBidEvaluation = (procurementId, directorRemarks, directorRecommendation) => new Promise((resolve, reject) => {
+const acceptBidEvaluation = (procurementId, directorRemarks, directorRecommendation, step) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
       reject(err);
@@ -582,10 +582,10 @@ const acceptBidEvaluation = (procurementId, directorRemarks, directorRecommendat
     var sqlQueryString = '';
 
     if(directorRecommendation == "Denied"){
-      sqlQueryString = `UPDATE procurement SET director_remarks = '${directorRemarks}', status = 'terminated', step = 7 
+      sqlQueryString = `UPDATE procurement SET director_remarks = '${directorRemarks}', status = 'terminated', step = '${step}' 
                             WHERE procurement_id = '${procurementId}'`;
     }else{
-      sqlQueryString = `UPDATE procurement SET director_remarks = '${directorRemarks}', completed_date = '${date}', step = 7 
+      sqlQueryString = `UPDATE procurement SET director_remarks = '${directorRemarks}', completed_date = '${date}', status = 'completed', step = '${step}' 
                             WHERE procurement_id = '${procurementId}'`;
     }
     
@@ -620,6 +620,24 @@ const getEvaluationDetails = (procurementId) => new Promise((resolve, reject) =>
   });
 });
 
+const getApprovalRequests = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM procurement WHERE (status = 'on-going' AND step = 8 AND procurement_method LIKE 'NSP%') OR (status = 'on-going' AND step = 6 AND procurement_method LIKE 'DIM%')`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
   getProcurements,
   getRequisitionRequests,
@@ -645,5 +663,6 @@ module.exports = {
   advancedSearch,
   getBid,
   acceptBidEvaluation,
-  getEvaluationDetails
+  getEvaluationDetails,
+  getApprovalRequests
 };
