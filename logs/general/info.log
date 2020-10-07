@@ -1,389 +1,47 @@
-<<<<<<< HEAD
-2020-08-23T17:23:15.012Z | info | Server Has Started listening on PORT: 5000
-2020-08-23T17:23:15.016Z | error | Server Has Started listening on PORT: 5000
-2020-08-23T17:27:33.049Z | info | Server Has Started listening on PORT: 5000
-2020-08-23T17:27:33.051Z | error | Server Has Started listening on PORT: 5000
-2020-08-23T17:28:09.475Z | info | Server Has Started listening on PORT: 5000
-2020-08-23T17:28:22.873Z | info | Admin --> GET /users invoked
-2020-08-24T05:17:00.557Z | info | Server Has Started listening on PORT: 5000
-2020-08-24T06:51:20.512Z | error | uncaughtException: Unexpected token <<
-D:\UCSC\Group-Project-II\server\src\models\mysql.js:12
-<<<<<<< HEAD
-^^
-
-SyntaxError: Unexpected token <<
-    at new Script (vm.js:79:7)
-    at createScript (vm.js:251:10)
-    at Object.runInThisContext (vm.js:303:10)
-    at Module._compile (internal/modules/cjs/loader.js:657:28)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
-    at Module.load (internal/modules/cjs/loader.js:599:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
-    at Module.require (internal/modules/cjs/loader.js:637:17)
-    at require (internal/modules/cjs/helpers.js:22:18)
-2020-08-24T07:19:03.829Z | error | uncaughtException: Unexpected token <<
-D:\UCSC\Group-Project-II\server\src\models\mysql.js:12
-<<<<<<< HEAD
-^^
-
-SyntaxError: Unexpected token <<
-    at new Script (vm.js:79:7)
-    at createScript (vm.js:251:10)
-    at Object.runInThisContext (vm.js:303:10)
-    at Module._compile (internal/modules/cjs/loader.js:657:28)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
-    at Module.load (internal/modules/cjs/loader.js:599:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
-    at Module.require (internal/modules/cjs/loader.js:637:17)
-    at require (internal/modules/cjs/helpers.js:22:18)
-2020-08-24T07:23:08.438Z | info | Server Has Started listening on PORT: 5000
-2020-08-24T17:28:25.977Z | info | Server Has Started listening on PORT: 5000
-2020-08-24T17:29:59.904Z | info | Server Has Started listening on PORT: 5000
-2020-08-25T16:10:50.363Z | info | Server Has Started listening on PORT: 5000
-2020-08-25T16:25:44.386Z | info | Server Has Started listening on PORT: 5000
-2020-08-25T16:52:48.849Z | info | Server Has Started listening on PORT: 5000
-2020-08-25T16:53:12.826Z | info | Server Has Started listening on PORT: 5000
-2020-08-25T16:56:16.590Z | info | Server Has Started listening on PORT: 5000
-2020-08-25T17:33:26.036Z | info | Server Has Started listening on PORT: 5000
-2020-08-25T17:34:24.803Z | info | Server Has Started listening on PORT: 5000
-2020-08-25T17:40:29.990Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T13:05:08.442Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T13:14:44.081Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T13:16:29.817Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T13:16:35.129Z | error | uncaughtException: Unexpected token u in JSON at position 0
-SyntaxError: Unexpected token u in JSON at position 0
-    at JSON.parse (<anonymous>)
-    at Query.db.query (D:\UCSC\Group-Project-II\server\src\models\tec_team_model.js:356:22)
-    at Query.<anonymous> (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:526:10)
-    at Query._callback (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:488:16)
-    at Query.Sequence.end (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
-    at Query.ErrorPacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
-    at Protocol._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
-    at Parser._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
-    at Parser.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
-    at Protocol.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
-2020-08-26T13:16:50.882Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T13:17:54.247Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T14:25:40.434Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T14:25:50.166Z | error | uncaughtException: Unexpected token u in JSON at position 0
-SyntaxError: Unexpected token u in JSON at position 0
-    at JSON.parse (<anonymous>)
-    at Query.db.query (D:\UCSC\Group-Project-II\server\src\models\tec_team_model.js:357:22)
-    at Query.<anonymous> (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:526:10)
-    at Query._callback (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\Connection.js:488:16)
-    at Query.Sequence.end (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
-    at Query.ErrorPacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
-    at Protocol._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
-    at Parser._parsePacket (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
-    at Parser.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
-    at Protocol.write (D:\UCSC\Group-Project-II\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
-2020-08-26T14:28:25.215Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T14:29:05.387Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T14:30:43.480Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T14:31:52.181Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T14:35:27.935Z | info | Server Has Started listening on PORT: 5000
-=======
-2020-08-26T08:52:28.016Z | info | Server Has Started listening on PORT: 5000
-<<<<<<< HEAD
-2020-08-26T16:34:29.611Z | error | uncaughtException: Cannot find module 'formidable'
-=======
->>>>>>> 5ac5edb45b9e6ae22c85fdced1aaa8f80dfeece2
-2020-08-26T16:31:19.886Z | error | uncaughtException: Cannot find module 'formidable'
->>>>>>> f0697a9cd211151673fe0c358b34ad3cc5c376f9
-Error: Cannot find module 'formidable'
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:581:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:507:25)
-    at Module.require (internal/modules/cjs/loader.js:637:17)
-    at require (internal/modules/cjs/helpers.js:22:18)
-    at Object.<anonymous> (D:\UCSC\Group-Project-II\server\src\api\routes\supplier.js:3:20)
-    at Module._compile (internal/modules/cjs/loader.js:689:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
-    at Module.load (internal/modules/cjs/loader.js:599:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
-<<<<<<< HEAD
-2020-08-26T16:34:45.346Z | error | uncaughtException: Cannot find module 'formidable'
-Error: Cannot find module 'formidable'
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:581:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:507:25)
-    at Module.require (internal/modules/cjs/loader.js:637:17)
-    at require (internal/modules/cjs/helpers.js:22:18)
-    at Object.<anonymous> (D:\UCSC\Group-Project-II\server\src\api\routes\supplier.js:3:20)
-    at Module._compile (internal/modules/cjs/loader.js:689:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
-    at Module.load (internal/modules/cjs/loader.js:599:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
-2020-08-26T16:35:10.241Z | error | uncaughtException: Cannot find module 'formidable'
-Error: Cannot find module 'formidable'
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:581:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:507:25)
-    at Module.require (internal/modules/cjs/loader.js:637:17)
-    at require (internal/modules/cjs/helpers.js:22:18)
-    at Object.<anonymous> (D:\UCSC\Group-Project-II\server\src\api\routes\supplier.js:3:20)
-    at Module._compile (internal/modules/cjs/loader.js:689:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
-    at Module.load (internal/modules/cjs/loader.js:599:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
-2020-08-26T16:35:50.264Z | info | Server Has Started listening on PORT: 5000
-=======
->>>>>>> f0697a9cd211151673fe0c358b34ad3cc5c376f9
-2020-08-26T16:42:55.979Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T17:44:28.827Z | info | Server Has Started listening on PORT: 5000
-2020-08-26T17:44:31.537Z | info | Server Has Started listening on PORT: 5000
-2020-08-31T19:26:24.992Z | error | uncaughtException: Cannot find module 'firebase'
-Error: Cannot find module 'firebase'
-    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:581:15)
-    at Function.Module._load (internal/modules/cjs/loader.js:507:25)
-    at Module.require (internal/modules/cjs/loader.js:637:17)
-    at require (internal/modules/cjs/helpers.js:22:18)
-    at Object.<anonymous> (D:\UCSC\Group-Project-II\server\src\loaders\firebase.js:1:80)
-    at Module._compile (internal/modules/cjs/loader.js:689:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
-    at Module.load (internal/modules/cjs/loader.js:599:32)
-    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
-    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
-2020-10-05T07:45:24.979Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T07:45:25.860Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T07:45:25.867Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T07:45:26.372Z | info | Received query snapshot of size 4
-2020-10-05T08:08:52.597Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T08:08:53.271Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T08:08:53.274Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T08:08:53.691Z | info | Received query snapshot of size 4
-2020-10-05T08:15:00.507Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T08:15:01.266Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T08:15:01.272Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T08:15:01.666Z | info | Received query snapshot of size 4
-2020-10-05T08:15:19.165Z | info | Admin --> GET /registrations/year?year=2020 invoked
-2020-10-05T08:15:22.705Z | info | Admin --> GET /requisitions Invoked
-2020-10-05T08:15:26.156Z | info | Admin --> GET /procurements/status invoked
-2020-10-05T08:15:32.681Z | info | Admin --> GET /users invoked
-2020-10-05T08:16:00.326Z | info | Admin --> GET /requisitions Invoked
-2020-10-05T08:21:05.973Z | info | Admin --> GET /requisitions Invoked
-2020-10-05T08:21:24.866Z | info | Admin --> GET /registrations/year?year=2020 invoked
-2020-10-05T08:21:27.448Z | info | Admin --> GET /suppliers invoked
-2020-10-05T08:24:44.107Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T08:24:46.236Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T08:24:46.240Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T08:24:46.626Z | info | Received query snapshot of size 4
-2020-10-05T08:27:44.227Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T08:27:44.908Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T08:27:44.911Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T08:27:45.329Z | info | Received query snapshot of size 4
-2020-10-05T08:28:50.005Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T08:28:50.728Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T08:28:50.739Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T08:28:51.243Z | info | Received query snapshot of size 4
-2020-10-05T08:36:00.385Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T08:36:01.142Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T08:36:01.190Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T08:36:01.930Z | info | Received query snapshot of size 4
-2020-10-05T08:39:47.213Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T08:39:47.964Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T08:39:47.974Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T08:39:48.465Z | info | Received query snapshot of size 4
-2020-10-05T08:42:47.191Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T08:42:47.982Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T08:42:48.080Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T08:42:49.106Z | info | Received query snapshot of size 4
-2020-10-05T08:43:16.695Z | error | uncaughtException: Connection already released
-Error: Connection already released
-    at Pool.releaseConnection (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Pool.js:138:13)
-    at PoolConnection.release (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\PoolConnection.js:35:15)
-    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Pool.js:211:12)
-    at Object.onceWrapper (events.js:299:28)
-    at Query.emit (events.js:215:7)
-    at Query.Sequence.end (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:86:12)
-    at Query._handleFinalResultPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:149:8)
-    at Query.OkPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:74:10)
-    at Protocol._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
-    at Parser._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
-2020-10-05T08:45:20.111Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T08:45:21.286Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T08:45:21.303Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T08:45:21.835Z | info | Received query snapshot of size 4
-2020-10-05T11:40:55.184Z | error | uncaughtException: Identifier 'pool' has already been declared
-C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
-const pool = mysql.createPool({
-      ^
-
-SyntaxError: Identifier 'pool' has already been declared
-    at wrapSafe (internal/modules/cjs/loader.js:891:16)
-    at Module._compile (internal/modules/cjs/loader.js:941:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-    at Module.load (internal/modules/cjs/loader.js:822:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
-    at Module.require (internal/modules/cjs/loader.js:864:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
-    at Module._compile (internal/modules/cjs/loader.js:971:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-2020-10-05T11:42:49.223Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T11:42:49.892Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T11:42:49.896Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T11:42:50.313Z | info | Received query snapshot of size 4
-2020-10-05T11:45:45.913Z | error | uncaughtException: connection is not defined
-ReferenceError: connection is not defined
-    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:39:3)
-    at Module._compile (internal/modules/cjs/loader.js:971:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-    at Module.load (internal/modules/cjs/loader.js:822:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
-    at Module.require (internal/modules/cjs/loader.js:864:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
-    at Module._compile (internal/modules/cjs/loader.js:971:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-2020-10-05T11:46:14.506Z | error | uncaughtException: connection is not defined
-ReferenceError: connection is not defined
-    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:39:3)
-    at Module._compile (internal/modules/cjs/loader.js:971:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-    at Module.load (internal/modules/cjs/loader.js:822:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
-    at Module.require (internal/modules/cjs/loader.js:864:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
-    at Module._compile (internal/modules/cjs/loader.js:971:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-2020-10-05T11:46:21.330Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T11:46:22.020Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T11:46:22.024Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T11:46:22.405Z | info | Received query snapshot of size 4
-2020-10-05T11:59:30.258Z | error | uncaughtException: Identifier 'pool' has already been declared
-C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
-const pool = mysql.createPool({
-      ^
-
-SyntaxError: Identifier 'pool' has already been declared
-    at wrapSafe (internal/modules/cjs/loader.js:891:16)
-    at Module._compile (internal/modules/cjs/loader.js:941:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-    at Module.load (internal/modules/cjs/loader.js:822:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
-    at Module.require (internal/modules/cjs/loader.js:864:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
-    at Module._compile (internal/modules/cjs/loader.js:971:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-2020-10-05T11:59:46.308Z | error | uncaughtException: Identifier 'pool' has already been declared
-C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
-const pool = mysql.createPool({
-      ^
-
-SyntaxError: Identifier 'pool' has already been declared
-    at wrapSafe (internal/modules/cjs/loader.js:891:16)
-    at Module._compile (internal/modules/cjs/loader.js:941:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-    at Module.load (internal/modules/cjs/loader.js:822:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
-    at Module.require (internal/modules/cjs/loader.js:864:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
-    at Module._compile (internal/modules/cjs/loader.js:971:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-2020-10-05T12:00:19.899Z | error | uncaughtException: Identifier 'pool' has already been declared
-C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
-const pool = mysql.createPool({
-      ^
-
-SyntaxError: Identifier 'pool' has already been declared
-    at wrapSafe (internal/modules/cjs/loader.js:891:16)
-    at Module._compile (internal/modules/cjs/loader.js:941:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-    at Module.load (internal/modules/cjs/loader.js:822:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
-    at Module.require (internal/modules/cjs/loader.js:864:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
-    at Module._compile (internal/modules/cjs/loader.js:971:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-2020-10-05T12:00:41.580Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T12:05:19.914Z | error | uncaughtException: Identifier 'pool' has already been declared
-C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\mysql.js:30
-const pool = mysql.createPool({
-      ^
-
-SyntaxError: Identifier 'pool' has already been declared
-    at wrapSafe (internal/modules/cjs/loader.js:891:16)
-    at Module._compile (internal/modules/cjs/loader.js:941:27)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-    at Module.load (internal/modules/cjs/loader.js:822:32)
-    at Function.Module._load (internal/modules/cjs/loader.js:730:14)
-    at Module.require (internal/modules/cjs/loader.js:864:19)
-    at require (internal/modules/cjs/helpers.js:74:18)
-    at Object.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\test_model.js:1:12)
-    at Module._compile (internal/modules/cjs/loader.js:971:30)
-    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1011:10)
-2020-10-05T12:07:39.790Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T12:07:40.991Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T12:07:40.995Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T12:07:41.628Z | info | Received query snapshot of size 4
-2020-10-05T12:55:16.564Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T12:55:17.327Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T12:55:17.332Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T12:55:17.803Z | info | Received query snapshot of size 4
-2020-10-05T14:01:38.518Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:01:39.210Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:01:39.213Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:01:39.624Z | info | Received query snapshot of size 4
-2020-10-05T14:10:46.261Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:10:46.924Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:10:46.955Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:10:47.383Z | info | Received query snapshot of size 4
-2020-10-05T14:15:56.643Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:15:57.471Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:15:57.517Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:15:58.101Z | info | Received query snapshot of size 4
-2020-10-05T14:18:49.668Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:18:50.287Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:18:50.289Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:18:50.679Z | info | Received query snapshot of size 4
-2020-10-05T14:22:07.369Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:22:08.013Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:22:08.020Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:22:08.445Z | info | Received query snapshot of size 4
-2020-10-05T14:22:36.281Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:22:36.994Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:22:37.004Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:22:37.410Z | info | Received query snapshot of size 4
-2020-10-05T14:22:58.982Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:22:59.590Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:22:59.594Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:22:59.999Z | info | Received query snapshot of size 4
-2020-10-05T14:23:22.746Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:23:23.500Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:23:23.503Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:23:23.896Z | info | Received query snapshot of size 4
-2020-10-05T14:23:57.707Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:23:58.401Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:23:58.414Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:23:58.826Z | info | Received query snapshot of size 4
-2020-10-05T14:24:03.699Z | error | uncaughtException: Unexpected token u in JSON at position 0
-SyntaxError: Unexpected token u in JSON at position 0
-    at JSON.parse (<anonymous>)
-    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\admin_model.js:47:20)
-    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:526:10)
-    at Query._callback (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:488:16)
-    at Query.Sequence.end (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
-    at Query.ErrorPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
-    at Protocol._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
-    at Parser._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
-    at Parser.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
-    at Protocol.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
-2020-10-05T14:28:12.290Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:28:13.031Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:28:13.037Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:28:13.450Z | info | Received query snapshot of size 4
-2020-10-05T14:34:12.986Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:34:13.757Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:34:13.801Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:34:14.238Z | info | Received query snapshot of size 4
-2020-10-05T14:38:08.098Z | info | Server Has Started listening on PORT: 5000
-2020-10-05T14:38:08.863Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
-2020-10-05T14:38:08.868Z | info | Listening for Decrypted Bids Begin...
-2020-10-05T14:38:09.322Z | info | Received query snapshot of size 4
+2020-10-07T02:08:20.105Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T02:08:20.698Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T02:08:20.699Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T02:08:21.046Z | info | Received query snapshot of size 4
+2020-10-07T02:19:46.196Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T02:20:21.768Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T02:22:56.986Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T02:23:24.902Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T02:23:25.514Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T02:23:25.515Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T02:23:25.898Z | info | Received query snapshot of size 4
+2020-10-07T02:30:45.188Z | error | uncaughtException: Cannot read property 'forEach' of undefined
+TypeError: Cannot read property 'forEach' of undefined
+    at D:\Projects\project\server\src\models\hod_model.js:142:25
+    at Ping.onOperationComplete (D:\Projects\project\server\node_modules\mysql\lib\Pool.js:110:5)
+    at Ping.<anonymous> (D:\Projects\project\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Ping._callback (D:\Projects\project\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Ping.Sequence.end (D:\Projects\project\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Ping.Sequence.OkPacket (D:\Projects\project\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:92:8)
+    at Protocol._parsePacket (D:\Projects\project\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (D:\Projects\project\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (D:\Projects\project\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (D:\Projects\project\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-10-07T02:35:13.435Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T02:35:14.086Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T02:35:14.088Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T02:35:14.440Z | info | Received query snapshot of size 4
+2020-10-07T02:35:17.175Z | error | uncaughtException: Cannot read property 'forEach' of undefined
+TypeError: Cannot read property 'forEach' of undefined
+    at D:\Projects\project\server\src\models\hod_model.js:142:25
+    at Handshake.onConnect (D:\Projects\project\server\node_modules\mysql\lib\Pool.js:64:7)
+    at Handshake.<anonymous> (D:\Projects\project\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Handshake._callback (D:\Projects\project\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Handshake.Sequence.end (D:\Projects\project\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Handshake.Sequence.OkPacket (D:\Projects\project\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:92:8)
+    at Protocol._parsePacket (D:\Projects\project\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (D:\Projects\project\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (D:\Projects\project\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (D:\Projects\project\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-10-07T02:43:59.091Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T02:43:59.775Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T02:43:59.776Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T02:44:00.156Z | info | Received query snapshot of size 4
+2020-10-07T02:47:47.048Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T02:47:47.609Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T02:47:47.610Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T02:47:47.995Z | info | Received query snapshot of size 4
