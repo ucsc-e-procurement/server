@@ -99,8 +99,12 @@ const create_request = (data) =>
       }
       //description, status, head_of_division_id, director_id, deputy_bursar_id, division, reorder
       let query =
-        "INSERT INTO requisition(description, procurement_type, head_of_division_id, director_id, deputy_bursar_id, division, reorder) VALUES('" +
+        "INSERT INTO requisition(requisition_id, description, date, procurement_type, head_of_division_id, director_id, deputy_bursar_id, division, reorder) VALUES('" +
+        data.requisition_id +
+        "', '" +
         data.description +
+        "', '" +
+        data.date +
         "', '" +
         data.procurement_type +
         "', '" +
@@ -121,6 +125,71 @@ const create_request = (data) =>
       });
     });
   });
+
+
+//add products to database
+const add_products = (data) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((errDB, connection) => {
+      if (errDB) {
+        reject(errDB);
+        console.log(errDB);
+        return;
+      }
+
+      let final_result = [];
+
+      data.product_list.forEach(element => {
+        let product_id = element.product_name.split(':')[0];
+        let query =
+        "INSERT INTO requisition_product VALUES('" + element.requisition_id +"', '" +product_id +"', '" +element.qnty +"')";
+        db.query(query, (errQuery, results) => {
+          if (errQuery) reject(errQuery);
+          final_result.push(results)
+        });
+      });
+      connection.release();
+      resolve(JSON.parse(JSON.stringify(final_result)));
+    });
+  });
+
+//last updated seq
+const get_req_seq = () =>
+  new Promise((resolve, reject) => {
+    db.getConnection((errDB, connection) => {
+      if (errDB) {
+        reject(errDB);
+        return;
+      }
+      db.query(
+        `SELECT * FROM requisition_seq ORDER BY id DESC LIMIT 1;`,
+        (errQuery, results) => {
+          if (errQuery) reject(errQuery);
+          connection.release();
+          resolve(JSON.parse(JSON.stringify(results)));
+        }
+      );
+    });
+  });
+
+  //updated seq
+const set_req_seq = (data) =>
+new Promise((resolve, reject) => {
+  db.getConnection((errDB, connection) => {
+    if (errDB) {
+      reject(errDB);
+      return;
+    }
+    let query = "INSERT INTO requisition_seq VALUES ('" + data.id +"')";
+    db.query(query,(errQuery, results) => {
+        if (errQuery) reject(errQuery);
+        connection.release();
+        resolve(JSON.parse(JSON.stringify(results)));
+      }
+    );
+  });
+});
+
 
 const get_dir_empid = () =>
   new Promise((resolve, reject) => {
@@ -173,9 +242,9 @@ const get_products = () =>
         reject(errDB);
         return;
       }
+      
       db.query(
-        `SELECT product_name
-        FROM product;`,
+        `SELECT product_id, product_name, type FROM product;`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -198,7 +267,7 @@ const get_products = () =>
         `SELECT procurement.procurement_id, tec_emp.employee_id, procurement.step 
         FROM procurement 
         INNER JOIN tec_emp ON procurement.tec_team_id = tec_emp.tec_team_id
-        WHERE tec_emp.employee_id = '${emp_id}' AND procurement.step <= 3`,
+        WHERE tec_emp.employee_id = '${emp_id}' AND procurement.step = 4`,
         (errQuery, results) => {
           if (errQuery) reject(errQuery);
           connection.release();
@@ -238,5 +307,8 @@ module.exports = {
   get_db_empid,
   get_products,
   create_request,
+  add_products,
+  get_req_seq,
+  set_req_seq,
   get_proc_specsheet
 };
