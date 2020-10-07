@@ -296,6 +296,20 @@ module.exports = (app) => {
     });
   })
 
+  // Get Recent Products
+  router.get("/get_bid", (req, res) => {
+ 
+    directorModel.getBid(req.query.procId).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
+
   // Get supplier list
   router.get("/get_suppliers", (req, res) => {
 
@@ -364,6 +378,55 @@ module.exports = (app) => {
       res.send(err).status(200).end();
     });
   })
-  
+
+  // Accept bid evaluation 
+  router.post("/accept_bid_evaluation", (req, res) => {
+
+    // res.send("Appointing bid opening team for procurement " + req.params.id + ": " + req.body).status(200).end();
+
+    directorModel.acceptBidEvaluation(req.body.procurementId, req.body.directorRemarks, req.body.directorRecommendation, req.body.step).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+
+  })
+
+  // Get evaluation details 
+  router.get("/get_evaluation_details", (req, res) => {
+
+    // res.send("Appointing bid opening team for procurement " + req.params.id + ": " + req.body).status(200).end();
+
+    directorModel.getEvaluationDetails(req.query.procId).then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+
+  })
+
+  // Get Approval Requests 
+  router.get("/get_approval_requests", (req, res) => {
+    
+    // res.send("Getting Requests").status(200).end();
+
+    directorModel.getApprovalRequests().then((result) => {
+      // eslint-disable-next-line no-console
+      console.log(result);
+      res.json(result).status(200).end();
+    }).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+      res.send(err).status(200).end();
+    });
+  })
 };
 

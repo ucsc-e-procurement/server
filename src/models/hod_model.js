@@ -190,6 +190,26 @@ new Promise((resolve, reject) => {
   });
 });
 
+//update step
+const update_step = (data) =>
+new Promise((resolve, reject) => {
+  db.getConnection((errDB, connection) => {
+    if (errDB) {
+      reject(errDB);
+      return;
+    }
+    let query = "UPDATE procurement SET step = 5 WHERE procurement_id = '" + data.procurement_id + "';"
+    console.log(query, data)
+    db.query(query, (errQuery, results) => {
+        if (errQuery) reject(errQuery);
+        connection.release();
+        resolve(JSON.parse(JSON.stringify(results)));
+      }
+    );
+  });
+});
+
+
 
 const get_dir_empid = () =>
   new Promise((resolve, reject) => {
@@ -310,5 +330,6 @@ module.exports = {
   add_products,
   get_req_seq,
   set_req_seq,
-  get_proc_specsheet
+  get_proc_specsheet,
+  update_step,
 };
