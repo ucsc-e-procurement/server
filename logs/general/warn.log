@@ -22,3 +22,15 @@ TypeError: Cannot read property 'forEach' of undefined
     at Parser._parsePacket (D:\Projects\project\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
     at Parser.write (D:\Projects\project\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
     at Protocol.write (D:\Projects\project\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-10-07T10:26:49.802Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\home_page_model.js:55:22)
+    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)

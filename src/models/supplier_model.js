@@ -200,14 +200,14 @@ const saveSupplierInfo = (fields, files) => new Promise(async (resolve, reject) 
                       '${fields.contact}', '${fields.cat_selection}', '${fields.official_email}', '${fields.legal}', '${fields.fax}', 
                       '${fields.web}', '${fields.business_reg_no}', '${fields.vat_reg_no}', '${fields.ictad_reg_no}',
                       '${fields.bank}', '${fields.branch}', '${fields.business_nature}', '${fields.business_type}', '${fields.credit_offered}',
-                      '${fields.maximum_credit}', '${fields.credit_period}', '${fields.experience}', '${fields.email}')`;
+                      '${fields.maximum_credit}', '${fields.credit_period}', '${fields.experience}', '${fields.email}', 'inactive')`;
     }
     else if (fields.user_state == 'renew') {
       sqlQueryString = `UPDATE supplier SET name=${fields.contact_name}', address='${fields.business_address}', 
                       contact_number='${fields.contact}', category='${fields.cat_selection}', email='${fields.official_email}', legal='${fields.legal}', fax='${fields.fax}', 
                       web='${fields.web}', business_reg'${fields.business_reg_no}', vat_reg_no='${fields.vat_reg_no}', ictad_reg_no='${fields.ictad_reg_no}',
                       bank='${fields.bank}', branch='${fields.branch}', business_nature='${fields.business_nature}', business_type='${fields.business_type}', credit_offered='${fields.credit_offered}',
-                      maximum_credit='${fields.maximum_credit}', credit_period='${fields.credit_period}', experience='${fields.experience}' WHERE supplier_id='${fields.email}'`;
+                      maximum_credit='${fields.maximum_credit}', credit_period='${fields.credit_period}', experience='${fields.experience}', status='inactive' WHERE supplier_id='${fields.email}'`;
     }
       db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
@@ -259,6 +259,21 @@ const getBidFile = () => new Promise(async (resolve, reject) => {
     db.query(sqlQueryString, (error, results, fields) => {
       connection.release();
       resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
+// Get next increment value of bid table
+const nextIncrement = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    const sqlQueryString = `SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'bid'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      connection.release();
+      resolve(results);
     });
   });
 });
@@ -400,6 +415,7 @@ module.exports = {
   saveSupplierRegistration,
   getAuthFile,
   getBidFile,
+  nextIncrement,
   addBidToFirebase,
   enterSupplierBid,
   enterSupplierQuotation,
