@@ -239,8 +239,8 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
       const sqlQueryString = `UPDATE bid SET bid.status='rejected' WHERE bid.bid_id IN (?)`;
       const sqlQueryString1 = `UPDATE bid SET bid.status='approved' WHERE bid.bid_id IN (?)`;
       //set date
-      const sqlQueryString2 = `INSERT INTO tec_report(report_id, status, tec_team_id, procurement_id, rejected_bids, recommended_bids, tec_recommendation) 
-      VALUES ('${tec_report_data.procurementId}', 'saved', '${tec_report_data.tecTeamId}', '${tec_report_data.procurementId}', '${tec_report_data.reasonsForRejecting}', '${tec_report_data.reasonForRecommending}', '${tec_report_data.tecRecommendation}')`;
+      const sqlQueryString2 = `INSERT INTO tec_report(report_id, status, tec_team_id, procurement_id, rejected_bids, recommended_bids, tec_recommendation, tec_recommended) 
+      VALUES ('${tec_report_data.procurementId}', 'saved', '${tec_report_data.tecTeamId}', '${tec_report_data.procurementId}', '${tec_report_data.reasonsForRejecting}', '${tec_report_data.reasonForRecommending}', '${tec_report_data.tecRecommendation}', '${tec_report_data.recommended}')`;
       db.query(sqlQueryString, [tec_report_data.rejectedbids],(error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
         db.query(sqlQueryString1, [tec_report_data.recommendedbids],(error, results, fields) => {
@@ -286,7 +286,7 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
       }
   
       // SQL Query
-      const sqlQueryString = `UPDATE tec_report SET tec_report.tec_recommendation='${tec_report_data.tecRecommendation}' WHERE tec_report.report_id='${tec_report_data.procurementId}'`;
+      const sqlQueryString = `UPDATE tec_report SET tec_report.tec_recommendation='${tec_report_data.tecRecommendation}', tec_report.tec_recommended='${tec_report_data.recommended}' WHERE tec_report.report_id='${tec_report_data.procurementId}'`;
       const sqlQueryString1 = `UPDATE procurement SET procurement.step=8 WHERE procurement.procurement_id='${tec_report_data.procurementId}'`;
       db.query(sqlQueryString, (error, results, fields) => {
         // Release SQL Connection Back to the Connection Pool
@@ -301,6 +301,11 @@ const getUnlockedProcurements = (employee_id) => new Promise((resolve, reject) =
               resolve(JSON.parse(JSON.stringify(results)));
             }
           })
+        }
+        else{
+          connection.release();
+        //console.log(results)
+          resolve(JSON.parse(JSON.stringify(results)));
         }
         //console.log(results)
         //resolve(JSON.parse(JSON.stringify(results)));

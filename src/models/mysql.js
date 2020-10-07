@@ -26,6 +26,14 @@ const connection = mysql.createConnection({
 //   database: "ucsc_e_proc",
 // });
 
+// const pool = mysql.createPool({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "ucsc_e_proc",
+//   connectionLimit: 100,
+// });
+
 // If Connection Pooling is needed, use this approach instead
 const pool = mysql.createPool({
   host: "testdb-1.cezlzfckdvnf.ap-south-1.rds.amazonaws.com",
