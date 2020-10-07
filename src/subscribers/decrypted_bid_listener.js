@@ -18,7 +18,7 @@ module.exports = () => {
         console.log(doc.data());
 
         // TODO Store Each Bid on the bid Table
-        // storeDecryptedBidService(); 
+        // storeDecryptedBidService();
       });
     }
   // ...

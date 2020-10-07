@@ -106,6 +106,8 @@ const getBidOpeningSchedule = (status) =>
     });
   });
 
+
+
 // const sqlQueryString = `SELECT * FROM bid INNER JOIN bid_product ON bid.bid_id=bid_product.bid_id WHERE supplier_id='${id}'`;
 
 module.exports = {

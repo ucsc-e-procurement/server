@@ -1,4 +1,5 @@
 const express = require("express");
+const hod_model = require("../../models/hod_model");
 
 const router = express.Router();
 //const middlewares = require("../middlewares");
@@ -137,7 +138,7 @@ module.exports = (app) => {
   //       res.send(err).status(400).end();
   //     });
   // });
-
+  //creating a requisition
   router.post("/create_req", (req, res) => {
     hodModal
       .create_request(req.body)
@@ -148,16 +149,56 @@ module.exports = (app) => {
         res.send(err).status(400).end();
       });
   });
-};
 
-
-router.get("/procforspec/:empid", (req, res) => {
-  hodModal
-    .get_proc_specsheet(req.params.empid)
+  //adding products to the database
+  router.post("/add_prod", (req, res) => {
+    hodModal
+    .add_products(req.body)
     .then((result) => {
       res.json(result).status(200).end();
     })
     .catch((err) => {
       res.send(err).status(400).end();
     });
-});
+  });
+
+  //get requisition sequance
+  router.get("/get_req_seq", (req, res) => {
+    hodModal
+      .get_req_seq(req.body)
+      .then((result) => {
+        res.json(result).status(200).end();
+      })
+      .catch((err) => {
+        res.send(err).status(400).end();
+      });
+  });
+
+   //set requisition sequance
+   router.post("/set_req_seq", (req, res) => {
+    hodModal
+      .set_req_seq(req.body)
+      .then((result) => {
+        res.json(result).status(200).end();
+      })
+      .catch((err) => {
+        res.send(err).status(400).end();
+      });
+  });
+
+  //procurements for specifications 
+  router.get("/procforspec/:empid", (req, res) => {
+    hodModal
+      .get_proc_specsheet(req.params.empid)
+      .then((result) => {
+        res.json(result).status(200).end();
+      })
+      .catch((err) => {
+        res.send(err).status(400).end();
+      });
+  });
+};
+
+
+
+
