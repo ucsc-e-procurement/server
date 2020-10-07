@@ -37,8 +37,8 @@ const getOngoingProcurementsData = (procurementId) => new Promise((resolve, reje
       }
       // SQL Query
       const sqlQueryString = `SELECT DISTINCT
-      procurement.procurement_id,date_format(procurement.bid_opening_date,'%D %M %Y') as bid_opening_date, date_format(procurement.expiration_date,'%D %M %Y') as expiration_date, procurement.status AS procurement_status, bid.status AS bid_status,
-      CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","unit_price":"',bid_product.unit_price, ' ", "total_with_vat":"', bid.total_with_vat,'"}')), ']') AS bids
+      procurement.procurement_id,date_format(procurement.bid_opening_date,'%D %M %Y') as bid_opening_date, date_format(procurement.expiration_date,'%D %M %Y') as expiration_date, procurement.status AS procurement_status,
+      CONCAT('[',GROUP_CONCAT(CONCAT('{"bid_id":"', bid.bid_id,'", "supplier_id":"', supplier.supplier_id,'", "supplier_name":"', supplier.name, '", "supplier_address":"', supplier.address,'","product_id":"',product.product_id,'","product_name":"',product.product_name,'","qty":"',bid_product.quantity,'","unit_price":"',bid_product.unit_price, ' ", "total_with_vat":"', bid.total_with_vat,'", "bid_status":"', bid.status,'"}')), ']') AS bids
       FROM procurement 
       LEFT JOIN bid ON procurement.procurement_id = bid.procurement_id
       LEFT JOIN bid_product ON bid.bid_id = bid_product.bid_id

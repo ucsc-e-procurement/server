@@ -1,0 +1,28 @@
+2020-10-07T10:21:45.870Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T10:21:46.572Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T10:21:46.644Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T10:21:47.170Z | info | Received query snapshot of size 3
+2020-10-07T10:26:49.802Z | error | uncaughtException: Unexpected token u in JSON at position 0
+SyntaxError: Unexpected token u in JSON at position 0
+    at JSON.parse (<anonymous>)
+    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\src\models\home_page_model.js:55:22)
+    at Query.<anonymous> (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:526:10)
+    at Query._callback (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\Connection.js:488:16)
+    at Query.Sequence.end (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Query.ErrorPacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\sequences\Query.js:92:8)
+    at Protocol._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (C:\Users\Sachini Nayanathara\Documents\Projects\GroupProject2\server\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+2020-10-07T10:28:09.529Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T10:28:10.215Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T10:28:10.218Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T10:28:10.730Z | info | Received query snapshot of size 3
+2020-10-07T10:43:29.214Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T10:43:29.884Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T10:43:29.899Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T10:43:30.369Z | info | Received query snapshot of size 3
+2020-10-07T10:48:27.403Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T10:48:28.076Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T10:48:28.085Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T10:48:28.556Z | info | Received query snapshot of size 3
