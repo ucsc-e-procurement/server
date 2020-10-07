@@ -421,7 +421,6 @@ module.exports = (app) => {
 
     try {
       let requisitionId = req.query.requisitionId;
-      console.log(requisitionId);
 
       const result = await ProcurementModel.getProcurementByRequisitionId(
         requisitionId
