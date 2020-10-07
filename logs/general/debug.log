@@ -57,3 +57,39 @@ TypeError: Cannot read property 'forEach' of undefined
 2020-10-07T06:58:46.143Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
 2020-10-07T06:58:46.145Z | info | Listening for Decrypted Bids Begin...
 2020-10-07T06:58:46.472Z | info | Received query snapshot of size 4
+2020-10-07T07:40:15.501Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T07:40:16.205Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T07:40:16.206Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T07:40:16.620Z | info | Received query snapshot of size 4
+2020-10-07T07:40:50.412Z | info | User Login Invoked
+2020-10-07T07:41:08.629Z | info | User Login Invoked
+2020-10-07T07:41:09.493Z | info | Admin --> GET /bids/opening-schedule invoked
+2020-10-07T07:41:59.342Z | info | Admin --> GET /bids/opening-schedule invoked
+2020-10-07T07:42:15.292Z | info | User Login Invoked
+2020-10-07T07:42:50.419Z | info | User Login Invoked
+2020-10-07T07:43:12.086Z | info | User Login Invoked
+2020-10-07T07:43:21.757Z | info | User Login Invoked
+2020-10-07T07:43:22.817Z | info | User Login Invoked
+2020-10-07T07:43:23.545Z | info | User Login Invoked
+2020-10-07T07:43:24.281Z | info | User Login Invoked
+2020-10-07T07:44:00.372Z | info | User Login Invoked
+2020-10-07T07:44:01.643Z | info | User Login Invoked
+2020-10-07T07:44:02.364Z | info | User Login Invoked
+2020-10-07T07:44:03.009Z | info | User Login Invoked
+2020-10-07T07:46:12.370Z | info | User Login Invoked
+2020-10-07T07:47:45.050Z | info | User Login Invoked
+2020-10-07T07:47:52.403Z | info | User Login Invoked
+2020-10-07T07:48:38.764Z | info | User Login Invoked
+2020-10-07T07:49:13.771Z | info | User Login Invoked
+2020-10-07T07:49:21.716Z | info | User Login Invoked
+2020-10-07T07:54:59.304Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T07:54:59.802Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T07:54:59.803Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T07:55:00.124Z | info | Received query snapshot of size 4
+2020-10-07T07:55:48.520Z | info | User Login Invoked
+2020-10-07T07:55:52.078Z | info | User Login Invoked
+2020-10-07T07:55:53.450Z | info | User Login Invoked
+2020-10-07T07:56:00.376Z | info | User Login Invoked
+2020-10-07T08:29:02.480Z | info | Received query snapshot of size 4
+2020-10-07T08:29:35.792Z | info | Received query snapshot of size 3
+2020-10-07T08:32:33.379Z | info | User Login Invoked
