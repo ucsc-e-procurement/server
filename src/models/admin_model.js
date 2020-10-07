@@ -298,7 +298,28 @@ const getSupplierRegistrationsBySupplierID = (supplierId) =>
     });
   });
 
-
+// Update PRocurement Table --> bid_type
+const updateBidType = (procurementID, bidType) =>
+  new Promise((resolve, reject) => {
+    console.log("I'm Here");
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+  
+      // SQL Query
+      const sqlQueryString = `UPDATE procurement SET bid_type='${bidType}' WHERE procurement_id='${procurementID}'`;
+      console.log(sqlQueryString);
+      db.query(sqlQueryString, (error, result, fields) => {
+  
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+  
+        resolve(result);
+      });
+    });
+  });
 
 
 
@@ -314,6 +335,7 @@ module.exports = {
   sendRFQDirectOngoingProcurements,
   sendRFQShoppingOngoingProcurements,
   getSupplierRegistrationStatus,
-  getSupplierRegistrationsBySupplierID
+  getSupplierRegistrationsBySupplierID,
+  updateBidType
   
 };
