@@ -341,6 +341,23 @@ const saveBidProducts = (items, id) =>
     });
   });
 
+// Udpdate procurement step after bid submission
+const updateProcurementStep = (proc_id) =>
+new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+    const sqlQueryString = `UPDATE INTO procurement SET step=6 WHERE procurement_id='${proc_id}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      resolve(results[0]);
+    });
+  });
+});
+
 // Get Employee Details By UserID
 const getSupplierByUserId = (userId) => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -387,6 +404,7 @@ module.exports = {
   enterSupplierBid,
   enterSupplierQuotation,
   saveBidProducts,
+  updateProcurementStep,
   getSupplierData,
   getNewRequests,
   getOngoingProcurements,
