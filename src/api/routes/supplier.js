@@ -72,6 +72,7 @@ module.exports = (app) => {
   router.get("/price_schedule/get_file", (req, res) => {
     supplierModel.getAuthFile()
       .then(result => {
+        console.log(result);
         res.set('Content-Type', 'application/pdf').send(result[0].document).end()
       })
       .catch(err => {
@@ -83,11 +84,22 @@ module.exports = (app) => {
   router.get("/price_schedule/get_bid_guarantee", (req, res) => {
     supplierModel.getBidFile()
       .then(result => {
+        console.log(result);
         res.set('Content-Type', 'application/pdf').send(result[0].document).end()
       })
       .catch(err => {
         res.send("Unsuccessful").status(500).end();
       });
+  });
+
+  // get increment of bid table
+  router.get("/price_schedule/next_increment/", (req, res) => {
+    supplierModel.nextIncrement().then((result) => {
+      console.log("the result",result)
+      res.json(result);
+    }).catch((err) => {
+      res.json(err);
+    });
   });
 
   // Encryption data handling
