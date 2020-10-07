@@ -60,7 +60,7 @@ const getTecAppointmentRequests = () => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT * FROM procurement WHERE status = 'on-going' AND step = 3`;
+    const sqlQueryString = `SELECT * FROM procurement WHERE status = 'on-going' AND step = 3 AND procurement_method LIKE 'NSP%'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -620,6 +620,7 @@ const getEvaluationDetails = (procurementId) => new Promise((resolve, reject) =>
   });
 });
 
+// Get tec report approval requests
 const getApprovalRequests = () => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
     if (err) {
@@ -629,6 +630,25 @@ const getApprovalRequests = () => new Promise((resolve, reject) => {
 
     // SQL Query
     const sqlQueryString = `SELECT * FROM procurement WHERE (status = 'on-going' AND step = 8 AND procurement_method LIKE 'NSP%') OR (status = 'on-going' AND step = 6 AND procurement_method LIKE 'DIM%')`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
+// Get procurement activities
+const getActivities = () => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM procurement WHERE status = 'on-going'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -664,5 +684,6 @@ module.exports = {
   getBid,
   acceptBidEvaluation,
   getEvaluationDetails,
-  getApprovalRequests
+  getApprovalRequests,
+  getActivities
 };
