@@ -30,7 +30,7 @@ module.exports = (app) => {
         res.json(result);
       })
       .catch(err => {
-        console.log(err);
+        res.json(err);
       })
   })
 
@@ -41,7 +41,7 @@ module.exports = (app) => {
         res.json(result);
       })
       .catch(err => {
-        console.log(err);
+        res.json(err);
       })
   })
 
@@ -63,7 +63,7 @@ module.exports = (app) => {
             })
         })
         .catch(err => {
-          console.log(err);
+          res.json(err);
         })
     });
   });
@@ -75,7 +75,7 @@ module.exports = (app) => {
         res.set('Content-Type', 'application/pdf').send(result[0].document).end()
       })
       .catch(err => {
-        console.log(err);
+        res.json(err);
       });
   });
 
@@ -86,7 +86,7 @@ module.exports = (app) => {
         res.set('Content-Type', 'application/pdf').send(result[0].document).end()
       })
       .catch(err => {
-        console.log(err);
+        res.json(err);
       });
   });
 
@@ -119,7 +119,7 @@ module.exports = (app) => {
         res.send("Successful").status(200).end();
       })
       .catch(err => {
-        console.log(err);
+        res.json(err);
       })
   });
 
@@ -135,7 +135,7 @@ module.exports = (app) => {
           res.send("Successful").status(200).end();
         })
         .catch(err => {
-          console.log(err);
+          res.json(err);
         })
     });
   });
@@ -143,16 +143,20 @@ module.exports = (app) => {
   // Direct method price schedule submission
   router.post("/price_schedule_direct/:procurement", (req, res) => {
     supplierModel.enterSupplierQuotation(req.body).then(result => {
-      supplierModel.saveBidProducts(req.body.items, result.insertId)
-        .then(() => {
-          res.send("Successful").status(200).end();
+      supplierModel.saveBidProducts(req.body.items, result.insertId).then(() => {
+          supplierModel.updateProcurementStep(req.body.procurement_id).then(() => {
+            res.send("Successful").status(200).end();
+          })
+          .catch((err) => {
+            res.json(err);
+          });
         })
         .catch((err) => {
-          console.log(err);
+          res.json(err);
         });
     })
       .catch((err) => {
-        console.log(err);
+        res.json(err);
       });
   });
 

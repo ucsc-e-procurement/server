@@ -45,3 +45,15 @@ TypeError: Cannot read property 'forEach' of undefined
 2020-10-07T02:47:47.609Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
 2020-10-07T02:47:47.610Z | info | Listening for Decrypted Bids Begin...
 2020-10-07T02:47:47.995Z | info | Received query snapshot of size 4
+2020-10-07T06:51:04.911Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T06:51:05.744Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T06:51:05.752Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T06:51:06.185Z | info | Received query snapshot of size 4
+2020-10-07T06:57:47.601Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T06:57:48.298Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T06:57:48.300Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T06:57:48.699Z | info | Received query snapshot of size 4
+2020-10-07T06:58:45.678Z | info | Server Has Started listening on PORT: 5000
+2020-10-07T06:58:46.143Z | info | >> Firebase Initialized | Ayubowan!, I'm Working
+2020-10-07T06:58:46.145Z | info | Listening for Decrypted Bids Begin...
+2020-10-07T06:58:46.472Z | info | Received query snapshot of size 4
