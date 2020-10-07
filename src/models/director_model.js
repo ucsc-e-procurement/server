@@ -548,14 +548,14 @@ const advancedSearch = (department, procurementStatus, procurementType, supplier
             procurement.requisition_id = requisition.requisition_id
             INNER JOIN employee ON requisition.head_of_division_id = employee.employee_id
             WHERE supplier.name LIKE '${supplier}%' AND bid.status = 'approved' AND employee.department LIKE '${department}%' AND procurement.status LIKE '${procurementStatus}%'
-            AND procurement.procurement_method LIKE '${procurementType}%' AND procurement.completed_date BETWEEN '${from}' AND '${to}'`;
+            AND procurement.procurement_method LIKE '${procurementType}%' AND procurement.completed_date >= '${from}' AND procurement.completed_date < '${to}'`;
     }else{
       sqlQueryString = `SELECT CONCAT('[',GROUP_CONCAT(CONCAT('{"procurementId":"',procurement.procurement_id,'","status":"',procurement.status,'","step":"',procurement.step,'","prod_desc":"',requisition.description,'","procurement_method":"',procurement.procurement_method,'"}')),']') AS procurements
       FROM procurement INNER JOIN requisition ON
       procurement.requisition_id = requisition.requisition_id
       INNER JOIN employee ON requisition.head_of_division_id = employee.employee_id
       WHERE employee.department LIKE '${department}%' AND procurement.status LIKE '${procurementStatus}%'
-      AND procurement.procurement_method LIKE '${procurementType}%' AND procurement.bid_opening_date BETWEEN '${from}' AND '${to}'`;
+      AND procurement.procurement_method LIKE '${procurementType}%'  AND procurement.bid_opening_date < '${to}' AND procurement.bid_opening_date >= '${from}'`;
     }
 
     db.query(sqlQueryString, (error, results, fields) => {

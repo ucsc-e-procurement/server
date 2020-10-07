@@ -18,7 +18,12 @@ module.exports = () => {
         console.log(doc.data());
 
         // TODO Store Each Bid on the bid Table
-        // storeDecryptedBidService();
+        storeDecryptedBidService(String(doc.data().data)).then(() => {
+          logger.info({ message: "Decrypted Bid Stored Successfully" });
+        }).catch(err => {
+          console.log(err);
+          logger.info({ message: "Unable to Store the Bid", err});
+        });
       });
     }
   // ...

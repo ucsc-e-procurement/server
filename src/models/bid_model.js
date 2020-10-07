@@ -107,6 +107,48 @@ const getBidOpeningSchedule = (status) =>
   });
 
 
+const updateBidValues = (bidData) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      // SQL Query
+      const sqlQueryString = `UPDATE bid SET total=${bidData.total}, total_with_vat=${bidData.total_with_vat}, lock="unlocked" WHERE bid_id='${bidData.bid_id}'`;
+      console.log(sqlQueryString);
+      db.query(sqlQueryString, (errQuery, result) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if (errQuery) reject(errQuery);
+        resolve({...result});
+      });
+    });
+  });
+
+const createBidProduct = (bidId, product) =>
+  new Promise((resolve, reject) => {
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      // SQL Query
+      //  credit_period quotation_validity delivery_date make vat quantity unit_price product_id bid_id 
+      const sqlQueryString = `INSERT INTO bid_product VALUES('${bidId}', '${product.product_id}', ${product.unit_price}, ${product.quantity}, '${product.vat}', '${product.make}', '${product.delivery_date}', ${product.quotation_validity}, ${product.credit_period} )`;
+      console.log(sqlQueryString);
+      db.query(sqlQueryString, (errQuery) => {
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if (errQuery) reject(errQuery);
+        resolve({message: "Product Added"});
+      });
+    });
+  });
+
+
 
 // const sqlQueryString = `SELECT * FROM bid INNER JOIN bid_product ON bid.bid_id=bid_product.bid_id WHERE supplier_id='${id}'`;
 
@@ -116,5 +158,7 @@ module.exports = {
   getBidsBySupplierId,
   getBidProductsById,
   getBidById,
-  getBidOpeningSchedule
+  getBidOpeningSchedule,
+  createBidProduct,
+  updateBidValues
 };
