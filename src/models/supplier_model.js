@@ -34,7 +34,7 @@ const getNewRequests = (supplier_id) => new Promise((resolve, reject) => {
         INNER JOIN procurement ON rfq.procurement_id = procurement.procurement_id 
         INNER JOIN requisition_product ON procurement.requisition_id = requisition_product.requisition_id 
         INNER JOIN product ON requisition_product.product_id = product.product_id 
-        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='sent'
+        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='sent' AND procurement.step < 7
         GROUP BY rfq.rfq_id`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
@@ -54,14 +54,14 @@ const getOngoingProcurements = (supplier_id) => new Promise((resolve, reject) =>
 
     // SQL Query
     const sqlQueryString = `SELECT DISTINCT
-        rfq.*, procurement.procurement_id, procurement.category, procurement.status AS procurement_status, procurement.bid_opening_date, bid.total_with_vat, bid.status AS bid_status,
+        rfq.*, procurement.procurement_id, procurement.category, procurement.status AS procurement_status, procurement.bid_opening_date, bid.total_with_vat, bid.status AS bid_status, procurement.step,
         CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', bid_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', bid_product.quantity, '", "unit_price":"', bid_product.unit_price,'"}')), ']') AS bids
         FROM rfq 
         INNER JOIN procurement ON rfq.procurement_id = procurement.procurement_id 
         INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
         INNER JOIN bid_product ON bid.bid_id = bid_product.bid_id
         INNER JOIN product ON bid_product.product_id = product.product_id
-        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='on-going' AND bid.supplier_id='${supplier_id} AND procurement.step>= 7'
+        WHERE rfq.supplier_id='${supplier_id}' AND procurement.status='on-going' AND bid.supplier_id='${supplier_id}' AND procurement.step>= 7
         GROUP BY bid.bid_id`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
@@ -88,7 +88,7 @@ const getCompletedProcurements = (supplier_id) => new Promise((resolve, reject) 
         INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
         INNER JOIN bid_product ON bid.bid_id = bid_product.bid_id
         INNER JOIN product ON bid_product.product_id = product.product_id
-        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='completed' AND bid.supplier_id='${supplier_id}'
+        WHERE rfq.supplier_id='${supplier_id}' AND procurement.status='completed' AND bid.supplier_id='${supplier_id}'
         GROUP BY bid.bid_id`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
