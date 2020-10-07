@@ -183,7 +183,7 @@ module.exports = (app) => {
   router.get("/direct_ongoing_procurements/suppliers", (req, res) => {
 
     AdminModel.getSupplierList(req.query.category).then(result => {
-        res.json(result);
+      res.json(result);
 
     }).catch(err => {
       res.send(err);
@@ -204,8 +204,8 @@ module.exports = (app) => {
   router.post("/shopping_ongoing_procurements/suppliers/send_rfq", (req, res) => {
 
     AdminModel.sendRFQShoppingOngoingProcurements(req.query.date,req.query.deadline,req.query.procurementId,req.query.category).then(result => {
-        res.json(result);
-        console.log("Result: ", result );
+      res.json(result);
+      console.log("Result: ", result );
 
     }).catch(err => {
       res.send(err);
@@ -799,7 +799,6 @@ module.exports = (app) => {
       });
     });
   });
-
   // ######################################################################################################################################################
   //                                                      Get Supplier Registrations By Supplier ID
   // ######################################################################################################################################################
@@ -812,6 +811,30 @@ module.exports = (app) => {
     AdminModel.getSupplierRegistrationsBySupplierID(supplierId).then(results => {
 
       res.status(200).json(results);
+    }).catch(err => {
+      logger.error(err);
+
+      res.status(400).json({
+        error: {
+          code: "0000",
+          message: "Unable to Get Data",
+          description: err,
+        },
+      });
+    });
+  });
+  // ######################################################################################################################################################
+  //                                                      Update Bid Type, When Creating the Datasheet
+  // ######################################################################################################################################################
+  router.post("/bid/bid-type", async (req, res, next) => {
+    logger.info("Admin --> POST /bid/bid-type invoked");
+
+    let bidType = req.body.bid_type;
+    let procurementId = req.body.procurement_id;
+    
+    AdminModel.updateBidType(procurementId, bidType).then(result => {
+
+      res.status(201).json({message: "Bid Type Updated"});
     }).catch(err => {
       logger.error(err);
 

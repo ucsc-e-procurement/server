@@ -19,7 +19,7 @@ const getDirectOngoingProcurements = () => new Promise((resolve, reject) => {
     const sqlQueryString = `SELECT procurement.procurement_id, procurement.category 
                             FROM procurement
                             INNER JOIN requisition ON procurement.requisition_id = requisition.requisition_id
-                            WHERE procurement.step = 3 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method = 'direct'`;
+                            WHERE procurement.step = 5 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method = 'DIM'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -58,7 +58,7 @@ const sendRFQDirectOngoingProcurements = (supplierId,procurementId,date,deadline
     }
     // SQL Query
     const sqlQueryString1 = `INSERT INTO rfq(status,deadline,procurement_id,supplier_id,date) VALUES('sent', '${deadline}' , '${procurementId}', '${supplierId}', '${date}');`;
-    const sqlQueryString2 = `UPDATE procurement SET step = 4 WHERE procurement.procurement_id = '${procurementId}'`;
+    const sqlQueryString2 = `UPDATE procurement SET step = 6 WHERE procurement.procurement_id = '${procurementId}'`;
 
     db.query(sqlQueryString1, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
@@ -89,7 +89,7 @@ const getShoppingOngoingProcurements = () => new Promise((resolve, reject) => {
     const sqlQueryString = `SELECT procurement.procurement_id, procurement.category 
                             FROM procurement
                             INNER JOIN requisition ON procurement.requisition_id = requisition.requisition_id
-                            WHERE procurement.step = 3 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method = 'shopping'`;
+                            WHERE procurement.step = 5 AND requisition.director_recommendation = 'Approved' AND procurement.procurement_method <> 'DIM'`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
       connection.release();
@@ -113,7 +113,7 @@ const sendRFQShoppingOngoingProcurements = (date,deadline,procurementId,category
     db.query(sqlQueryString, (error, results, fields) => {
       for(var i = 0; i < results.length; i++){
         const sqlQueryString2 = `INSERT INTO rfq(status,deadline,procurement_id,supplier_id,date) VALUES('sent', '${deadline}' , '${procurementId}', '${results[i].supplier_id}', '${date}');`;
-        const sqlQueryString3 = `UPDATE procurement SET step = 4 WHERE procurement.procurement_id = '${procurementId}'`;
+        const sqlQueryString3 = `UPDATE procurement SET step = 6 WHERE procurement.procurement_id = '${procurementId}'`;
 
         db.query(sqlQueryString2, (error, results, fields) => {
           // Release SQL Connection Back to the Connection Pool
@@ -298,7 +298,28 @@ const getSupplierRegistrationsBySupplierID = (supplierId) =>
     });
   });
 
-
+// Update PRocurement Table --> bid_type
+const updateBidType = (procurementID, bidType) =>
+  new Promise((resolve, reject) => {
+    console.log("I'm Here");
+    db.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+      }
+  
+      // SQL Query
+      const sqlQueryString = `UPDATE procurement SET bid_type='${bidType}' WHERE procurement_id='${procurementID}'`;
+      console.log(sqlQueryString);
+      db.query(sqlQueryString, (error, result, fields) => {
+  
+        // Release SQL Connection Back to the Connection Pool
+        connection.release();
+        if(error) reject(error);
+  
+        resolve(result);
+      });
+    });
+  });
 
 
 
@@ -314,6 +335,7 @@ module.exports = {
   sendRFQDirectOngoingProcurements,
   sendRFQShoppingOngoingProcurements,
   getSupplierRegistrationStatus,
-  getSupplierRegistrationsBySupplierID
+  getSupplierRegistrationsBySupplierID,
+  updateBidType
   
 };
