@@ -29,11 +29,11 @@ const getNewRequests = (supplier_id) => new Promise((resolve, reject) => {
     }
 
     // SQL Query
-    const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.category, procurement.procurement_method, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', rfq_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', rfq_product.quantity,'"}')), ']') AS products 
+    const sqlQueryString = `SELECT rfq.*, procurement.procurement_id, procurement.category, procurement.procurement_method, CONCAT('[',GROUP_CONCAT(CONCAT('{"product_id":"', requisition_product.product_id,'", "product_name":"', product.product_name, ' ", "qty":"', requisition_product.quantity,'"}')), ']') AS products 
         FROM rfq 
         INNER JOIN procurement ON rfq.procurement_id = procurement.procurement_id 
-        INNER JOIN rfq_product ON rfq.rfq_id = rfq_product.rfq_id 
-        INNER JOIN product ON rfq_product.product_id = product.product_id 
+        INNER JOIN requisition_product ON procurement.requisition_id = requisition_product.requisition_id 
+        INNER JOIN product ON requisition_product.product_id = product.product_id 
         WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='sent'
         GROUP BY rfq.rfq_id`;
     db.query(sqlQueryString, (error, results, fields) => {
@@ -61,7 +61,7 @@ const getOngoingProcurements = (supplier_id) => new Promise((resolve, reject) =>
         INNER JOIN bid ON procurement.procurement_id = bid.procurement_id
         INNER JOIN bid_product ON bid.bid_id = bid_product.bid_id
         INNER JOIN product ON bid_product.product_id = product.product_id
-        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='on-going' AND bid.supplier_id='${supplier_id}'
+        WHERE rfq.supplier_id='${supplier_id}' AND rfq.status='accepted' AND procurement.status='on-going' AND bid.supplier_id='${supplier_id} AND procurement.step>= 7'
         GROUP BY bid.bid_id`;
     db.query(sqlQueryString, (error, results, fields) => {
       // Release SQL Connection Back to the Connection Pool
