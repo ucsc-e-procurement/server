@@ -395,6 +395,27 @@ const getRfqDetails = (procurementId) => new Promise((resolve, reject) => {
   });
 });
 
+// Get Bid Details
+const getBid = (procurementId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    // SQL Query
+    const sqlQueryString = `SELECT * FROM bid INNER JOIN bid_product ON
+                            bid.bid_id = bid_product.bid_id
+                            WHERE bid.procurement_id = '${procurementId}'`;
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 // Get Recent Products 
 const getRecentProducts = () => new Promise((resolve, reject) => {
   db.getConnection((err, connection) => {
@@ -547,6 +568,58 @@ const advancedSearch = (department, procurementStatus, procurementType, supplier
   });
 });
 
+// Accept Bid Evaluation
+const acceptBidEvaluation = (procurementId, directorRemarks, directorRecommendation) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    const date = new Date().toJSON().slice(0, 10);
+
+    // SQL Query
+    var sqlQueryString = '';
+
+    if(directorRecommendation == "Denied"){
+      sqlQueryString = `UPDATE procurement SET director_remarks = '${directorRemarks}', status = 'terminated', step = 7 
+                            WHERE procurement_id = '${procurementId}'`;
+    }else{
+      sqlQueryString = `UPDATE procurement SET director_remarks = '${directorRemarks}', completed_date = '${date}', step = 7 
+                            WHERE procurement_id = '${procurementId}'`;
+    }
+    
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
+// Get evaluation details 
+const getEvaluationDetails = (procurementId) => new Promise((resolve, reject) => {
+  db.getConnection((err, connection) => {
+    if (err) {
+      reject(err);
+      return;
+    }
+
+    const date = new Date().toJSON().slice(0, 10);
+
+    // SQL Query
+    const sqlQueryString = `SELECT status, director_remarks FROM procurement WHERE procurement_id = '${procurementId}'`;
+    
+    db.query(sqlQueryString, (error, results, fields) => {
+      // Release SQL Connection Back to the Connection Pool
+      connection.release();
+      console.log(sqlQueryString, results, fields);
+      resolve(JSON.parse(JSON.stringify(results)));
+    });
+  });
+});
+
 module.exports = {
   getProcurements,
   getRequisitionRequests,
@@ -569,5 +642,8 @@ module.exports = {
   getSupplierDetails,
   getDepartments,
   getDepartmentDetails,
-  advancedSearch
+  advancedSearch,
+  getBid,
+  acceptBidEvaluation,
+  getEvaluationDetails
 };
